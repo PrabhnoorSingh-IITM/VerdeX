@@ -1,0 +1,33 @@
+.dashboard {
+  padding: 30px;
+}
+
+.score-card {
+  background: #e8f5e9;
+  padding: 20px;
+  border-radius: 6px;
+  margin-bottom: 30px;
+}
+
+.score {
+  font-size: 32px;
+  font-weight: bold;
+  color: #254323;
+}
+
+.issues {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 6px;
+}
+
+.profile {
+  padding: 30px;
+}
+
+.profile-card {
+  background: #f1f1f1;
+  padding: 20px;
+  border-radius: 6px;
+  max-width: 400px;
+}

@@ -1,0 +1,32 @@
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #f3f4f6;
+}
+
+.auth-form {
+  background: #fff;
+  padding: 30px;
+  border-radius: 6px;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.auth-form input,
+.auth-form select,
+.auth-form button {
+  padding: 10px;
+  font-size: 14px;
+}
+
+.auth-form button {
+  background: #254323;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
