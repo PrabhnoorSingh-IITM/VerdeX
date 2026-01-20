@@ -1,44 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard | VerdeX</title>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>VerdeX-Dashboard</title>
+        <link rel="stylesheet" href="../css/global.css">
+        <link rel="stylesheet" href="../css/dashboard.css">
+        <script type="module" src="../js/pages/dashboard.js"></script>
 
-  <link rel="stylesheet" href="../css/global.css" />
-  <link rel="stylesheet" href="../css/index.css" />
-</head>
-<body>
+    </head>
+    <body>
+        <main>
+            <a href="dashboard.html" class="logo-btn">
+                <img src="../assets/images/logo.png" class="logo-image" alt="VerdeX logo">
+                <span class="logo-text">VerdeX</span>
+            </a>
 
-  <nav>
-    <div class="logo-container">
-      <img src="../assets/images/logo.png" class="logo" />
-      <a href="index.html" class="name">VerdeX</a>
-    </div>
-    <ul>
-      <li><a href="dashboard.html" class="active">Dashboard</a></li>
-      <li><a href="profile.html">Profile</a></li>
-      <li><a href="index.html">Logout</a></li>
-    </ul>
-  </nav>
+            <section class="hero">
+                <h1>Welcome 👋</h1>
+                <p>Help improve your campus.</p>
+            </section>
 
-  <main class="dashboard">
-    <section class="score-card">
-      <h2>Campus Score</h2>
-      <p class="score">--</p>
-    </section>
+            <section class="stats">
+                <div class="card">Active<br><strong>12</strong></div>
+                <div class="card">Resolved<br><strong>38</strong></div>
+                <div class="card">Pending<br><strong>5</strong></div>
+            </section>
 
-    <section class="issues">
-      <h2>Reported Issues</h2>
-      <div class="issue-list">
-        <!-- Work-in-progress -->
-      </div>
-    </section>
-  </main>
+            <a class="primary-btn" href="report.html">Report Issue</a>
 
-  <footer>
-    <p>&copy; 2026 VerdeX</p>
-  </footer>
+            <section class="leaderboard">
+                <h3>Top Contributors</h3>
+                <ul>
+                    <li>Student A</li>
+                    <li>Student B</li>
+                    <li>Student C</li> 
+                </ul>
+            </section>
 
-</body>
+        
+            <div>  
+                <nav class="glass-nav">
+                    <a class="nav-item active" href="dashboard.html">
+                        <span class="icon">🏠</span>
+                        <span>Dashboard</span>
+                    </a>
+
+                    <a class="nav-item" href="report.html">
+                        <span class="icon">➕</span>
+                        <span>Report</span>
+                    </a>
+
+                    <a class="nav-item" href="leaderboard.html">
+                        <span class="icon">🏆</span>
+                        <span>Leaderboard</span>
+                    </a>
+
+                    <a class="nav-item" href="profile.html">
+                        <span class="icon">👤</span>
+                        <span>Profile</span>
+                    </a>
+                </nav>
+            </div>
+
+        </main>
+    </body>
 </html>

@@ -1,42 +1,47 @@
 <!DOCTYPE html>
-    <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>VerdeX</title>
-            <link rel="stylesheet" href="../css/global.css">
-            <link rel="stylesheet" href="../css/index.css">
-            <script type="module" src="../js/pages/index.js"></script>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>VerdeX</title>
+        <link rel="stylesheet" href="../css/global.css">
+        <link rel="stylesheet" href="../css/index.css">
+        <script type="module" src="../js/pages/index.js"></script>
 
-        </head>
-        <body>
+    </head>
+    <body>
+        <main>
+            <a href="dashboard.html" class="logo-btn">
+                <img src="../assets/images/logo.png" class="logo-image" alt="VerdeX logo">
+                <span class="logo-text">VerdeX</span>
+            </a>
+            <br> <br><br><br><br><br><br>
+            <p>Landing page content goes here.</p>
+        
             <div>  
-                <nav>
-                    <div class="logo-container">
-                        <img src="../assets/images/logo.png" alt="VerdeX Logo" class="logo">
-                        <a href="index.html" class="name">VerdeX</a>
-                    </div>
-                    <ul>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="dashboard.html">Dashboard</a></li>
-                        <li><a href="#">Services</a></li>
-                        <li><a href="#">Contact</a></li>
-                    </ul>
+                <nav class="glass-nav">
+                    <a class="nav-item active" href="dashboard.html">
+                        <span class="icon">🏠</span>
+                        <span>Dashboard</span>
+                    </a>
+
+                    <a class="nav-item" href="report.html">
+                        <span class="icon">➕</span>
+                        <span>Report</span>
+                    </a>
+
+                    <a class="nav-item" href="leaderboard.html">
+                        <span class="icon">🏆</span>
+                        <span>Leaderboard</span>
+                    </a>
+
+                    <a class="nav-item" href="profile.html">
+                        <span class="icon">👤</span>
+                        <span>Profile</span>
+                    </a>
                 </nav>
             </div>
 
-            <main>
-                <p>This is a sample web page to demonstrate HTML structure.</p>
-            </main>
-
-            <footer>
-                <p>&copy; 2026 VerdeX</p>
-                <ul>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms of Service</a></li>
-                    <li><a href="#">Contact Us</a></li>
-                    <li><a href="#">About</a></li>
-                </ul>
-            </footer>
-        </body>
-    </html>
+        </main>
+    </body>
+</html>
