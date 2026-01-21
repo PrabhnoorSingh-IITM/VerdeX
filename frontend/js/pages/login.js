@@ -4,7 +4,7 @@ from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { doc, getDoc } 
 from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// Get form elements
+// Get form
 const form = document.querySelector(".auth-form");
 const emailInput = form.querySelector('input[type="email"]');
 const passwordInput = form.querySelector('input[type="password"]');
@@ -15,36 +15,46 @@ form.addEventListener("submit", async (e) => {
   const email = emailInput.value.trim();
   const password = passwordInput.value.trim();
 
+  if (!email || !password) {
+    alert("Please enter email and password");
+    return;
+  }
+
   try {
+    console.log("Attempting login...");
+
+    // 🔐 Firebase login
     const userCredential = await signInWithEmailAndPassword(
       auth,
       email,
       password
     );
 
+    console.log("Auth success");
+
     const user = userCredential.user;
 
+    // 📄 Fetch user profile from Firestore
+    const docRef = doc(db, "users", user.uid);
+    const docSnap = await getDoc(docRef);
 
-    const userDoc = await getDoc(doc(db, "users", user.uid));
-
-    if (!userDoc.exists()) {
-      alert("User profile not found!");
+    if (!docSnap.exists()) {
+      alert("User data not found in database");
       return;
     }
 
-    const userData = userDoc.data();
-    const role = userData.role;
+    const role = docSnap.data().role;
+    console.log("User role:", role);
 
-    alert("Login successful");
-
-
-    if (role === "staff" || role === "admin") {
-      window.location.href = "/frontend/pages/admin-dashboard.html";
+    // 🚀 Redirect
+    if (role === "admin" || role === "staff") {
+      window.location.href = "../pages/admin-dashboard.html";
     } else {
-      window.location.href = "/frontend/pages/dashboard.html";
+      window.location.href = "../pages/dashboard.html";
     }
 
   } catch (error) {
-    alert("Login failed" + error.message);
+    console.error("Login error:", error);
+    alert("Login failed: " + error.message);
   }
 });

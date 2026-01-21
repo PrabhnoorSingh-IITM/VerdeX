@@ -1,45 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>VerdeX</title>
-        <link rel="stylesheet" href="../css/global.css">
-        <link rel="stylesheet" href="../css/profile.css">
-        <script type="module" src="../js/pages/profile.js"></script>
 
-    </head>
-    <body>
-        <main>
-            <a href="dashboard.html" class="logo-btn">
-                <img src="../assets/images/logo.png" class="logo-image" alt="VerdeX logo">
-                <span class="logo-text">VerdeX</span>
-            </a>
-        
-            <div>  
-                <nav class="glass-nav">
-                    <a class="nav-item" href="dashboard.html">
-                        <span class="icon">🏠</span>
-                        <span class="label">Dashboard</span>
-                    </a>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VerdeX</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/profile.css">
+    <script type="module" src="../js/pages/profile.js"></script>
 
-                    <a class="nav-item" href="report.html">
-                        <span class="icon">📝</span>
-                        <span class="label">Report</span>
-                    </a>
+</head>
 
-                    <a class="nav-item" href="leaderboard.html">
-                        <span class="icon">🏆</span>
-                        <span class="label">Leaderboard</span>
-                    </a>
+<body>
+    <main>
+        <a href="dashboard.html" class="logo-btn">
+            <img src="../assets/images/logo.png" class="logo-image" alt="VerdeX logo">
+            <span class="logo-text">VerdeX</span>
+        </a>
 
-                    <a class="nav-item active" href="profile.html">
-                        <span class="icon">👤</span>
-                        <span class="label">Profile</span>
-                    </a>
-                </nav>
-            </div>
+        <div>
+            <nav class="glass-nav">
+                <a class="nav-item" href="dashboard.html">
+                    <span class="icon">🏠</span>
+                    <span class="label">Dashboard</span>
+                </a>
 
-        </main>
-    </body>
+                <a class="nav-item" href="report.html">
+                    <span class="icon">📝</span>
+                    <span class="label">Report</span>
+                </a>
+
+                <a class="nav-item" href="leaderboard.html">
+                    <span class="icon">🏆</span>
+                    <span class="label">Leaderboard</span>
+                </a>
+
+                <a class="nav-item active" href="profile.html">
+                    <span class="icon">👤</span>
+                    <span class="label">Profile</span>
+                </a>
+            </nav>
+            <section class="profile-card">
+
+                <h2 id="welcomeUser">Welcome 👋</h2>
+
+                <div class="profile-info">
+                    <p><strong>Name:</strong> <span id="name"></span></p>
+                    <p><strong>Email:</strong> <span id="email"></span></p>
+                    <p><strong>Enrollment:</strong> <span id="enrollment"></span></p>
+                    <p><strong>Branch:</strong> <span id="branch"></span></p>
+                    <p><strong>Hostel:</strong> <span id="hostel"></span></p>
+
+                    <!-- Admin Only -->
+                    <p id="collegeRow" style="display:none;">
+                        <strong>College:</strong> <span id="college"></span>
+                    </p>
+                </div>
+
+                <hr />
+
+                <!-- Theme Switch -->
+                <button id="themeBtn">🌗 Toggle Theme</button>
+
+                <!-- Logout -->
+                <button id="logoutBtn" class="danger">Logout</button>
+
+            </section>
+
+        </div>
+
+    </main>
+</body>
+
 </html>

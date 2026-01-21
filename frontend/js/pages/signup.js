@@ -39,8 +39,8 @@ form.addEventListener("submit", async (e) => {
       createdAt: new Date()
     });
 
-    alert("Signup successful");
-    window.location.href = "/frontend/pages/login.html";
+   /* alert("Signup successful");*/
+    window.location.href = "../pages/login.html";
 
   } catch (error) {
     alert(error.message);

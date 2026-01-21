@@ -4,36 +4,46 @@ from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { doc, getDoc } 
 from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// UI element
-const userEmailElement = document.getElementById("userEmail");
+// ✅ Wait for DOM before accessing elements
+document.addEventListener("DOMContentLoaded", () => {
+  
+  const userNameElement = document.getElementById("userEmail");
 
-// Protect page + show user name
-onAuthStateChanged(auth, async (user) => {
-  if (!user) {
-    // Not logged in → redirect
-    window.location.href = "/frontend/pages/login.html";
-  } else {
+  if (!userNameElement) {
+    console.error("Element #userEmail not found in HTML");
+    return;
+  }
+
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      // 🔒 Not logged in → redirect
+      window.location.href = "../pages/login.html";
+      return;
+    }
+
     try {
-      // 🔍 Fetch user profile from Firestore
+      console.log("User logged in:", user.uid);
+
       const userRef = doc(db, "users", user.uid);
       const userSnap = await getDoc(userRef);
 
-      if (userSnap.exists()) {
-        const userData = userSnap.data();
-        const fullName = userData.name || "User";
-
-        // ✅ Extract first name
-        const firstName = fullName.split(" ")[0];
-
-        userEmailElement.innerText = `Welcome, ${firstName}`;
-      } else {
-        userEmailElement.innerText = "Welcome";
+      if (!userSnap.exists()) {
+        console.error("User document not found");
+        userNameElement.innerText = "Welcome ";
+        return;
       }
 
-    } catch (error) {
-      console.error("Error loading user profile:", error);
-      userEmailElement.innerText = "Welcome";
-    }
-  }
-});
+      const userData = userSnap.data();
+      const fullName = userData.name || "User";
+      const firstName = fullName.trim().split(" ")[0];
 
+      // ✅ Update UI
+      userNameElement.innerText = `Welcome, ${firstName} `;
+
+    } catch (error) {
+      console.error("Firestore error:", error);
+      userNameElement.innerText = "Welcome ";
+    }
+  });
+
+});
