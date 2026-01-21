@@ -1,0 +1,36 @@
+.report {
+  padding: 20px;
+}
+
+.report h2 {
+  margin-bottom: 16px;
+}
+
+.report-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.report-form input,
+.report-form select,
+.report-form textarea {
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background: rgba(255,255,255,0.1);
+  color: #e5e7eb;
+}
+
+.report-form textarea {
+  min-height: 100px;
+  resize: none;
+}
+
+.report-form button {
+  padding: 14px;
+  border-radius: 12px;
+  background: #22c55e;
+  color: #052e16;
+  font-weight: 600;
+}

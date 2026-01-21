@@ -1,0 +1,30 @@
+.leaderboard {
+  padding: 20px;
+}
+
+.leaderboard input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 16px;
+  border-radius: 10px;
+  border: none;
+  background: rgba(255,255,255,0.1);
+  color: #e5e7eb;
+}
+
+.leaderboard h3 {
+  margin: 14px 0 8px;
+}
+
+.leaderboard ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.leaderboard li {
+  padding: 12px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.08);
+}

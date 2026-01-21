@@ -1,30 +1,45 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width">
-  <title>Profile | VerdeX</title>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>VerdeX</title>
+        <link rel="stylesheet" href="../css/global.css">
+        <link rel="stylesheet" href="../css/profile.css">
+        <script type="module" src="../js/pages/profile.js"></script>
 
-  <link rel="stylesheet" href="../css/global.css">
-  <link rel="stylesheet" href="../css/navbar.css">
-</head>
-<body>
+    </head>
+    <body>
+        <main>
+            <a href="dashboard.html" class="logo-btn">
+                <img src="../assets/images/logo.png" class="logo-image" alt="VerdeX logo">
+                <span class="logo-text">VerdeX</span>
+            </a>
+        
+            <div>  
+                <nav class="glass-nav">
+                    <a class="nav-item" href="dashboard.html">
+                        <span class="icon">🏠</span>
+                        <span class="label">Dashboard</span>
+                    </a>
 
-<main style="padding:20px">
-  <h2>My Profile</h2>
-  <p>Name: --</p>
-  <p>Enrollment: --</p>
-  <p>Branch: --</p>
-  <button>Switch Theme</button>
-  <button style="background:#ef4444;color:white">Logout</button>
-</main>
+                    <a class="nav-item" href="report.html">
+                        <span class="icon">📝</span>
+                        <span class="label">Report</span>
+                    </a>
 
-<nav class="glass-nav">
-  <a class="nav-item" href="dashboard.html">🏠</a>
-  <a class="nav-item" href="report.html">➕</a>
-  <a class="nav-item" href="leaderboard.html">🏆</a>
-  <a class="nav-item active" href="profile.html">👤</a>
-</nav>
+                    <a class="nav-item" href="leaderboard.html">
+                        <span class="icon">🏆</span>
+                        <span class="label">Leaderboard</span>
+                    </a>
 
-</body>
+                    <a class="nav-item active" href="profile.html">
+                        <span class="icon">👤</span>
+                        <span class="label">Profile</span>
+                    </a>
+                </nav>
+            </div>
+
+        </main>
+    </body>
 </html>

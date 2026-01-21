@@ -28,12 +28,12 @@ button {
 
 .glass-nav {
     position: fixed;
-    bottom: 16px;
+    bottom: 24px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    gap: 6px;
-    padding: 8px;
+    gap: 10px;
+    padding: 12px;
     background: rgba(15, 23, 42, 0.6);
     backdrop-filter: blur(10px); 
     border-radius: 999px;
@@ -44,9 +44,9 @@ button {
 .nav-item {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 10px;
     padding: 10px 14px;
-    border-radius: 999px;
+    border-radius: 1000px;
     font-size: 14px;
     color: #e5e7eb;
     transition: 0.3s ease;
@@ -71,6 +71,9 @@ button {
     opacity: 1;
 }
 
+.nav-item .icon{
+    font-size: 22px;
+}
 
 .logo-btn {
     display: flex;
@@ -82,7 +85,7 @@ button {
     color: #fff;
     text-decoration: none;     
     padding: 12px 20px;
-    border-radius: 999px;
+    border-radius: 1000px;
     transition: all 0.3s ease;
 }
 
@@ -96,3 +99,4 @@ button {
     width: auto;
     height: 60px;
 }
+
