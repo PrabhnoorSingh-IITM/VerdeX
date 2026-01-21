@@ -41,27 +41,42 @@
                 </a>
             </nav>
             <section class="profile-card">
-
                 <h2 id="welcomeUser">Welcome 👋</h2>
-
                 <div class="profile-info">
                     <p><strong>Name:</strong> <span id="name"></span></p>
                     <p><strong>Email:</strong> <span id="email"></span></p>
                     <p><strong>Enrollment:</strong> <span id="enrollment"></span></p>
                     <p><strong>Branch:</strong> <span id="branch"></span></p>
                     <p><strong>Hostel:</strong> <span id="hostel"></span></p>
-
                     <!-- Admin Only -->
                     <p id="collegeRow" style="display:none;">
                         <strong>College:</strong> <span id="college"></span>
                     </p>
                 </div>
-
                 <hr />
 
+                <h3>Edit Profile</h3>
+
+                <form id="profileForm">
+
+                    <input id="nameInput" placeholder="Full Name" />
+
+                    <input id="enrollInput" placeholder="Enrollment Number" />
+
+                    <input id="branchInput" placeholder="Branch" />
+
+                    <input id="hostelInput" placeholder="Hostel (Yes / Hostel Name / No)" />
+
+                    <!-- Admin only -->
+                    <input id="collegeInput" placeholder="College / University" style="display:none;" />
+
+                    <button type="submit">Save Profile</button>
+
+                </form>
+
+                <hr />
                 <!-- Theme Switch -->
                 <button id="themeBtn">🌗 Toggle Theme</button>
-
                 <!-- Logout -->
                 <button id="logoutBtn" class="danger">Logout</button>
 
