@@ -59,6 +59,46 @@
                 <button class="action-btn danger" id="logoutBtn"> Sign Out</button>
             </section>
 
+            <!-- Edit Profile Modal -->
+            <div class="modal-overlay" id="editModal">
+                <div class="modal-content glass-card">
+                    <div class="modal-header">
+                        <h2>Edit Profile</h2>
+                        <button class="modal-close" id="closeModal">&times;</button>
+                    </div>
+                    <form class="modal-form" id="editForm">
+                        <div class="form-group">
+                            <label for="editName">Name</label>
+                            <input type="text" id="editName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editEmail">Email</label>
+                            <input type="email" id="editEmail" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="editEnrollment">Enrollment</label>
+                            <input type="text" id="editEnrollment">
+                        </div>
+                        <div class="form-group">
+                            <label for="editBranch">Branch</label>
+                            <input type="text" id="editBranch">
+                        </div>
+                        <div class="form-group">
+                            <label for="editHostel">Hostel</label>
+                            <input type="text" id="editHostel">
+                        </div>
+                        <div class="form-group admin-only" id="editCollegeGroup">
+                            <label for="editCollege">College</label>
+                            <input type="text" id="editCollege">
+                        </div>
+                        <div class="modal-actions">
+                            <button type="button" class="secondary-btn" id="cancelEdit">Cancel</button>
+                            <button type="submit" class="primary-btn">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
             <!-- Bottom Nav -->
             <nav class="glass-nav">
                 <a class="nav-item" href="dashboard.html">🏠</a>

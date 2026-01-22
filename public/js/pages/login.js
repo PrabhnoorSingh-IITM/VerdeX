@@ -20,6 +20,25 @@ const form = document.querySelector(".auth-form");
 const emailInput = form.querySelector('input[type="email"]');
 const passwordInput = form.querySelector('input[type="password"]');
 const googleBtn = document.getElementById("googleLogin");
+const roleButtons = document.querySelectorAll(".role-switch button");
+
+let currentRole = "student"; // default role
+
+// Role switching
+roleButtons.forEach((btn, index) => {
+  btn.addEventListener("click", () => {
+    // Remove active from all buttons
+    roleButtons.forEach(b => b.classList.remove("active"));
+    // Add active to clicked button
+    btn.classList.add("active");
+    
+    // Update current role
+    const roles = ["student", "staff", "admin"];
+    currentRole = roles[index];
+    
+    console.log("Selected role:", currentRole);
+  });
+});
 
 const provider = new GoogleAuthProvider();
 
@@ -59,7 +78,7 @@ googleBtn.addEventListener("click", async () => {
       await setDoc(userRef, {
         name: user.displayName || "",
         email: user.email,
-        role: "student",
+        role: currentRole, // Use selected role
         campusId: "",
         points: 0,
         createdAt: new Date()
