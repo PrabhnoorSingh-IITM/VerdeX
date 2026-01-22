@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
   onAuthStateChanged(auth, async (user) => {
     if (!user) {
       // 🔒 Not logged in → redirect
-      window.location.href = "../pages/login.html";
+      window.location.href = "pages/login.html";
       return;
     }
 
