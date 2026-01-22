@@ -25,6 +25,16 @@ const hostelNoInput = document.getElementById("hostelNo");
 let currentRole = "student";
 
 console.log("Signup page loaded");
+console.log("Form element found:", form);
+console.log("Role buttons found:", roleButtons.length);
+
+// Check if form exists
+if (!form) {
+  console.error("Form element not found!");
+  showToast("Error: Form not loaded properly", "error");
+}
+
+console.log("Signup page loaded");
 
 // Test Firebase connection
 try {
