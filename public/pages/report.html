@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>VerdeX</title>
+        <link rel="stylesheet" href="../css/global.css">
+        <link rel="stylesheet" href="../css/report.css">
+        <script type="module" src="../js/pages/report.js"></script>
+
+
+    </head>
+    <body>
+        <main>
+            <a href="dashboard.html" class="logo-btn">
+                <img src="../assets/images/logo.png" class="logo-image" alt="VerdeX logo">
+                <span class="logo-text">VerdeX</span>
+            </a>
+
+            <!-- Report Issue Form -->
+            <section class="report-form glass-card">
+                <h2>Report an Issue</h2>
+                <p>Help us improve your campus by reporting issues</p>
+                
+                <form id="reportForm">
+                    <div class="form-group">
+                        <label for="issueType">Issue Type</label>
+                        <select id="issueType" required>
+                            <option value="">Select issue type...</option>
+                            <option value="cleanliness">Cleanliness</option>
+                            <option value="maintenance">Maintenance</option>
+                            <option value="safety">Safety Concern</option>
+                            <option value="infrastructure">Infrastructure</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="location">Location</label>
+                        <input type="text" id="location" placeholder="e.g., Library, Hostel A, Canteen" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea id="description" rows="4" placeholder="Please describe the issue in detail..." required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="urgency">Urgency Level</label>
+                        <div class="urgency-options">
+                            <label class="urgency-option">
+                                <input type="radio" name="urgency" value="low" required>
+                                <span class="urgency-label low">Low</span>
+                            </label>
+                            <label class="urgency-option">
+                                <input type="radio" name="urgency" value="medium" required>
+                                <span class="urgency-label medium">Medium</span>
+                            </label>
+                            <label class="urgency-option">
+                                <input type="radio" name="urgency" value="high" required>
+                                <span class="urgency-label high">High</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="images">Add Images (Optional)</label>
+                        <div class="image-upload-container">
+                            <input type="file" id="images" accept="image/*" multiple class="image-input">
+                            <div class="image-upload-label" id="imageUploadLabel">
+                                <span class="upload-icon">📷</span>
+                                <span class="upload-text">Click to add images</span>
+                                <span class="upload-hint">You can select multiple images</span>
+                            </div>
+                            <div class="image-preview" id="imagePreview"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="submit-btn">Submit Report</button>
+                    </div>
+                </form>
+            </section>
+        
+            <div>  
+                <nav class="glass-nav">
+                    <a class="nav-item" href="dashboard.html">
+                        <span class="icon">🏠</span>
+                        <span class="label">Dashboard</span>
+                    </a>
+
+                    <a class="nav-item active" href="report.html">
+                        <span class="icon">📝</span>
+                        <span class="label">Report</span>
+                    </a>
+
+                    <a class="nav-item" href="leaderboard.html">
+                        <span class="icon">🏆</span>
+                        <span class="label">Leaderboard</span>
+                    </a>
+
+                    <a class="nav-item" href="profile.html">
+                        <span class="icon">👤</span>
+                        <span class="label">Profile</span>
+                    </a>
+                </nav>
+            </div>
+
+        </main>
+    </body>
+</html>

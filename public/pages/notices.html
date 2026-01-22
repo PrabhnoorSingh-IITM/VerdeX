@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>VerdeX</title>
+        <link rel="stylesheet" href="../css/global.css">
+        <link rel="stylesheet" href="../css/notices.css">
+        <script type="module" src="../js/pages/notices.js"></script>
+
+
+    </head>
+    <body>
+        <main>
+            <a href="dashboard.html" class="logo-btn">
+                <img src="../assets/images/logo.png" class="logo-image" alt="VerdeX logo">
+                <span class="logo-text">VerdeX</span>
+            </a>
+
+            <!-- Notice Board Header -->
+            <section class="notices-header glass-card">
+                <h1>📢 Notice Board</h1>
+                <p>Stay updated with the latest announcements and important information from your campus administration.</p>
+                <div class="filter-tabs">
+                    <button class="filter-tab active" data-filter="all">All Notices</button>
+                    <button class="filter-tab" data-filter="academic">Academic</button>
+                    <button class="filter-tab" data-filter="events">Events</button>
+                    <button class="filter-tab" data-filter="urgent">Urgent</button>
+                </div>
+            </section>
+
+            <!-- Search Bar -->
+            <section class="search-section">
+                <div class="search-bar glass-card">
+                    <input type="text" id="searchInput" placeholder="Search notices...">
+                    <button class="search-btn">🔍</button>
+                </div>
+            </section>
+
+            <!-- Notices List -->
+            <section class="notices-list" id="noticesList">
+                <div class="loading-notice glass-card">
+                    <div class="loading-content">
+                        <div class="loading-spinner"></div>
+                        <p>Loading notices...</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Empty State -->
+            <section class="empty-state glass-card" id="emptyState" style="display: none;">
+                <div class="empty-content">
+                    <div class="empty-icon">📭</div>
+                    <h3>No notices found</h3>
+                    <p>There are no notices matching your criteria. Try adjusting your filters or search terms.</p>
+                    <button class="clear-filters-btn" onclick="clearFilters()">Clear Filters</button>
+                </div>
+            </section>
+        
+            <div>  
+                <nav class="glass-nav">
+                    <a class="nav-item" href="dashboard.html">
+                        <span class="icon">🏠</span>
+                        <span class="label">Dashboard</span>
+                    </a>
+
+                    <a class="nav-item" href="report.html">
+                        <span class="icon">📝</span>
+                        <span class="label">Report</span>
+                    </a>
+
+                    <a class="nav-item" href="leaderboard.html">
+                        <span class="icon">🏆</span>
+                        <span class="label">Leaderboard</span>
+                    </a>
+
+                    <a class="nav-item" href="profile.html">
+                        <span class="icon">👤</span>
+                        <span class="label">Profile</span>
+                    </a>
+                </nav>
+            </div>
+
+        </main>
+    </body>
+</html>

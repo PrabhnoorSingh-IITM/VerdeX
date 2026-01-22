@@ -1,0 +1,228 @@
+.staff-profile-page {
+  padding: 5px 0;
+  padding-bottom: 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Profile Hero */
+.profile-hero {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: #3b82f6;
+  color: white;
+  font-size: 32px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-meta h2 {
+  font-size: 20px;
+  margin-bottom: 4px;
+  color: #e5e7eb;
+}
+
+.user-meta p {
+  opacity: 0.7;
+  font-size: 14px;
+}
+
+/* Staff Info */
+.staff-info h3 {
+  font-size: 18px;
+  margin-bottom: 16px;
+  color: #e5e7eb;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.info-row span:first-child {
+  opacity: 0.7;
+}
+
+.info-row span:last-child {
+  opacity: 0.9;
+  font-weight: 500;
+}
+
+/* Staff Stats */
+.staff-stats h3 {
+  font-size: 18px;
+  margin-bottom: 16px;
+  color: #e5e7eb;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.stat-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.stat-number {
+  font-size: 24px;
+  font-weight: bold;
+  color: #3b82f6;
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-size: 12px;
+  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Recent Activity */
+.recent-activity h3 {
+  font-size: 18px;
+  margin-bottom: 16px;
+  color: #e5e7eb;
+}
+
+.activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.activity-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.activity-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.activity-icon {
+  font-size: 20px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(59, 130, 246, 0.2);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.activity-content {
+  flex: 1;
+}
+
+.activity-content h4 {
+  font-size: 14px;
+  margin-bottom: 4px;
+  color: #e5e7eb;
+}
+
+.activity-content p {
+  font-size: 12px;
+  opacity: 0.7;
+  line-height: 1.4;
+}
+
+.activity-time {
+  font-size: 11px;
+  opacity: 0.5;
+  white-space: nowrap;
+}
+
+/* Actions */
+.profile-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.action-btn {
+  padding: 14px;
+  border-radius: 14px;
+  font-size: 15px;
+  background: rgba(255, 255, 255, 0.2);
+  color: inherit;
+  border: none;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.action-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.action-btn.danger {
+  background: rgba(239, 68, 68, 0.2);
+  color: #fecaca;
+}
+
+.action-btn.danger:hover {
+  background: rgba(239, 68, 68, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .activity-item {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .activity-time {
+    align-self: flex-start;
+  }
+}
+
+/* Light mode adjustments */
+body.light .user-meta h2 {
+  color: #0f172a;
+}
+
+body.light .staff-info h3,
+body.light .recent-activity h3 {
+  color: #0f172a;
+}
+
+body.light .stat-number {
+  color: #2563eb;
+}
+
+body.light .activity-content h4 {
+  color: #0f172a;
+}

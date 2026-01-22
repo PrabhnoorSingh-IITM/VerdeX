@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>VerdeX</title>
+        <link rel="stylesheet" href="../css/global.css">
+        <link rel="stylesheet" href="../css/leaderboard.css">
+        <script type="module" src="../js/pages/leaderboard.js"></script>
+
+
+    </head>
+    <body>
+        <main>
+            <a href="dashboard.html" class="logo-btn">
+                <img src="../assets/images/logo.png" class="logo-image" alt="VerdeX logo">
+                <span class="logo-text">VerdeX</span>
+            </a>
+
+                <div class="leaderboard-toggle">
+      <button class="toggle-btn active" data-type="local">University</button>
+      <button class="toggle-btn" data-type="global">Global</button>
+    </div>
+
+    <!-- Top 3 -->
+    <section class="top-three">
+      <div class="rank second">
+        <span class="medal">🥈</span>
+        <h4 id="rank2-name">---</h4>
+        <p id="rank2-points">0 pts</p>
+      </div>
+
+      <div class="rank first">
+        <span class="medal">🥇</span>
+        <h4 id="rank1-name">---</h4>
+        <p id="rank1-points">0 pts</p>
+      </div>
+
+      <div class="rank third">
+        <span class="medal">🥉</span>
+        <h4 id="rank3-name">---</h4>
+        <p id="rank3-points">0 pts</p>
+      </div>
+    </section>
+
+    <!-- Rest of leaderboard -->
+    <section class="leaderboard-list">
+      <ul id="leaderboardList"></ul>
+    </section>
+        
+            <div>  
+                <nav class="glass-nav">
+                    <a class="nav-item" href="dashboard.html">
+                        <span class="icon">🏠</span>
+                        <span class="label">Dashboard</span>
+                    </a>
+
+                    <a class="nav-item" href="report.html">
+                        <span class="icon">📝</span>
+                        <span class="label">Report</span>
+                    </a>
+
+                    <a class="nav-item active" href="leaderboard.html">
+                        <span class="icon">🏆</span>
+                        <span class="label">Leaderboard</span>
+                    </a>
+
+                    <a class="nav-item" href="profile.html">
+                        <span class="icon">👤</span>
+                        <span class="label">Profile</span>
+                    </a>
+                </nav>
+            </div>
+
+        </main>
+    </body>
+</html>

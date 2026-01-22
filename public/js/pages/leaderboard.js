@@ -169,5 +169,8 @@ document.querySelectorAll(".toggle-btn").forEach(btn => {
 // Initial load
 loadLocalLeaderboard();
 
+// Debug: Load all students to see what's in the database
+loadAllStudentsDebug();
+
 
 
