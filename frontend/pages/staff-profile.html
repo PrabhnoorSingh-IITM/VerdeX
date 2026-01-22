@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Staff Profile | VerdeX</title>
+        <link rel="stylesheet" href="../css/global.css">
+        <link rel="stylesheet" href="../css/staff-profile.css">
+        <script type="module" src="../js/pages/staff-profile.js"></script>
+    </head>
+    <body>
+        <main class="staff-profile-page">
+            <!-- Logo -->
+            <a href="staff-dashboard.html" class="logo-btn">
+                <img src="../assets/images/logo.png" class="logo-image" alt="VerdeX logo">
+                <span class="logo-text">VerdeX</span>
+            </a>
+
+            <!-- Profile Card -->
+            <section class="profile-hero glass-card">
+                <div class="avatar" id="avatar">S</div>
+                <div class="user-meta">
+                    <h2 id="userName">Staff Name</h2>
+                    <p id="userEmail">email@example.com</p>
+                </div>
+            </section>
+
+            <!-- Staff Info -->
+            <section class="staff-info glass-card">
+                <h3>Staff Information</h3>
+                <div class="info-row">
+                    <span>Department</span>
+                    <span id="department">---</span>
+                </div>
+                <div class="info-row">
+                    <span>Employee ID</span>
+                    <span id="employeeId">---</span>
+                </div>
+                <div class="info-row">
+                    <span>Role</span>
+                    <span id="staffRole">---</span>
+                </div>
+                <div class="info-row">
+                    <span>Campus</span>
+                    <span id="campus">---</span>
+                </div>
+            </section>
+
+            <!-- Statistics -->
+            <section class="staff-stats glass-card">
+                <h3>Performance Statistics</h3>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number" id="totalFixed">0</div>
+                        <div class="stat-label">Issues Fixed</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="avgResponseTime">0h</div>
+                        <div class="stat-label">Avg Response Time</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="satisfactionRate">0%</div>
+                        <div class="stat-label">Satisfaction Rate</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recent Activity -->
+            <section class="recent-activity glass-card">
+                <h3>Recent Activity</h3>
+                <div class="activity-list" id="activityList">
+                    <div class="activity-item">
+                        <div class="activity-icon">🔧</div>
+                        <div class="activity-content">
+                            <h4>Loading activity...</h4>
+                            <p>Please wait while we fetch your recent activity.</p>
+                        </div>
+                        <div class="activity-time">---</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Actions -->
+            <section class="profile-actions glass-card">
+                <button class="action-btn" id="editProfileBtn">Edit Profile</button>
+                <button class="action-btn" id="logoutBtn">Sign Out</button>
+            </section>
+
+            <!-- Bottom Nav -->
+            <nav class="glass-nav">
+                <a class="nav-item" href="staff-dashboard.html">
+                    <span class="icon">🏠</span>
+                    <span class="label">Dashboard</span>
+                </a>
+
+                <a class="nav-item" href="fix-issue.html">
+                    <span class="icon">🔧</span>
+                    <span class="label">Fix Issues</span>
+                </a>
+
+                <a class="nav-item" href="notices.html">
+                    <span class="icon">📢</span>
+                    <span class="label">Notices</span>
+                </a>
+
+                <a class="nav-item active" href="staff-profile.html">
+                    <span class="icon">👤</span>
+                    <span class="label">Profile</span>
+                </a>
+            </nav>
+        </main>
+    </body>
+</html>

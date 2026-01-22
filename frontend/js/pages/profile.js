@@ -1,117 +1,59 @@
 import { auth, db } from "../firebase/firebase.js";
 import { onAuthStateChanged, signOut } 
 from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { doc, getDoc, updateDoc } 
+import { doc, getDoc } 
 from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { showToast } from "../utils/toast.js";
 
-// UI Elements
-const welcomeUser = document.getElementById("welcomeUser");
+const avatar = document.getElementById("avatar");
+const userName = document.getElementById("userName");
+const userEmail = document.getElementById("userEmail");
 
-const nameEl = document.getElementById("name");
-const emailEl = document.getElementById("email");
-const enrollmentEl = document.getElementById("enrollment");
-const branchEl = document.getElementById("branch");
-const hostelEl = document.getElementById("hostel");
+const enrollment = document.getElementById("enrollment");
+const branch = document.getElementById("branch");
+const hostel = document.getElementById("hostel");
+
 const collegeRow = document.getElementById("collegeRow");
-const collegeEl = document.getElementById("college");
+const college = document.getElementById("college");
 
-const themeBtn = document.getElementById("themeBtn");
 const logoutBtn = document.getElementById("logoutBtn");
 
-// Inputs
-const profileForm = document.getElementById("profileForm");
-const nameInput = document.getElementById("nameInput");
-const enrollInput = document.getElementById("enrollInput");
-const branchInput = document.getElementById("branchInput");
-const hostelInput = document.getElementById("hostelInput");
-const collegeInput = document.getElementById("collegeInput");
+let userDocRef = null;
 
-let currentUserDoc = null;
-let currentRole = "student";
-
-// 🔐 Load Profile
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
-    window.location.href = "../pages/login.html";
+    window.location.href = "login.html";
     return;
   }
 
-  const docRef = doc(db, "users", user.uid);
-  const docSnap = await getDoc(docRef);
+  const ref = doc(db, "users", user.uid);
+  const snap = await getDoc(ref);
 
-  if (!docSnap.exists()) return;
+  if (!snap.exists()) return;
 
-  currentUserDoc = docRef;
-  const data = docSnap.data();
-  currentRole = data.role || "student";
+  userDocRef = ref;
+  const data = snap.data();
 
-  const firstName = data.name?.split(" ")[0] || "User";
-  welcomeUser.innerText = `Welcome, ${firstName} 👋`;
+  userName.textContent = data.name || "User";
+  userEmail.textContent = data.email || user.email;
 
-  nameEl.innerText = data.name || "-";
-  emailEl.innerText = data.email || user.email;
-  enrollmentEl.innerText = data.enrollment || "-";
-  branchEl.innerText = data.branch || "-";
-  hostelEl.innerText = data.hostel || "-";
+  enrollment.textContent = data.enrollment || "—";
+  branch.textContent = data.branch || "—";
+  hostel.textContent = data.hostel || "—";
 
-  // Prefill form
-  nameInput.value = data.name || "";
-  enrollInput.value = data.enrollment || "";
-  branchInput.value = data.branch || "";
-  hostelInput.value = data.hostel || "";
+  avatar.textContent = (data.name || "U")[0].toUpperCase();
 
-  // 🎓 Admin view
-  if (currentRole === "admin") {
-    collegeRow.style.display = "block";
-    collegeEl.innerText = data.college || "-";
-    collegeInput.style.display = "block";
-    collegeInput.value = data.college || "";
-  }
-
-  // 🌗 Load theme
-  if (data.theme === "dark") {
-    document.body.classList.add("dark");
+  if (data.role === "admin") {
+    collegeRow.style.display = "flex";
+    college.textContent = data.college || "—";
   }
 });
 
-// 💾 Save Profile
-profileForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  if (!currentUserDoc) return;
-
-  const updatedData = {
-    name: nameInput.value.trim(),
-    enrollment: enrollInput.value.trim(),
-    branch: branchInput.value.trim(),
-    hostel: hostelInput.value.trim()
-  };
-
-  if (currentRole === "admin") {
-    updatedData.college = collegeInput.value.trim();
-  }
-
-  await updateDoc(currentUserDoc, updatedData);
-
-  alert("Profile updated ✅");
-  location.reload();
-});
-
-// 🌗 Theme Toggle
-themeBtn.addEventListener("click", async () => {
-  document.body.classList.toggle("dark");
-
-  const isDark = document.body.classList.contains("dark");
-
-  if (currentUserDoc) {
-    await updateDoc(currentUserDoc, {
-      theme: isDark ? "dark" : "light"
-    });
-  }
-});
-
-// 🚪 Logout
+/* Logout */
 logoutBtn.addEventListener("click", async () => {
   await signOut(auth);
-  window.location.href = "../pages/login.html";
+  showToast("Logged out");
+  setTimeout(() => {
+    window.location.href = "login.html";
+  }, 800);
 });

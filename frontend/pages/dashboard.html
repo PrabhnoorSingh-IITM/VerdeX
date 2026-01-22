@@ -8,6 +8,7 @@
         <link rel="stylesheet" href="../css/dashboard.css">
         <script type="module" src="../js/pages/dashboard.js"></script>
 
+
     </head>
     <body>
         <main>
@@ -16,28 +17,106 @@
                 <span class="logo-text">VerdeX</span>
             </a>
 
-            <section class="hero">
-                <h1 id="userEmail">Loading user...</h1>
-                <p>Help improve your campus.</p>
+            <!-- Hero Section -->
+            <section class="hero glass-card">
+                <div class="hero-content">
+                    <h1 id="userEmail">Welcome back!</h1>
+                    <p>Help improve your campus by reporting issues and contributing to the community.</p>
+                    <div class="hero-stats">
+                        <div class="hero-stat">
+                            <span class="stat-number" id="userPoints">0</span>
+                            <span class="stat-label">Points</span>
+                        </div>
+                        <div class="hero-stat">
+                            <span class="stat-number" id="userReports">0</span>
+                            <span class="stat-label">Reports</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-actions">
+                    <a href="report.html" class="primary-btn">Report Issue</a>
+                    <a href="leaderboard.html" class="secondary-btn">View Leaderboard</a>
+                </div>
             </section>
 
-            <section class="stats">
-                <div class="card">Active<br><strong>12</strong></div>
-                <div class="card">Resolved<br><strong>38</strong></div>
-                <div class="card">Pending<br><strong>5</strong></div>
+            <!-- Stats Cards -->
+            <section class="stats-section">
+                <h2 class="section-title">Campus Statistics</h2>
+                <div class="stats-grid">
+                    <div class="stat-card glass-card">
+                        <div class="stat-icon active">📋</div>
+                        <div class="stat-info">
+                            <h3 id="activeCount">0</h3>
+                            <p>Active Issues</p>
+                        </div>
+                    </div>
+                    <div class="stat-card glass-card">
+                        <div class="stat-icon resolved">✅</div>
+                        <div class="stat-info">
+                            <h3 id="resolvedCount">0</h3>
+                            <p>Resolved Issues</p>
+                        </div>
+                    </div>
+                    <div class="stat-card glass-card">
+                        <div class="stat-icon pending">⏳</div>
+                        <div class="stat-info">
+                            <h3 id="pendingCount">0</h3>
+                            <p>Pending Issues</p>
+                        </div>
+                    </div>
+                </div>
             </section>
 
-            <a class="primary-btn" href="report.html">Report Issue</a>
-
-            <section class="leaderboard">
-                <h3>Top Contributors</h3>
-                <ul>
-                    <li>Student A</li>
-                    <li>Student B</li>
-                    <li>Student C</li> 
-                </ul>
+            <!-- Top 3 Leaderboard -->
+            <section class="top-leaderboard glass-card">
+                <div class="leaderboard-header">
+                    <h2>Top Contributors</h2>
+                    <a href="leaderboard.html" class="view-all-btn">View All →</a>
+                </div>
+                <div class="top-three">
+                    <div class="top-contributor second">
+                        <div class="rank">2</div>
+                        <div class="contributor-info">
+                            <h4 id="rank2-name">---</h4>
+                            <p id="rank2-points">0 pts</p>
+                        </div>
+                        <div class="medal">🥈</div>
+                    </div>
+                    <div class="top-contributor first">
+                        <div class="rank">1</div>
+                        <div class="contributor-info">
+                            <h4 id="rank1-name">---</h4>
+                            <p id="rank1-points">0 pts</p>
+                        </div>
+                        <div class="medal">🥇</div>
+                    </div>
+                    <div class="top-contributor third">
+                        <div class="rank">3</div>
+                        <div class="contributor-info">
+                            <h4 id="rank3-name">---</h4>
+                            <p id="rank3-points">0 pts</p>
+                        </div>
+                        <div class="medal">🥉</div>
+                    </div>
+                </div>
             </section>
 
+            <!-- Notice Board -->
+            <section class="notice-board glass-card">
+                <div class="notice-header">
+                    <h2>📢 Notice Board</h2>
+                    <a href="notices.html" class="view-all-btn">View All →</a>
+                </div>
+                <div class="notice-list" id="noticeList">
+                    <div class="notice-item">
+                        <div class="notice-content">
+                            <h4>Loading notices...</h4>
+                            <p>Please wait while we fetch the latest notices.</p>
+                        </div>
+                        <div class="notice-date">---</div>
+                    </div>
+                </div>
+            </section>
         
             <div>  
                 <nav class="glass-nav">

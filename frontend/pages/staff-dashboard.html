@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Staff Dashboard | VerdeX</title>
+        <link rel="stylesheet" href="../css/global.css">
+        <link rel="stylesheet" href="../css/staff-dashboard.css">
+        <script type="module" src="../js/pages/staff-dashboard.js"></script>
+    </head>
+    <body>
+        <main>
+            <a href="staff-dashboard.html" class="logo-btn">
+                <img src="../assets/images/logo.png" class="logo-image" alt="VerdeX logo">
+                <span class="logo-text">VerdeX</span>
+            </a>
+
+            <!-- Hero Section -->
+            <section class="hero glass-card">
+                <div class="hero-content">
+                    <h1 id="userName">Welcome Staff!</h1>
+                    <p>Manage and resolve campus issues efficiently.</p>
+                    <div class="hero-stats">
+                        <div class="hero-stat">
+                            <span class="stat-number" id="assignedCount">0</span>
+                            <span class="stat-label">Assigned</span>
+                        </div>
+                        <div class="hero-stat">
+                            <span class="stat-number" id="resolvedCount">0</span>
+                            <span class="stat-label">Resolved</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-actions">
+                    <a href="fix-issue.html" class="primary-btn">Fix Issues</a>
+                    <a href="staff-profile.html" class="secondary-btn">My Profile</a>
+                </div>
+            </section>
+
+            <!-- Stats Section -->
+            <section class="stats-section">
+                <h2 class="section-title">Issue Statistics</h2>
+                <div class="stats-grid">
+                    <div class="stat-card glass-card">
+                        <div class="stat-icon pending">⏳</div>
+                        <div class="stat-info">
+                            <h3 id="pendingCount">0</h3>
+                            <p>Pending Issues</p>
+                        </div>
+                    </div>
+                    <div class="stat-card glass-card">
+                        <div class="stat-icon in-progress">🔧</div>
+                        <div class="stat-info">
+                            <h3 id="inProgressCount">0</h3>
+                            <p>In Progress</p>
+                        </div>
+                    </div>
+                    <div class="stat-card glass-card">
+                        <div class="stat-icon resolved">✅</div>
+                        <div class="stat-info">
+                            <h3 id="completedCount">0</h3>
+                            <p>Completed Today</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recent Issues -->
+            <section class="recent-issues glass-card">
+                <div class="issues-header">
+                    <h2>Recent Issues</h2>
+                    <a href="fix-issue.html" class="view-all-btn">View All →</a>
+                </div>
+                <div class="issues-list" id="issuesList">
+                    <div class="issue-item">
+                        <div class="issue-content">
+                            <h4>Loading issues...</h4>
+                            <p>Please wait while we fetch the latest issues.</p>
+                        </div>
+                        <div class="issue-status">---</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Actions -->
+            <section class="quick-actions glass-card">
+                <h2>Quick Actions</h2>
+                <div class="actions-grid">
+                    <a href="fix-issue.html" class="action-card">
+                        <div class="action-icon">🔧</div>
+                        <h3>Fix Issues</h3>
+                        <p>View and resolve reported issues</p>
+                    </a>
+                    <a href="staff-profile.html" class="action-card">
+                        <div class="action-icon">👤</div>
+                        <h3>My Profile</h3>
+                        <p>Manage your profile and settings</p>
+                    </a>
+                    <a href="notices.html" class="action-card">
+                        <div class="action-icon">📢</div>
+                        <h3>Notices</h3>
+                        <p>View campus announcements</p>
+                    </a>
+                </div>
+            </section>
+        
+            <div>  
+                <nav class="glass-nav">
+                    <a class="nav-item active" href="staff-dashboard.html">
+                        <span class="icon">🏠</span>
+                        <span class="label">Dashboard</span>
+                    </a>
+
+                    <a class="nav-item" href="fix-issue.html">
+                        <span class="icon">🔧</span>
+                        <span class="label">Fix Issues</span>
+                    </a>
+
+                    <a class="nav-item" href="notices.html">
+                        <span class="icon">📢</span>
+                        <span class="label">Notices</span>
+                    </a>
+
+                    <a class="nav-item" href="staff-profile.html">
+                        <span class="icon">👤</span>
+                        <span class="label">Profile</span>
+                    </a>
+                </nav>
+            </div>
+        </main>
+    </body>
+</html>

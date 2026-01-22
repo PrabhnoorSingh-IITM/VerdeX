@@ -8,34 +8,103 @@
         <link rel="stylesheet" href="../css/fix-issue.css">
         <script type="module" src="../js/pages/fix-issue.js"></script>
 
+
     </head>
     <body>
         <main>
-            <a href="dashboard.html" class="logo-btn">
+            <a href="staff-dashboard.html" class="logo-btn">
                 <img src="../assets/images/logo.png" class="logo-image" alt="VerdeX logo">
                 <span class="logo-text">VerdeX</span>
             </a>
+
+            <!-- Issues List -->
+            <section class="issues-container glass-card">
+                <div class="issues-header">
+                    <h1>🔧 Fix Issues</h1>
+                    <div class="filter-controls">
+                        <select id="statusFilter" class="filter-select">
+                            <option value="all">All Issues</option>
+                            <option value="open">Open</option>
+                            <option value="in-progress">In Progress</option>
+                            <option value="resolved">Resolved</option>
+                        </select>
+                        <select id="urgencyFilter" class="filter-select">
+                            <option value="all">All Urgency</option>
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="issues-list" id="issuesList">
+                    <div class="loading-state">
+                        <div class="loading-spinner"></div>
+                        <p>Loading issues...</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Fix Issue Modal -->
+            <div class="modal" id="fixModal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>Fix Issue</h2>
+                        <button class="close-btn" onclick="closeFixModal()">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="issue-details" id="issueDetails">
+                            <!-- Issue details will be populated here -->
+                        </div>
+                        
+                        <form id="fixForm" class="fix-form">
+                            <div class="form-group">
+                                <label for="fixDescription">Fix Description *</label>
+                                <textarea id="fixDescription" rows="4" placeholder="Describe what was done to fix this issue..." required></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="fixImage">Fix Image *</label>
+                                <div class="image-upload-container">
+                                    <input type="file" id="fixImage" accept="image/*" required class="image-input">
+                                    <div class="image-upload-label" id="fixImageLabel">
+                                        <span class="upload-icon">📷</span>
+                                        <span class="upload-text">Click to upload fix image</span>
+                                        <span class="upload-hint">Required: Photo showing the resolved issue</span>
+                                    </div>
+                                    <div class="image-preview" id="fixImagePreview"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="button" class="cancel-btn" onclick="closeFixModal()">Cancel</button>
+                                <button type="submit" class="submit-btn">Mark as Fixed</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         
             <div>  
                 <nav class="glass-nav">
-                    <a class="nav-item active" href="dashboard.html">
+                    <a class="nav-item" href="staff-dashboard.html">
                         <span class="icon">🏠</span>
-                        <span>Dashboard</span>
+                        <span class="label">Dashboard</span>
                     </a>
 
-                    <a class="nav-item" href="report.html">
-                        <span class="icon">📝</span>
-                        <span>Report</span>
+                    <a class="nav-item active" href="fix-issue.html">
+                        <span class="icon">🔧</span>
+                        <span class="label">Fix Issues</span>
                     </a>
 
-                    <a class="nav-item" href="leaderboard.html">
-                        <span class="icon">🏆</span>
-                        <span>Leaderboard</span>
+                    <a class="nav-item" href="notices.html">
+                        <span class="icon">📢</span>
+                        <span class="label">Notices</span>
                     </a>
 
-                    <a class="nav-item" href="profile.html">
+                    <a class="nav-item" href="staff-profile.html">
                         <span class="icon">👤</span>
-                        <span>Profile</span>
+                        <span class="label">Profile</span>
                     </a>
                 </nav>
             </div>

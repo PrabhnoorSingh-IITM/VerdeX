@@ -1,28 +1,38 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width">
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
         <title>Login | VerdeX</title>
-        <link rel="stylesheet" href="../css/auth.css">
-        <link rel="stylesheet" href="../css/global.css">
+
+        <link rel="stylesheet" href="../css/auth.css" />
+        <link rel="stylesheet" href="../css/global.css" />
         <script type="module" src="../js/pages/login.js"></script>
 
+
     </head>
+
     <body>
         <h2>Login to VerdeX</h2>
 
         <div class="role-switch">
-            <button class="active">Student</button>
-            <button>Admin</button>
-            <a href="./signup.html"><button type="submit"> Signup</button></a>
-
+        <button class="active" type="button">Student</button>
+        <button type="button">Staff</button>
+        <button type="button">Admin</button>
         </div>
 
         <form class="auth-form">
-            <input type="email" placeholder="Email" required>
-            <input type="password" placeholder="Password" required>
-            <button type="submit">Login</button>
+        <input type="email" placeholder="Email" required />
+        <input type="password" placeholder="Password" required />
+
+        <button type="submit">Login</button>
+
+        <!-- Google Sign-in -->
+        <button type="button" id="googleLogin" class="google-btn"> Sign in with Google </button>
+
+        <!-- Signup -->
+        <p class="signup-text"> Don’t have an account? <a href="./signup.html">Sign up</a>
+        </p>
         </form>
     </body>
 </html>

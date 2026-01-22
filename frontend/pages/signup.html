@@ -8,24 +8,54 @@
   <link rel="stylesheet" href="../css/global.css">
   <script type="module" src="../js/pages/signup.js"></script>
 
+
 </head>
 <body>
 
   <h2>Create Account</h2>
 
-  <form class="auth-form">
-    <input type="text" placeholder="Full Name" required />
-    <input type="email" placeholder="Email" required />
-    <input type="password" placeholder="Password" required />
+<div class="role-switch">
+  <button class="active" type="button">Student</button>
+  <button type="button">Staff</button>
+</div>
 
-    <select required>
-      <option value="">Select Role</option>
-      <option value="student">Student</option>
-      <option value="staff">Staff</option>
-    </select>
+<form class="auth-form">
 
-    <button type="submit">Sign Up</button>
-  </form>
+  <input type="text" id="name" placeholder="Full Name" required />
+  <input type="email" id="email" placeholder="Email" required />
+  <input type="password" id="password" placeholder="Password" required />
+
+  <!-- Student Fields -->
+  <div class="student-fields">
+    <input type="text" id="university" placeholder="University / College Name" required />
+    <input type="text" id="enrollment" placeholder="Enrollment / Roll Number" required />
+    <input type="text" id="branch" placeholder="Branch (CSE, IT, etc.)" required />
+    <input type="text" id="batch" placeholder="Batch (2023-27)" required />
+
+    <select id="hostel">
+    <option value="no">Hostel: No</option>
+    <option value="yes">Hostel: Yes</option>
+  </select>
+
+  <input 
+    type="text" 
+    id="hostelNo" 
+    placeholder="Hostel Number" 
+    style="display: none;"
+  />
+  </div>
+
+  <!-- Staff Fields -->
+  <div class="staff-fields" style="display: none;">
+    <input type="text" id="department" placeholder="Department" required />
+    <input type="text" id="employeeId" placeholder="Employee ID" required />
+  </div>
+
+  <button type="submit">Sign Up</button>
+</form>
+
+<!-- Login Link -->
+<p class="login-text">Already have an account? <a href="login.html">Login</a></p>
 
 </body>
 </html>
