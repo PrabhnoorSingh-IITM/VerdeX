@@ -242,16 +242,39 @@ main {
   display: block;
 }
 
-/* Mobile view - hide text labels */
+/* Tablet view - hide text labels earlier */
+@media (max-width: 600px) {
+  .glass-nav {
+    padding: 8px 12px;
+  }
+  
+  .nav-item {
+    flex-direction: column;
+    gap: 4px;
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+  
+  .nav-item .label {
+    display: none; /* Hide text labels in tablet/mobile */
+  }
+}
+
+/* Mobile view - additional optimizations */
 @media (max-width: 768px) {
   .nav-item {
     flex-direction: column;
     gap: 4px;
     font-size: 12px;
+    padding: 6px 12px;
   }
   
   .nav-item .label {
     display: none; /* Hide text labels in mobile */
+  }
+  
+  .glass-nav {
+    padding: 8px 10px;
   }
 }
 
