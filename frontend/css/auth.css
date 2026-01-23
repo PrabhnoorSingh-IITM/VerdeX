@@ -42,16 +42,21 @@ h2:hover {
   }
 }
 
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .auth-form {
   width: 100%;
   max-width: 420px;
-  padding: 32px;
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(12px);
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
   position: relative;
   overflow: hidden;
   animation: fadeInUp 0.8s ease-out;
@@ -67,6 +72,16 @@ h2:hover {
   height: 200%;
   background: radial-gradient(circle, rgba(34, 197, 94, 0.05) 0%, transparent 70%);
   animation: rotate 30s linear infinite;
+  z-index: 0;
+}
+
+.form-content {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
+  z-index: 1;
 }
 
 .auth-form:hover {

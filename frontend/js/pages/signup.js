@@ -7,22 +7,13 @@ import {
 import {
   doc,
   setDoc,
+  getDoc,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { initToast, showToast } from "../utils/toast.js";
 
 // Initialize toast
 initToast();
-
-// DOM ELEMENTS
-const form = document.querySelector(".auth-form");
-const roleButtons = document.querySelectorAll(".role-switch button");
-const studentFields = document.querySelector(".student-fields");
-const staffFields = document.querySelector(".staff-fields");
-const hostelSelect = document.getElementById("hostel");
-const hostelNoInput = document.getElementById("hostelNo");
-
-let currentRole = "student";
 
 console.log("Signup page loaded");
 
@@ -34,39 +25,109 @@ try {
   console.error("Firebase initialization error:", error);
 }
 
+// Wait for DOM to be fully loaded
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initSignup);
+} else {
+  initSignup();
+}
+
+function initSignup() {
+  console.log("Initializing signup...");
+
+  // DOM ELEMENTS
+  const form = document.querySelector(".auth-form");
+  const roleButtons = document.querySelectorAll(".role-switch button");
+  const studentFields = document.querySelector(".student-fields");
+  const staffFields = document.querySelector(".staff-fields");
+  const hostelSelect = document.getElementById("hostel");
+  const hostelNoInput = document.getElementById("hostelNo");
+  const googleSignupBtn = document.getElementById("googleSignup");
+  const submitBtn = form?.querySelector('button[type="submit"]');
+
+  // Check if form exists
+  if (!form) {
+    console.error("Form not found!");
+    return;
+  }
+
+  if (!submitBtn) {
+    console.error("Submit button not found!");
+    return;
+  }
+
+  console.log("Form elements found:", { form, submitBtn, roleButtons: roleButtons.length });
+
+  const provider = new GoogleAuthProvider();
+
+  let currentRole = "student";
+  let isSubmitting = false;
+
 // Role switching
-roleButtons.forEach(button => {
-  button.addEventListener("click", () => {
-    roleButtons.forEach(btn => btn.classList.remove("active"));
-    button.classList.add("active");
-    currentRole = button.textContent.toLowerCase();
+if (roleButtons.length > 0 && studentFields && staffFields) {
+  roleButtons.forEach(button => {
+    button.addEventListener("click", () => {
+      roleButtons.forEach(btn => btn.classList.remove("active"));
+      button.classList.add("active");
+      currentRole = button.textContent.toLowerCase();
+      console.log("Role switched to:", currentRole);
     
-    // Toggle field visibility
+    // Toggle field visibility and required attributes
     if (currentRole === "student") {
       studentFields.style.display = "block";
       staffFields.style.display = "none";
+      
+      // Set required for student fields (except hostelNo which is conditional)
+      studentFields.querySelectorAll("input:not(#hostelNo), select").forEach(field => {
+        field.required = true;
+      });
+      // Remove required from staff fields
+      staffFields.querySelectorAll("input").forEach(field => {
+        field.required = false;
+      });
     } else if (currentRole === "staff") {
       studentFields.style.display = "none";
       staffFields.style.display = "block";
+      
+      // Set required for staff fields
+      staffFields.querySelectorAll("input").forEach(field => {
+        field.required = true;
+      });
+      // Remove required from student fields
+      studentFields.querySelectorAll("input, select").forEach(field => {
+        field.required = false;
+      });
     }
   });
 });
+} else {
+  console.warn("Role switching not initialized - missing elements");
+}
 
 // Hostel selection handling
-hostelSelect.addEventListener("change", (e) => {
-  if (e.target.value === "yes") {
-    hostelNoInput.style.display = "block";
-    hostelNoInput.required = true;
-  } else {
-    hostelNoInput.style.display = "none";
-    hostelNoInput.required = false;
-    hostelNoInput.value = "";
-  }
-});
+if (hostelSelect && hostelNoInput) {
+  hostelSelect.addEventListener("change", (e) => {
+    if (e.target.value === "yes") {
+      hostelNoInput.style.display = "block";
+      hostelNoInput.required = true;
+    } else {
+      hostelNoInput.style.display = "none";
+      hostelNoInput.required = false;
+      hostelNoInput.value = "";
+    }
+  });
+}
 
 // Form submission
+console.log("Setting up form submission handler...");
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
+  console.log("Form submit event triggered!");
+  
+  // Prevent duplicate submissions
+  if (isSubmitting) {
+    return;
+  }
   
   console.log("Form submitted with role:", currentRole);
 
@@ -87,6 +148,11 @@ form.addEventListener("submit", async (e) => {
   }
 
   try {
+    // Set loading state
+    isSubmitting = true;
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Creating account...";
+    
     console.log("Creating user account...");
     
     // Create user with email and password
@@ -118,6 +184,20 @@ form.addEventListener("submit", async (e) => {
 
       if (!university || !enrollment || !branch || !batch) {
         showToast("Please fill in all student fields", "error");
+        // Reset loading state
+        isSubmitting = false;
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Sign Up";
+        return;
+      }
+      
+      // Validate hostel number if hostel is selected
+      if (hostel === "yes" && !hostelNo) {
+        showToast("Please enter hostel number", "error");
+        // Reset loading state
+        isSubmitting = false;
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Sign Up";
         return;
       }
 
@@ -135,6 +215,10 @@ form.addEventListener("submit", async (e) => {
 
       if (!department || !employeeId) {
         showToast("Please fill in all staff fields", "error");
+        // Reset loading state
+        isSubmitting = false;
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Sign Up";
         return;
       }
 
@@ -182,5 +266,85 @@ form.addEventListener("submit", async (e) => {
     }
     
     showToast(errorMessage, "error");
+  } finally {
+    // Reset loading state
+    isSubmitting = false;
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Sign Up";
   }
 });
+
+/* ---------- GOOGLE SIGN-UP ---------- */
+
+if (googleSignupBtn) {
+  googleSignupBtn.addEventListener("click", async () => {
+    // Prevent duplicate submissions
+    if (isSubmitting) {
+      return;
+    }
+    
+    try {
+      // Set loading state
+      isSubmitting = true;
+      googleSignupBtn.disabled = true;
+      googleSignupBtn.textContent = "Signing up...";
+      
+      const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+
+    const userRef = doc(db, "users", user.uid);
+    const snap = await getDoc(userRef);
+
+    // First-time Google user → create profile with selected role
+    if (!snap.exists()) {
+      const userData = {
+        name: user.displayName || "",
+        email: user.email,
+        role: currentRole,
+        points: 0,
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp()
+      };
+
+      if (currentRole === "student") {
+        userData.campusId = ""; // Will be set by admin
+        userData.university = "";
+        userData.enrollment = "";
+        userData.branch = "";
+        userData.batch = "";
+        userData.hostel = "no";
+      } else if (currentRole === "staff") {
+        userData.campusId = ""; // Will be set by admin
+        userData.department = "";
+        userData.employeeId = "";
+      }
+
+      await setDoc(userRef, userData);
+      showToast("Account created successfully!", "success");
+    } else {
+      showToast("Account already exists. Please login instead.", "error");
+      return;
+    }
+
+    // Redirect based on role
+    setTimeout(() => {
+      if (currentRole === "staff") {
+        console.log("Redirecting to staff dashboard...");
+        window.location.href = "staff-dashboard.html";
+      } else {
+        console.log("Redirecting to student dashboard...");
+        window.location.href = "dashboard.html";
+      }
+    }, 1500);
+  } catch (err) {
+    console.error("Google sign-up error:", err);
+    showToast("Google sign-up failed. Try again.", "error");
+  } finally {
+    // Reset loading state
+    isSubmitting = false;
+    googleSignupBtn.disabled = false;
+    googleSignupBtn.textContent = "Sign up with Google";
+  }
+  });
+}
+} // End of initSignup function
