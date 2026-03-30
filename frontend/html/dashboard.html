@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard — CampusOne</title>
+  <title>Dashboard — VerdeX</title>
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="../css/app.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
@@ -14,7 +14,7 @@
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-logo">
       <div class="logo-icon">C<span style="font-size:0.7rem">1</span></div>
-      <div class="logo-text">Campus<span>One</span></div>
+      <div class="logo-text">Verde<span>X</span></div>
     </div>
     <nav class="sidebar-nav">
       <div class="nav-section-label">Main</div>
@@ -289,7 +289,7 @@
       <div id="viewCanteen" style="display:none">
         <div class="welcome-card mb-24" style="background:linear-gradient(135deg,#F59E0B,#D97706)">
           <h2>Vendors KDS Dashboard 🍔</h2>
-          <p>CampusOne POS node active. Awaiting student token orders.</p>
+          <p>VerdeX POS node active. Awaiting student token orders.</p>
         </div>
         <div class="stats-grid">
           <div class="stat-card">
@@ -368,42 +368,59 @@
   window.addEventListener('verdexDataReady', () => { updateGovernanceScore(); window.renderDashboardRouter(); });
 </script>
 <script>
-  // Today's timetable
-  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-  const today = days[new Date().getDay()];
-  const todayData = StudentData.timetable[today] || [];
-  const todayEl = document.getElementById('todayClasses');
-  if (todayData.length === 0) {
-    todayEl.innerHTML = '<div style="text-align:center;padding:24px;color:var(--gray)">🎉 No classes today! Enjoy your day.</div>';
-  } else {
-    todayEl.innerHTML = todayData.map(c => `
-      <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)">
-        <div style="min-width:90px;font-size:0.78rem;font-weight:600;color:var(--gray)">${c.time}</div>
-        <div style="flex:1">
-          <div style="font-size:0.875rem;font-weight:700">${c.subject}</div>
-          <div style="font-size:0.75rem;color:var(--gray)">${c.room} · ${c.faculty}</div>
-        </div>
-        <span class="badge badge-primary">${c.time < '13:00' ? '🌅 Morning' : '☀️ Afternoon'}</span>
-      </div>
-    `).join('');
+  function renderUserWidgets() {
+    const sd = window.StudentData;
+    if (!sd) return;
+
+    // Today's timetable
+    const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const today = days[new Date().getDay()];
+    const todayData = (sd.timetable || {})[today] || [];
+    const todayEl = document.getElementById('todayClasses');
+    if (todayEl) {
+      if (todayData.length === 0) {
+        todayEl.innerHTML = '<div style="text-align:center;padding:24px;color:var(--gray)">🎉 No classes today! Enjoy your day.</div>';
+      } else {
+        todayEl.innerHTML = todayData.map(c => `
+          <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)">
+            <div style="min-width:90px;font-size:0.78rem;font-weight:600;color:var(--gray)">${c.time}</div>
+            <div style="flex:1">
+              <div style="font-size:0.875rem;font-weight:700">${c.subject}</div>
+              <div style="font-size:0.75rem;color:var(--gray)">${c.room} · ${c.faculty}</div>
+            </div>
+            <span class="badge badge-primary">${c.time < '13:00' ? '🌅 Morning' : '☀️ Afternoon'}</span>
+          </div>
+        `).join('');
+      }
+    }
+
+    // Attendance mini summary
+    const attEl = document.getElementById('attSummary');
+    if (attEl) {
+      const subj = sd.attendance?.subjects || [];
+      if (subj.length === 0) {
+        attEl.innerHTML = '<div style="text-align:center;padding:24px;color:var(--gray)">📊 Attendance data syncing...</div>';
+      } else {
+        attEl.innerHTML = subj.slice(0,4).map(s => `
+          <div style="margin-bottom:12px">
+            <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+              <span style="font-size:0.8rem;font-weight:600">${s.name}</span>
+              <span style="font-size:0.8rem;font-weight:700;color:${s.percentage<75?'var(--danger)':s.percentage<85?'var(--warning)':'var(--success)'}">${s.percentage}%</span>
+            </div>
+            <div class="progress progress-${s.percentage<75?'danger':s.percentage<85?'warning':'success'}">
+              <div class="progress-bar" style="width:${s.percentage}%"></div>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    // Animate counters once data is ready
+    if (typeof animateCounters === 'function') setTimeout(animateCounters, 300);
   }
 
-  // Attendance mini summary
-  const attEl = document.getElementById('attSummary');
-  attEl.innerHTML = StudentData.attendance.subjects.slice(0,4).map(s => `
-    <div style="margin-bottom:12px">
-      <div style="display:flex;justify-content:space-between;margin-bottom:4px">
-        <span style="font-size:0.8rem;font-weight:600">${s.name}</span>
-        <span style="font-size:0.8rem;font-weight:700;color:${s.percentage<75?'var(--danger)':s.percentage<85?'var(--warning)':'var(--success)'}">${s.percentage}%</span>
-      </div>
-      <div class="progress progress-${s.percentage<75?'danger':s.percentage<85?'warning':'success'}">
-        <div class="progress-bar" style="width:${s.percentage}%"></div>
-      </div>
-    </div>
-  `).join('');
-
-  // Animate counters
-  setTimeout(animateCounters, 300);
+  // Wait for auth guard to complete — never run before StudentData is set
+  window.addEventListener('userAuthenticated', renderUserWidgets);
 </script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Canteen — CampusOne</title>
+  <title>Canteen — VerdeX</title>
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="../css/app.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
@@ -14,7 +14,7 @@
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-logo">
       <div class="logo-icon">C<span style="font-size:0.7rem">1</span></div>
-      <div class="logo-text">Campus<span>One</span></div>
+      <div class="logo-text">Verde<span>X</span></div>
     </div>
     <nav class="sidebar-nav">
       <div class="nav-section-label">Main</div>
@@ -314,32 +314,35 @@ async function placeOrder() {
     CartManager.clear();
     renderCart();
     openModal('orderModal');
-    saveOrder(result.ref, pickup);
-    renderMyOrders();
-    // Native integration: deduct points directly or trigger point discount mathematically depending on user choice logic here.
+    // Fetch live natively from Db instead of caching:
+    await renderMyOrders();
+    // Native integration: Simulated success; no actual wallet deduction.
   }
 }
 
-function saveOrder(id, pickup) {
-  const orders = JSON.parse(localStorage.getItem('myOrders')||'[]');
-  orders.unshift({ id, pickup, time: new Date().toLocaleTimeString(), status: 'Confirmed' });
-  localStorage.setItem('myOrders', JSON.stringify(orders.slice(0,5)));
-}
-
-function renderMyOrders() {
-  const orders = JSON.parse(localStorage.getItem('myOrders')||'[]');
+async function renderMyOrders() {
   const el = document.getElementById('myOrders');
-  if (orders.length === 0) {
+  
+  if(!window.StudentData || !window.CanteenService) {
+      el.innerHTML = '<div style="text-align:center;padding:16px;color:var(--gray);font-size:0.85rem">Loading link...</div>';
+      return;
+  }
+  
+  el.innerHTML = '<div style="text-align:center;padding:16px;color:var(--gray);font-size:0.85rem">Syncing live orders...</div>';
+  const res = await window.CanteenService.fetchUserOrders(window.StudentData.uid);
+  
+  if (!res || !res.success || res.data.length === 0) {
     el.innerHTML = '<div style="text-align:center;padding:16px;color:var(--gray);font-size:0.85rem">No orders yet</div>';
     return;
   }
-  el.innerHTML = orders.map(o => `
+  
+  el.innerHTML = res.data.slice(0,5).map(o => `
     <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)">
       <div>
         <div style="font-size:0.85rem;font-weight:700">${o.id}</div>
-        <div style="font-size:0.75rem;color:var(--gray)">${o.pickup}</div>
+        <div style="font-size:0.75rem;color:var(--gray)">${o.pickupTime}</div>
       </div>
-      <span class="badge badge-success">${o.status}</span>
+      <span class="badge ${o.status==='Confirmed'?'badge-success':'badge-warning'}">${o.status}</span>
     </div>
   `).join('');
 }
@@ -347,7 +350,6 @@ function renderMyOrders() {
 // Init
 renderMenu();
 renderCart();
-renderMyOrders();
 </script>
 <script type="module" src="../js/auth-guard.js"></script>
 <script type="module">
@@ -372,8 +374,14 @@ renderMyOrders();
   }
 
   document.addEventListener('DOMContentLoaded', updateGovernanceScore);
-  window.addEventListener('userAuthenticated', updateGovernanceScore);
+  window.addEventListener('userAuthenticated', () => {
+      updateGovernanceScore();
+      window.renderMyOrders();
+  });
   window.addEventListener('verdexDataReady', updateGovernanceScore);
+  
+  // Expose for inline usage
+  window.renderMyOrders = renderMyOrders;
 </script>
 </body>
 </html>

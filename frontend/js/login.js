@@ -120,7 +120,7 @@ function setupEventListeners() {
                 await setDoc(doc(db, 'users', uid), profile);
                 
                 if (typeof showToast === 'function') {
-                    showToast('Account created! Welcome to CampusOne 🎉', 'success');
+                    showToast('Account created! Welcome to VerdeX 🎉', 'success');
                 }
                 setTimeout(() => window.location.href = 'dashboard.html', 1200);
             } catch (error) {

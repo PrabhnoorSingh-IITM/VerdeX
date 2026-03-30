@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login — CampusOne</title>
+  <title>Login — VerdeX</title>
   <link rel="stylesheet" href="../css/style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <style>
@@ -13,7 +13,7 @@
 
     /* LEFT PANEL */
     .auth-left {
-      flex: 1; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 60%, #1E1B4B 100%);
+      flex: 1; background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(5, 5, 5, 1) 60%, #000 100%);
       display: flex; flex-direction: column; justify-content: center;
       padding: 60px; position: relative; overflow: hidden;
     }
@@ -54,7 +54,9 @@
     /* RIGHT PANEL */
     .auth-right {
       width: 480px; display: flex; align-items: center;
-      justify-content: center; padding: 40px; background: white;
+      justify-content: center; padding: 40px; background: var(--white);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-left: 1px solid var(--border);
     }
     .auth-form-wrapper { width: 100%; max-width: 400px; }
     .auth-tabs { display: flex; background: var(--bg); border-radius: var(--radius); padding: 4px; margin-bottom: 32px; }
@@ -64,7 +66,7 @@
       font-weight: 600; cursor: pointer; color: var(--gray);
       transition: var(--transition); border: none; background: none;
     }
-    .auth-tab.active { background: white; color: var(--primary); box-shadow: var(--shadow); }
+    .auth-tab.active { background: rgba(16, 185, 129, 0.1); color: var(--primary); box-shadow: var(--shadow); border: 1px solid var(--primary); }
 
     .auth-section { display: none; }
     .auth-section.active { display: block; }
@@ -78,14 +80,14 @@
       height: 1px; background: var(--border);
     }
     .divider-text span {
-      position: relative; background: white;
+      position: relative; background: var(--bg);
       padding: 0 12px; font-size: 0.8rem; color: var(--gray);
     }
 
     .social-login { display: flex; gap: 10px; margin-bottom: 20px; }
     .social-btn-lg {
       flex: 1; padding: 10px; border: 1.5px solid var(--border);
-      border-radius: var(--radius-sm); background: white; cursor: pointer;
+      border-radius: var(--radius-sm); background: rgba(255,255,255,0.05); cursor: pointer;
       display: flex; align-items: center; justify-content: center; gap: 8px;
       font-size: 0.875rem; font-weight: 600; color: var(--dark); transition: var(--transition);
     }
@@ -125,7 +127,7 @@
       <div class="auth-left-content">
         <div class="auth-logo">
           <div class="brand-icon">C<span style="font-size:0.7rem">1</span></div>
-          <span class="brand-name">CampusOne</span>
+          <span class="brand-name">VerdeX</span>
         </div>
         <h2>Everything you need<br/>for college life.</h2>
         <p>From canteen orders to fee payments — manage your entire campus experience from one place.</p>
@@ -163,14 +165,14 @@
         <!-- LOGIN FORM -->
         <div class="auth-section active" id="loginSection">
           <h3>Welcome back! 👋</h3>
-          <p class="subtitle">Sign in to your CampusOne account</p>
+          <p class="subtitle">Sign in to your VerdeX account</p>
 
           <div class="social-login">
-            <button class="social-btn-lg" onclick="socialLogin('Google')">
+            <button class="social-btn-lg" onclick="showToast('Connecting with Google...', 'info')">
               <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
               Google
             </button>
-            <button class="social-btn-lg" onclick="socialLogin('Microsoft')">
+            <button class="social-btn-lg" onclick="showToast('Connecting with Microsoft...', 'info')">
               <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#F25022" d="M11.4 11.4H0V0h11.4z"/><path fill="#00A4EF" d="M24 11.4H12.6V0H24z"/><path fill="#7FBA00" d="M11.4 24H0V12.6h11.4z"/><path fill="#FFB900" d="M24 24H12.6V12.6H24z"/></svg>
               Microsoft
             </button>
@@ -206,7 +208,7 @@
         <!-- SIGNUP FORM -->
         <div class="auth-section" id="signupSection">
           <h3>Create Account 🎓</h3>
-          <p class="subtitle">Join CampusOne and simplify your college life</p>
+          <p class="subtitle">Join VerdeX and simplify your college life</p>
 
           <form id="verde-signup-form">
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
@@ -315,33 +317,6 @@
     function togglePwd(id) {
       const inp = document.getElementById(id);
       inp.type = inp.type === 'password' ? 'text' : 'password';
-    }
-
-    function handleLogin(e) {
-      e.preventDefault();
-      const btn = e.target.querySelector('button[type=submit]');
-      btn.textContent = 'Signing in...';
-      btn.disabled = true;
-      setTimeout(() => {
-        showToast('Welcome back, Arjun! 👋', 'success');
-        setTimeout(() => window.location.href = 'dashboard.html', 1000);
-      }, 1200);
-    }
-
-    function handleSignup(e) {
-      e.preventDefault();
-      const btn = e.target.querySelector('button[type=submit]');
-      btn.textContent = 'Creating account...';
-      btn.disabled = true;
-      setTimeout(() => {
-        showToast('Account created! Welcome to CampusOne 🎉', 'success');
-        setTimeout(() => window.location.href = 'dashboard.html', 1200);
-      }, 1500);
-    }
-
-    function socialLogin(provider) {
-      showToast(`Connecting with ${provider}...`);
-      setTimeout(() => window.location.href = 'dashboard.html', 1500);
     }
 
     function showForgot(e) {

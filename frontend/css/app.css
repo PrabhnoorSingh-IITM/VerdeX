@@ -24,10 +24,10 @@
 
 .quick-actions { display: grid; grid-template-columns: repeat(6,1fr); gap: 12px; margin-bottom: 24px; }
 .quick-action {
-  background: white; border: 1px solid var(--border); border-radius: var(--radius);
+  background: var(--white); border: 1px solid var(--border); border-radius: var(--radius);
   padding: 16px 12px; text-align: center; cursor: pointer; transition: var(--transition);
   text-decoration: none; color: var(--dark); display: flex; flex-direction: column;
-  align-items: center; gap: 8px;
+  align-items: center; gap: 8px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
 }
 .quick-action:hover { border-color: var(--primary); background: var(--primary-light); transform: translateY(-2px); }
 .quick-action .qa-icon { font-size: 1.6rem; }
@@ -114,9 +114,9 @@
   border-radius: var(--radius); padding: 24px;
   display: flex; flex-direction: column; gap: 8px;
 }
-.fee-summary-card.total { background: linear-gradient(135deg, #EEF2FF, #E0E7FF); border: 1px solid #C7D2FE; }
-.fee-summary-card.paid { background: linear-gradient(135deg, #D1FAE5, #A7F3D0); border: 1px solid #6EE7B7; }
-.fee-summary-card.due { background: linear-gradient(135deg, #FEE2E2, #FECACA); border: 1px solid #FCA5A5; }
+.fee-summary-card.total { background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(6, 182, 212, 0.1)); border: 1px solid var(--primary); }
+.fee-summary-card.paid { background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(16, 185, 129, 0.05)); border: 1px solid var(--success); }
+.fee-summary-card.due { background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(239, 68, 68, 0.05)); border: 1px solid var(--danger); }
 .fee-summary-card .fs-label { font-size: 0.8rem; font-weight: 600; color: var(--gray); }
 .fee-summary-card .fs-amount { font-size: 1.8rem; font-weight: 900; }
 .fee-summary-card.total .fs-amount { color: var(--primary); }
@@ -177,8 +177,8 @@
   width: 5px; height: 5px; border-radius: 50%; background: var(--secondary);
 }
 .cal-day.today.has-event::after { background: white; }
-.cal-day.holiday { background: #FEF3C7; color: #92400E; }
-.cal-day.exam { background: #FEE2E2; color: #991B1B; }
+.cal-day.holiday { background: rgba(245, 158, 11, 0.2); color: var(--warning); }
+.cal-day.exam { background: rgba(239, 68, 68, 0.2); color: var(--danger); }
 
 .event-list { display: flex; flex-direction: column; gap: 10px; }
 .event-item {
@@ -199,13 +199,15 @@
 .cat-btn {
   padding: 8px 18px; border-radius: 99px; border: 1.5px solid var(--border);
   font-size: 0.85rem; font-weight: 600; cursor: pointer;
-  background: white; color: var(--gray); transition: var(--transition);
+  background: var(--white); color: var(--gray); transition: var(--transition);
+  backdrop-filter: blur(8px);
 }
 .cat-btn.active, .cat-btn:hover { background: var(--primary); color: white; border-color: var(--primary); }
 .menu-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; }
 .menu-item {
-  background: white; border: 1px solid var(--border); border-radius: var(--radius);
+  background: var(--white); border: 1px solid var(--border); border-radius: var(--radius);
   overflow: hidden; transition: var(--transition); cursor: pointer;
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
 }
 .menu-item:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
 .menu-img {
@@ -249,8 +251,8 @@
 .qty-control { display: flex; align-items: center; gap: 6px; }
 .qty-btn {
   width: 24px; height: 24px; border-radius: 6px; border: 1px solid var(--border);
-  background: white; cursor: pointer; font-size: 0.85rem;
-  display: flex; align-items: center; justify-content: center; font-weight: 700;
+  background: rgba(255,255,255,0.1); cursor: pointer; font-size: 0.85rem;
+  display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--dark);
 }
 .qty-num { font-size: 0.85rem; font-weight: 700; min-width: 16px; text-align: center; }
 .cart-total { padding: 16px 0 8px; border-top: 1px solid var(--border); margin-top: 12px; }
@@ -282,15 +284,17 @@
 .chip {
   padding: 8px 16px; border-radius: 99px; border: 1.5px solid var(--border);
   font-size: 0.8rem; font-weight: 600; cursor: pointer;
-  background: white; color: var(--dark); transition: var(--transition);
+  background: var(--white); color: var(--dark); transition: var(--transition);
+  backdrop-filter: blur(8px);
 }
 .chip.selected { background: var(--primary); color: white; border-color: var(--primary); }
 .chip:hover { border-color: var(--primary); color: var(--primary); }
 
 .points-card {
-  background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(217, 119, 6, 0.05));
   border-radius: var(--radius); padding: 24px;
-  text-align: center; border: 1px solid #FCD34D;
+  text-align: center; border: 1px solid var(--warning);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
 }
 .points-card .p-icon { font-size: 3rem; margin-bottom: 8px; }
 .points-card .p-title { font-size: 1rem; font-weight: 800; color: #92400E; }

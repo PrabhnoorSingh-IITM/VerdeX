@@ -3,8 +3,9 @@
  * Handles Firestore-like state.
  */
 
-import { db as firestore } from './firebase-config.js';
+import { db as firestore, auth } from './firebase-config.js';
 import { collection, addDoc, updateDoc, doc, onSnapshot, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
 const STATUS = {
     OPEN: 'OPEN',
@@ -38,17 +39,21 @@ class DB {
         if (typeof window !== 'undefined') {
             this.issuesRef = collection(firestore, 'issues');
             
-            onSnapshot(this.issuesRef, (snapshot) => {
-                this.issues = snapshot.docs.map(docSnap => ({
-                    localId: docSnap.id,
-                    ...docSnap.data()
-                }));
-                // Dispatch event so UI can reactively update without throwing errors
-                window.dispatchEvent(new Event('verdexDataReady'));
-                
-                // If any legacy scripts use updateGovernanceScore on global, trigger it
-                if (typeof window.updateGovernanceScore === 'function') {
-                    window.updateGovernanceScore();
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    onSnapshot(this.issuesRef, (snapshot) => {
+                        this.issues = snapshot.docs.map(docSnap => ({
+                            localId: docSnap.id,
+                            ...docSnap.data()
+                        }));
+                        // Dispatch event so UI can reactively update without throwing errors
+                        window.dispatchEvent(new Event('verdexDataReady'));
+                        
+                        // If any legacy scripts use updateGovernanceScore on global, trigger it
+                        if (typeof window.updateGovernanceScore === 'function') {
+                            window.updateGovernanceScore();
+                        }
+                    });
                 }
             });
         }

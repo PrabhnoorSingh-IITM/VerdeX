@@ -4,7 +4,7 @@
  */
 
 import { db } from '../firebase-config.js';
-import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { collection, addDoc, serverTimestamp, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 import { ErrorHandler } from './ErrorHandler.js';
 
 export const CanteenService = {
@@ -38,6 +38,30 @@ export const CanteenService = {
     } catch (firebaseException) {
       ErrorHandler.handle(firebaseException);
       return { success: false };
+    }
+  },
+
+  /**
+   * Fetches the user's native canteen orders from Firestore securely.
+   * @param {string} userId
+   * @returns {Object} { success, data }
+   */
+  fetchUserOrders: async (userId) => {
+    try {
+      if (!userId) throw new Error("Anonymous queries are blocked.");
+      const ordersRef = collection(db, 'canteen_orders');
+      const q = query(ordersRef, where("userId", "==", userId));
+      const snapshot = await getDocs(q);
+      const output = [];
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        output.push({ id: doc.id, timestampValue: data.timestamp?.toMillis() || Date.now(), ...data });
+      });
+      // Sort client-side latest first
+      return { success: true, data: output.sort((a,b) => b.timestampValue - a.timestampValue) };
+    } catch (err) {
+      ErrorHandler.handle(err);
+      return { success: false, data: [] };
     }
   }
 };

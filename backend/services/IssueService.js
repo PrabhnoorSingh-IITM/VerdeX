@@ -4,7 +4,7 @@
  */
 
 import { db } from '../firebase-config.js';
-import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { collection, addDoc, serverTimestamp, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 import { ErrorHandler } from './ErrorHandler.js';
 
 export const IssueService = {
@@ -43,6 +43,30 @@ export const IssueService = {
     } catch (firebaseException) {
       ErrorHandler.handle(firebaseException);
       return { success: false };
+    }
+  },
+
+  /**
+   * Fetches the user's live issue reports directly from Cloud Firestore.
+   * @param {string} userId
+   * @returns {Object} { success, data }
+   */
+  fetchUserIssues: async (userId) => {
+    try {
+      if (!userId) throw new Error("Anonymous token cannot fetch governance data.");
+      const issuesRef = collection(db, 'issues');
+      const q = query(issuesRef, where("reporterId", "==", userId));
+      const snapshot = await getDocs(q);
+      const output = [];
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        output.push({ id: doc.id, timestampValue: data.timestamp?.toMillis() || Date.now(), ...data });
+      });
+      // Client-side sort to avoid composite index requirement
+      return { success: true, data: output.sort((a, b) => b.timestampValue - a.timestampValue) };
+    } catch (err) {
+      ErrorHandler.handle(err);
+      return { success: false, data: [] };
     }
   }
 };

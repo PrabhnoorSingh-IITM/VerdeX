@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Report Issue — CampusOne</title>
+  <title>Report Issue — VerdeX</title>
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="../css/app.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
@@ -13,7 +13,7 @@
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-logo">
       <div class="logo-icon">C<span style="font-size:0.7rem">1</span></div>
-      <div class="logo-text">Campus<span>One</span></div>
+      <div class="logo-text">Verde<span>X</span></div>
     </div>
     <nav class="sidebar-nav">
       <div class="nav-section-label">Main</div>
@@ -373,7 +373,7 @@ const existingReports = [
   { emoji:'🪑', title:'Broken Chair — Room CS-101', desc:'Chair in classroom missing backrest', status:'in-review', pts:20, date:'Mar 10' },
 ];
 
-function renderMyReports() {
+async function renderMyReports() {
   const isStaff = window.StudentData && window.StudentData.role === 'staff';
   
   if (isStaff) {
@@ -389,22 +389,34 @@ function renderMyReports() {
     document.getElementById('reportsListTitle').textContent = '📋 My Reports';
   }
 
-  // Ensure window.mockDb is populated if called from non-module context
-  if (!window.mockDbInstance) return;
+  const listEl = document.getElementById('myReportsList');
+  if(!window.StudentData || !window.IssueService) {
+    listEl.innerHTML = '<div style="text-align:center;padding:16px;color:var(--gray);font-size:0.85rem">Loading database link...</div>';
+    return;
+  }
+
+  listEl.innerHTML = '<div style="text-align:center;padding:16px;color:var(--gray);font-size:0.85rem">Syncing live database...</div>';
   
-  const allIssues = window.mockDbInstance.getAllIssues();
-  
-  // Role-based filtering
   let displayIssues = [];
   if (isStaff) {
-    displayIssues = allIssues.filter(i => i.status !== 'verified'); // Staff sees all active tasks
+    // Staff sees all currently mock-assigned items since full admin console was out of scope
+    if(window.mockDbInstance) {
+      displayIssues = window.mockDbInstance.getAllIssues().filter(i => i.status !== 'verified');
+    }
   } else {
-    displayIssues = allIssues; // In a real app we'd filter by i.reportedBy == user.uid
+    // Live query link to Firebase for active user logs
+    const res = await window.IssueService.fetchUserIssues(window.StudentData.uid);
+    displayIssues = res.success ? res.data : [];
   }
 
   document.getElementById('reportCount').textContent = displayIssues.length;
 
-  document.getElementById('myReportsList').innerHTML = displayIssues.map(r => {
+  if (displayIssues.length === 0) {
+      listEl.innerHTML = '<div style="text-align:center;padding:16px;color:var(--gray);font-size:0.85rem">No reports logged</div>';
+      return;
+  }
+
+  listEl.innerHTML = displayIssues.map(r => {
     let actionBtn = '';
     if (isStaff && r.status === 'open') {
       actionBtn = `<button class="badge badge-primary" style="cursor:pointer;border:none;margin-top:8px" onclick="window.verdeResolveIssue('${r.id}')">Upload Fix / Resolve</button>`;
@@ -415,16 +427,15 @@ function renderMyReports() {
     return `
       <div class="report-item" style="display:flex;flex-direction:column;align-items:flex-start">
         <div style="display:flex;width:100%;gap:12px;">
-          <div class="report-img">🚨</div>
+          <div class="report-img">${r.category === 'Electrical' ? '⚡' : r.category === 'Plumbing' ? '💧' : r.category === 'Cleanliness' ? '🧹' : r.category === 'Furniture' ? '🪑' : '🚨'}</div>
           <div class="report-content" style="flex:1">
-            <div class="r-title" style="word-break:break-all">${r.type.toUpperCase()} — ${r.location}</div>
-            <div class="r-desc">${r.description.substring(0,60)}...</div>
+            <div class="r-title" style="word-break:break-all">${(r.category || r.type || 'Log').toUpperCase()} — ${r.location}</div>
+            <div class="r-desc">${(r.description||'').substring(0,60)}...</div>
             <div class="r-meta" style="margin-top:6px;display:flex;gap:8px;flex-wrap:wrap">
               <span class="badge ${r.status==='resolved'?'badge-warning':r.status==='verified'?'badge-success':'badge-primary'}">
                 ${r.status==='resolved'?'⚖️ Evaluating':r.status==='verified'?'✓ Closed':'🚨 Open'}
               </span>
               <span class="report-pts" style="font-weight:700">Severity: ${r.severity}</span>
-              <span style="color:var(--gray-light)">${new Date(r.createdAt).toLocaleDateString()}</span>
             </div>
           </div>
         </div>
@@ -589,7 +600,7 @@ async function submitReport() {
     
     // Add Points locally for UI snap
     if(window.PointsManager) window.PointsManager.addPoints(totalPts, '');
-    renderMyReports();
+    await renderMyReports();
   }
 }
 
@@ -608,7 +619,38 @@ function resetForm() {
   document.getElementById('charCount').textContent='0/300 characters';
 }
 
-renderMyReports();
+// Don't auto-render here, rely on event listener
+// renderMyReports();
+</script>
+<script type="module" src="../js/auth-guard.js"></script>
+<script type="module">
+  import { db as mockDb, STATUS } from '../../backend/db.js';
+  import { calculateCampusScore } from '../../backend/engine.js';
+  import { initAuthGuard } from '../js/auth-guard.js';
+  import { IssueService } from '../../backend/services/IssueService.js';
+  import { UiState } from '../js/UiState.js';
+
+  initAuthGuard();
+
+  window.IssueService = IssueService;
+  window.UiState = UiState;
+  window.mockDbInstance = mockDb;
+
+  function updateGovernanceScore() {
+    const issues = mockDb.getAllIssues();
+    const resolved = issues.filter(i => i.status === STATUS.VERIFIED_CLOSED);
+    const score = calculateCampusScore(resolved, issues);
+    document.querySelectorAll('.points-display').forEach(el => {
+      el.textContent = Math.round(score);
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', updateGovernanceScore);
+  window.addEventListener('userAuthenticated', () => {
+      updateGovernanceScore();
+      window.renderMyReports();
+  });
+  window.addEventListener('verdexDataReady', updateGovernanceScore);
 </script>
 </body>
 </html>
