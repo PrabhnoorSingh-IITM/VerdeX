@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Report Issue — CampusOne</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/app.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+</head>
+<body>
+<div class="app-wrapper">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">C<span style="font-size:0.7rem">1</span></div>
+      <div class="logo-text">Campus<span>One</span></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a href="dashboard.html" class="nav-item"><span class="nav-icon">🏠</span> Dashboard</a>
+      <a href="canteen.html" class="nav-item"><span class="nav-icon">🍽️</span> Canteen <span class="nav-badge cart-badge" style="display:none">0</span></a>
+      <a href="attendance.html" class="nav-item"><span class="nav-icon">📊</span> Attendance</a>
+      <a href="fees.html" class="nav-item"><span class="nav-icon">💰</span> Fees & Payments</a>
+      <div class="nav-section-label" style="margin-top:12px">Schedule</div>
+      <a href="timetable.html" class="nav-item"><span class="nav-icon">🕐</span> Timetable</a>
+      <a href="calendar.html" class="nav-item"><span class="nav-icon">📅</span> Calendar</a>
+      <div class="nav-section-label" style="margin-top:12px">Governance</div>
+      <a href="report-issue.html" class="nav-item active"><span class="nav-icon">🚨</span> Report Issue</a>
+    </nav>
+    <div class="sidebar-user">
+      <div class="avatar sidebar-user-avatar">AS</div>
+      <div class="user-info">
+        <div class="name sidebar-user-name">Arjun Sharma</div>
+        <div class="role sidebar-user-role">CS2021047</div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="main-content">
+    <header class="topbar">
+      <div class="topbar-left flex gap-16">
+        <button class="hamburger" id="hamburger">☰</button>
+        <div>
+          <h2>🚨 Report Campus Issue</h2>
+          <p>Help improve your campus — earn points!</p>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="topbar-points">🏆 <span class="points-display">120</span> pts</div>
+      </div>
+    </header>
+
+    <div class="page-content">
+
+      <!-- How it works banner -->
+      <div style="background:linear-gradient(135deg,#FEF3C7,#FDE68A);border-radius:var(--radius);padding:16px 24px;margin-bottom:24px;display:flex;align-items:center;gap:16px;border:1px solid #FCD34D;flex-wrap:wrap">
+        <span style="font-size:2rem">🏆</span>
+        <div style="flex:1">
+          <strong style="color:#92400E;font-size:1rem">Earn Points for Every Report!</strong>
+          <p style="font-size:0.85rem;color:#A16207;margin-top:2px">
+            Snap a photo → Pick category → Describe the issue → Submit → Get <strong>10–50 points!</strong>
+            Top reporters get featured on the leaderboard.
+          </p>
+        </div>
+        <div style="display:flex;gap:16px;text-align:center;flex-wrap:wrap">
+          <div><div style="font-size:1.2rem;font-weight:900;color:var(--warning)">10 pts</div><div style="font-size:0.75rem;color:#92400E">Minor Issue</div></div>
+          <div><div style="font-size:1.2rem;font-weight:900;color:var(--secondary)">30 pts</div><div style="font-size:0.75rem;color:#92400E">Moderate</div></div>
+          <div><div style="font-size:1.2rem;font-weight:900;color:var(--danger)">50 pts</div><div style="font-size:0.75rem;color:#92400E">Critical</div></div>
+        </div>
+      </div>
+
+      <div class="report-layout">
+        <!-- Report Form -->
+        <div id="studentFormWrapper">
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">📋 New Report</span>
+              <span class="badge badge-warning">🏆 Earn up to 50 pts</span>
+            </div>
+
+            <!-- Step Indicator -->
+            <div style="display:flex;align-items:center;gap:0;margin-bottom:28px">
+              <div class="step-ind active" id="step1ind">1</div>
+              <div class="step-line" id="line1"></div>
+              <div class="step-ind" id="step2ind">2</div>
+              <div class="step-line" id="line2"></div>
+              <div class="step-ind" id="step3ind">3</div>
+            </div>
+
+            <!-- Step 1: Photo -->
+            <div id="formStep1">
+              <h4 style="margin-bottom:16px">📸 Step 1: Add a Photo of the Issue</h4>
+
+              <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()"
+                ondragover="event.preventDefault();this.classList.add('drag-over')"
+                ondragleave="this.classList.remove('drag-over')"
+                ondrop="handleDrop(event)">
+                <div class="uz-icon">📷</div>
+                <h4>Click to take/upload a photo</h4>
+                <p>Or drag and drop an image here</p>
+                <p style="font-size:0.75rem;color:var(--gray-light);margin-top:6px">Supports JPG, PNG · Max 10MB</p>
+              </div>
+
+              <div id="imagePreviewBox" style="display:none" class="image-preview mt-16">
+                <img id="previewImg" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="Issue Photo" />
+                <button class="remove-img" onclick="removeImage()">✕</button>
+                <div style="padding:10px;background:var(--bg);display:flex;align-items:center;gap:8px">
+                  <span style="font-size:0.8rem;font-weight:600;color:var(--success)">✓ Photo added</span>
+                  <span id="imgName" style="font-size:0.75rem;color:var(--gray)"></span>
+                </div>
+              </div>
+
+              <!-- Camera Option -->
+              <div style="margin-top:12px;display:flex;gap:10px">
+                <button class="btn btn-outline btn-sm" onclick="document.getElementById('fileInput').click()">
+                  📁 Upload from Gallery
+                </button>
+                <button class="btn btn-ghost btn-sm" onclick="openCamera()">
+                  📷 Use Camera
+                </button>
+              </div>
+              <input type="file" id="fileInput" accept="image/*" style="display:none" onchange="handleFileSelect(this)" />
+              <!-- Camera input -->
+              <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display:none" onchange="handleFileSelect(this)" />
+
+              <div style="margin-top:24px">
+                <button class="btn btn-primary" onclick="goStep(2)" id="step1Next">Next: Pick Category →</button>
+              </div>
+            </div>
+
+            <!-- Step 2: Category & Details -->
+            <div id="formStep2" style="display:none">
+              <h4 style="margin-bottom:16px">🏷️ Step 2: Categorize & Describe</h4>
+
+              <div class="form-group">
+                <label class="form-label">Issue Category <span style="color:var(--danger)">*</span></label>
+                <div class="category-chips" id="categoryChips">
+                  <div class="chip" onclick="selectCategory('Plumbing','💧',30)">💧 Plumbing</div>
+                  <div class="chip" onclick="selectCategory('Electrical','⚡',40)">⚡ Electrical</div>
+                  <div class="chip" onclick="selectCategory('Cleanliness','🧹',20)">🧹 Cleanliness</div>
+                  <div class="chip" onclick="selectCategory('Furniture','🪑',20)">🪑 Furniture</div>
+                  <div class="chip" onclick="selectCategory('Infrastructure','🏗️',40)">🏗️ Infrastructure</div>
+                  <div class="chip" onclick="selectCategory('Safety','🦺',50)">🦺 Safety</div>
+                  <div class="chip" onclick="selectCategory('WiFi/Network','📶',20)">📶 WiFi/Network</div>
+                  <div class="chip" onclick="selectCategory('Water Supply','🚰',30)">🚰 Water Supply</div>
+                  <div class="chip" onclick="selectCategory('Lighting','💡',25)">💡 Lighting</div>
+                  <div class="chip" onclick="selectCategory('Other','❓',10)">❓ Other</div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Severity Level <span style="color:var(--danger)">*</span></label>
+                <div style="display:flex;gap:10px">
+                  <label style="flex:1;padding:10px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;text-align:center;transition:0.2s" id="sev1" onclick="selectSeverity('low',1)">
+                    <input type="radio" name="severity" value="low" style="display:none" />
+                    <div style="font-size:1.2rem">🟢</div>
+                    <div style="font-size:0.78rem;font-weight:600;margin-top:4px">Low<br><small style="color:var(--gray)">+10 pts</small></div>
+                  </label>
+                  <label style="flex:1;padding:10px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;text-align:center;transition:0.2s" id="sev2" onclick="selectSeverity('medium',2)">
+                    <input type="radio" name="severity" value="medium" style="display:none" />
+                    <div style="font-size:1.2rem">🟡</div>
+                    <div style="font-size:0.78rem;font-weight:600;margin-top:4px">Medium<br><small style="color:var(--gray)">+30 pts</small></div>
+                  </label>
+                  <label style="flex:1;padding:10px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;text-align:center;transition:0.2s" id="sev3" onclick="selectSeverity('high',3)">
+                    <input type="radio" name="severity" value="high" style="display:none" />
+                    <div style="font-size:1.2rem">🔴</div>
+                    <div style="font-size:0.78rem;font-weight:600;margin-top:4px">High<br><small style="color:var(--gray)">+50 pts</small></div>
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Location <span style="color:var(--danger)">*</span></label>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                  <select class="form-control" id="building">
+                    <option value="">Select Building</option>
+                    <option>Main Block</option>
+                    <option>CS Building</option>
+                    <option>Science Block</option>
+                    <option>Library</option>
+                    <option>Hostel A</option>
+                    <option>Hostel B</option>
+                    <option>Canteen</option>
+                    <option>Sports Complex</option>
+                    <option>Admin Block</option>
+                    <option>Parking Area</option>
+                  </select>
+                  <input type="text" class="form-control" id="locationDetail" placeholder="e.g., Ground Floor, Washroom 1" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Describe the Issue <span style="color:var(--danger)">*</span></label>
+                <textarea class="form-control" id="issueDesc" rows="4" maxlength="300"
+                  placeholder="Describe the issue in 2-3 sentences. e.g., 'The tap near the ground floor washroom of CS block has been leaking for 3 days. Water is accumulating on the floor creating a slip hazard.'"
+                  oninput="updateCharCount()"></textarea>
+                <div style="display:flex;justify-content:space-between;margin-top:4px">
+                  <span id="charCount" style="font-size:0.75rem;color:var(--gray)">0/300 characters</span>
+                  <span style="font-size:0.75rem;color:var(--gray)">Min. 20 characters required</span>
+                </div>
+              </div>
+
+              <div style="display:flex;gap:10px;margin-top:8px">
+                <button class="btn btn-ghost" onclick="goStep(1)">← Back</button>
+                <button class="btn btn-primary" onclick="goStep(3)">Preview & Submit →</button>
+              </div>
+            </div>
+
+            <!-- Step 3: Preview -->
+            <div id="formStep3" style="display:none">
+              <h4 style="margin-bottom:20px">👁️ Step 3: Review & Submit</h4>
+
+              <div style="background:var(--bg);border-radius:var(--radius);padding:20px;margin-bottom:20px;border:1px solid var(--border)">
+                <div id="previewContent"></div>
+              </div>
+
+              <div style="background:linear-gradient(135deg,#FEF3C7,#FDE68A);border-radius:var(--radius);padding:16px;margin-bottom:20px;text-align:center;border:1px solid #FCD34D">
+                <div style="font-size:0.9rem;color:#92400E;font-weight:600">You'll earn</div>
+                <div style="font-size:2.5rem;font-weight:900;color:var(--warning)" id="previewPoints">0</div>
+                <div style="font-size:0.85rem;color:#A16207">Governance Points for this report</div>
+              </div>
+
+              <div style="display:flex;gap:10px">
+                <button class="btn btn-ghost" onclick="goStep(2)">← Edit</button>
+                <button class="btn btn-primary flex-1 btn-lg" onclick="submitReport()">🚨 Submit Report & Earn Points</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Panel -->
+        <div>
+          <!-- Points Card -->
+          <div class="points-card mb-16">
+            <div class="p-icon">🏆</div>
+            <div class="p-title">Your Governance Points</div>
+            <div class="p-big points-display">120</div>
+            <div class="p-sub">Keep reporting to climb the leaderboard!</div>
+            <div style="margin-top:12px;background:rgba(255,255,255,0.6);border-radius:8px;padding:10px">
+              <div style="font-size:0.8rem;font-weight:700;color:#92400E">Rank #12 of 450 students</div>
+              <div class="progress mt-6" style="background:rgba(255,255,255,0.5)">
+                <div class="progress-bar" style="width:27%;background:#D97706"></div>
+              </div>
+              <div style="font-size:0.72rem;color:#A16207;margin-top:4px">310 pts to reach Rank #3</div>
+            </div>
+          </div>
+
+          <!-- Points Guide -->
+          <div class="card mb-16" id="pointsGuideCard">
+            <div class="card-header"><span class="card-title">💡 Points Guide</span></div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:8px;background:var(--bg);border-radius:8px;font-size:0.82rem">
+                <span>💧 Plumbing / Water Issue</span>
+                <span class="badge badge-warning">+30 pts</span>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:8px;background:var(--bg);border-radius:8px;font-size:0.82rem">
+                <span>⚡ Electrical Hazard</span>
+                <span class="badge badge-danger">+40 pts</span>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:8px;background:var(--bg);border-radius:8px;font-size:0.82rem">
+                <span>🦺 Safety Issue</span>
+                <span class="badge badge-danger">+50 pts</span>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:8px;background:var(--bg);border-radius:8px;font-size:0.82rem">
+                <span>🧹 Cleanliness</span>
+                <span class="badge badge-success">+20 pts</span>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:8px;background:var(--bg);border-radius:8px;font-size:0.82rem">
+                <span>🪑 Furniture / Infra</span>
+                <span class="badge badge-primary">+20–40 pts</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- My Reports -->
+          <div class="card" id="reportsListCard">
+            <div class="card-header">
+              <span class="card-title" id="reportsListTitle">📋 My Reports</span>
+              <span class="badge badge-gray" id="reportCount">0</span>
+            </div>
+            <div class="reports-list" id="myReportsList"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Points Earned Modal -->
+<div class="modal-overlay" id="pointsModal">
+  <div class="modal" style="text-align:center">
+    <div style="font-size:5rem;margin-bottom:8px;animation:bounce 1s infinite">🏆</div>
+    <h2 style="margin-bottom:8px">Issue Reported!</h2>
+    <p style="color:var(--gray);margin-bottom:20px">Your report has been submitted. The maintenance team will review it.</p>
+    <div style="background:linear-gradient(135deg,#FEF3C7,#FDE68A);border-radius:var(--radius);padding:20px;margin-bottom:20px;border:1px solid #FCD34D">
+      <div style="font-size:0.9rem;color:#92400E;font-weight:600">You earned</div>
+      <div style="font-size:3.5rem;font-weight:900;color:var(--warning);animation:count-in 0.5s ease" id="earnedPts">+30 pts</div>
+      <div style="font-size:0.85rem;color:#A16207">Governance Points</div>
+    </div>
+    <div style="background:var(--bg);border-radius:var(--radius);padding:14px;margin-bottom:20px;text-align:left">
+      <div style="display:flex;justify-content:space-between;font-size:0.85rem;margin-bottom:6px">
+        <span style="color:var(--gray)">Report ID</span>
+        <span style="font-weight:700" id="reportId">#RPT001</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:0.85rem">
+        <span style="color:var(--gray)">Status</span>
+        <span class="badge badge-warning">⏳ Under Review</span>
+      </div>
+    </div>
+    <button class="btn btn-primary btn-block btn-lg" onclick="closeModal('pointsModal');resetForm()">Continue Reporting 🚨</button>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+
+<style>
+.step-ind {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--border); color: var(--gray);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem; font-weight: 800; flex-shrink: 0;
+  transition: all 0.3s;
+}
+.step-ind.active { background: var(--primary); color: white; box-shadow: 0 0 0 4px rgba(91,79,233,0.15); }
+.step-ind.done { background: var(--success); color: white; }
+.step-line { flex: 1; height: 2px; background: var(--border); transition: background 0.3s; }
+.step-line.done { background: var(--success); }
+@keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+@keyframes count-in { from{transform:scale(0.5);opacity:0} to{transform:scale(1);opacity:1} }
+</style>
+
+<script src="../js/main.js"></script>
+<script type="module" src="../js/auth-guard.js"></script>
+<script type="module">
+  import { initAuthGuard } from '../js/auth-guard.js';
+  import { IssueService } from '../../backend/services/IssueService.js';
+  import { UiState } from '../js/UiState.js';
+
+  initAuthGuard();
+
+  // Expose services to the legacy DOM inline scripts
+  window.IssueService = IssueService;
+  window.UiState = UiState;
+  
+  // Clean up legacy UI initialization rendering
+  window.addEventListener('verdexDataReady', () => {
+    if(window.renderMyReports) window.renderMyReports();
+  });
+
+  // Future Staff Action Hooks
+  window.verdeResolveIssue = (id) => {
+    alert("Functionality migrating to IssueService.js shortly.");
+  };
+  
+  window.verdeVerifyIssue = (id) => {
+    alert("Functionality migrating to IssueService.js shortly.");
+  };
+</script>
+<script>
+let selectedCategory = null;
+let selectedCategoryPts = 0;
+let selectedSeverity = null;
+let selectedSevPts = 0;
+let uploadedImage = null;
+let currentStep = 1;
+
+// Existing reports
+const existingReports = [
+  { emoji:'💧', title:'Leaking Tap — CS Block GF', desc:'Running tap in ground floor washroom', status:'resolved', pts:30, date:'Mar 22' },
+  { emoji:'💡', title:'Broken Light — Library', desc:'Tube light not working near reference section', status:'pending', pts:20, date:'Mar 18' },
+  { emoji:'🪑', title:'Broken Chair — Room CS-101', desc:'Chair in classroom missing backrest', status:'in-review', pts:20, date:'Mar 10' },
+];
+
+function renderMyReports() {
+  const isStaff = window.StudentData && window.StudentData.role === 'staff';
+  
+  if (isStaff) {
+    document.getElementById('studentFormWrapper').style.display = 'none';
+    document.getElementById('pointsGuideCard').style.display = 'none';
+    document.querySelector('.topbar-points').style.display = 'none';
+    const ptsCard = document.querySelector('.points-card');
+    if (ptsCard) ptsCard.style.display = 'none';
+    
+    document.getElementById('reportsListTitle').textContent = '🛠️ Assigned Tasks (All Open)';
+    document.querySelector('.report-layout').style.gridTemplateColumns = '1fr';
+  } else {
+    document.getElementById('reportsListTitle').textContent = '📋 My Reports';
+  }
+
+  // Ensure window.mockDb is populated if called from non-module context
+  if (!window.mockDbInstance) return;
+  
+  const allIssues = window.mockDbInstance.getAllIssues();
+  
+  // Role-based filtering
+  let displayIssues = [];
+  if (isStaff) {
+    displayIssues = allIssues.filter(i => i.status !== 'verified'); // Staff sees all active tasks
+  } else {
+    displayIssues = allIssues; // In a real app we'd filter by i.reportedBy == user.uid
+  }
+
+  document.getElementById('reportCount').textContent = displayIssues.length;
+
+  document.getElementById('myReportsList').innerHTML = displayIssues.map(r => {
+    let actionBtn = '';
+    if (isStaff && r.status === 'open') {
+      actionBtn = `<button class="badge badge-primary" style="cursor:pointer;border:none;margin-top:8px" onclick="window.verdeResolveIssue('${r.id}')">Upload Fix / Resolve</button>`;
+    } else if (!isStaff && r.status === 'resolved') {
+      actionBtn = `<button class="badge badge-success" style="cursor:pointer;border:none;margin-top:8px" onclick="window.verdeVerifyIssue('${r.id}')">Verify AI Proof</button>`;
+    }
+
+    return `
+      <div class="report-item" style="display:flex;flex-direction:column;align-items:flex-start">
+        <div style="display:flex;width:100%;gap:12px;">
+          <div class="report-img">🚨</div>
+          <div class="report-content" style="flex:1">
+            <div class="r-title" style="word-break:break-all">${r.type.toUpperCase()} — ${r.location}</div>
+            <div class="r-desc">${r.description.substring(0,60)}...</div>
+            <div class="r-meta" style="margin-top:6px;display:flex;gap:8px;flex-wrap:wrap">
+              <span class="badge ${r.status==='resolved'?'badge-warning':r.status==='verified'?'badge-success':'badge-primary'}">
+                ${r.status==='resolved'?'⚖️ Evaluating':r.status==='verified'?'✓ Closed':'🚨 Open'}
+              </span>
+              <span class="report-pts" style="font-weight:700">Severity: ${r.severity}</span>
+              <span style="color:var(--gray-light)">${new Date(r.createdAt).toLocaleDateString()}</span>
+            </div>
+          </div>
+        </div>
+        ${actionBtn}
+      </div>
+    `;
+  }).join('');
+}
+
+window.renderMyReports = renderMyReports;
+
+function handleFileSelect(input) {
+  const file = input.files[0];
+  if (!file) return;
+  if (file.size > 10 * 1024 * 1024) { showToast('File too large! Max 10MB','error'); return; }
+  const reader = new FileReader();
+  reader.onload = e => {
+    uploadedImage = e.target.result;
+    showImagePreview(uploadedImage, file.name);
+  };
+  reader.readAsDataURL(file);
+}
+
+function handleDrop(e) {
+  e.preventDefault();
+  document.getElementById('uploadZone').classList.remove('drag-over');
+  const file = e.dataTransfer.files[0];
+  if (!file || !file.type.startsWith('image/')) { showToast('Please drop an image file','error'); return; }
+  const reader = new FileReader();
+  reader.onload = ev => { uploadedImage = ev.target.result; showImagePreview(ev.target.result, file.name); };
+  reader.readAsDataURL(file);
+}
+
+function showImagePreview(src, name) {
+  document.getElementById('uploadZone').style.display = 'none';
+  document.getElementById('imagePreviewBox').style.display = 'block';
+  document.getElementById('previewImg').src = src;
+  document.getElementById('imgName').textContent = name;
+}
+
+function removeImage() {
+  uploadedImage = null;
+  document.getElementById('uploadZone').style.display = 'block';
+  document.getElementById('imagePreviewBox').style.display = 'none';
+  document.getElementById('fileInput').value = '';
+}
+
+function openCamera() { document.getElementById('cameraInput').click(); }
+
+function selectCategory(name, emoji, pts) {
+  document.querySelectorAll('#categoryChips .chip').forEach(c => c.classList.remove('selected'));
+  event.target.closest('.chip').classList.add('selected');
+  selectedCategory = name; selectedCategoryEmoji = emoji; selectedCategoryPts = pts;
+}
+
+function selectSeverity(level, n) {
+  [1,2,3].forEach(i => {
+    const el = document.getElementById('sev'+i);
+    el.style.borderColor = i===n ? 'var(--primary)' : 'var(--border)';
+    el.style.background = i===n ? 'var(--primary-light)' : '';
+  });
+  selectedSeverity = level;
+  const ptsMap = { low:10, medium:30, high:50 };
+  selectedSevPts = ptsMap[level];
+}
+
+function updateCharCount() {
+  const len = document.getElementById('issueDesc').value.length;
+  document.getElementById('charCount').textContent = `${len}/300 characters`;
+}
+
+function goStep(n) {
+  // Validate
+  if (n === 2) {
+    // No photo required but warn
+    if (!uploadedImage) { showToast('Adding a photo helps get faster resolution! (optional)','warning'); }
+  }
+  if (n === 3) {
+    if (!selectedCategory) { showToast('Please select a category!','error'); return; }
+    if (!selectedSeverity) { showToast('Please select severity level!','error'); return; }
+    const building = document.getElementById('building').value;
+    if (!building) { showToast('Please select a building!','error'); return; }
+    const desc = document.getElementById('issueDesc').value;
+    if (desc.length < 20) { showToast('Please add a description (min 20 characters)!','error'); return; }
+    buildPreview();
+  }
+  // Update steps
+  [1,2,3].forEach(i => {
+    document.getElementById('formStep'+i).style.display = i===n ? 'block' : 'none';
+    const ind = document.getElementById('step'+i+'ind');
+    if (i < n) { ind.classList.remove('active'); ind.classList.add('done'); ind.textContent = '✓'; }
+    else if (i === n) { ind.classList.add('active'); ind.classList.remove('done'); ind.textContent = i; }
+    else { ind.classList.remove('active','done'); ind.textContent = i; }
+    if (i < n) document.getElementById('line'+i) && (document.getElementById('line'+i).classList.add('done'));
+    if (i >= n && document.getElementById('line'+i)) document.getElementById('line'+i).classList.remove('done');
+  });
+  currentStep = n;
+}
+
+function buildPreview() {
+  const desc = document.getElementById('issueDesc').value;
+  const building = document.getElementById('building').value;
+  const locationDetail = document.getElementById('locationDetail').value;
+  const totalPts = selectedCategoryPts + selectedSevPts;
+  document.getElementById('previewPoints').textContent = totalPts;
+  document.getElementById('previewContent').innerHTML = `
+    ${uploadedImage ? `<img src="${uploadedImage}" style="width:100%;height:160px;object-fit:cover;border-radius:8px;margin-bottom:16px" />` : '<div style="height:60px;background:var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:0.85rem;color:var(--gray);margin-bottom:16px">No photo uploaded</div>'}
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+      <div style="background:white;border-radius:8px;padding:10px;border:1px solid var(--border)">
+        <div style="font-size:0.72rem;color:var(--gray);font-weight:600">CATEGORY</div>
+        <div style="font-size:0.9rem;font-weight:700;margin-top:4px">${selectedCategoryEmoji} ${selectedCategory}</div>
+      </div>
+      <div style="background:white;border-radius:8px;padding:10px;border:1px solid var(--border)">
+        <div style="font-size:0.72rem;color:var(--gray);font-weight:600">SEVERITY</div>
+        <div style="font-size:0.9rem;font-weight:700;margin-top:4px">${selectedSeverity==='low'?'🟢 Low':selectedSeverity==='medium'?'🟡 Medium':'🔴 High'}</div>
+      </div>
+    </div>
+    <div style="background:white;border-radius:8px;padding:10px;border:1px solid var(--border);margin-bottom:12px">
+      <div style="font-size:0.72rem;color:var(--gray);font-weight:600">LOCATION</div>
+      <div style="font-size:0.9rem;font-weight:700;margin-top:4px">📍 ${building}${locationDetail ? ' — ' + locationDetail : ''}</div>
+    </div>
+    <div style="background:white;border-radius:8px;padding:10px;border:1px solid var(--border)">
+      <div style="font-size:0.72rem;color:var(--gray);font-weight:600">DESCRIPTION</div>
+      <div style="font-size:0.85rem;margin-top:4px;line-height:1.6">${desc}</div>
+    </div>
+  `;
+}
+
+async function submitReport() {
+  const submitBtn = document.querySelector('#formStep3 .btn-primary');
+  if(window.UiState) window.UiState.setLoading(submitBtn, true);
+
+  const totalPts = selectedCategoryPts + selectedSevPts;
+  const desc = document.getElementById('issueDesc').value;
+  const building = document.getElementById('building').value;
+  const locationDetail = document.getElementById('locationDetail').value;
+
+  const payload = {
+    reporterId: window.StudentData?.uid || 'anon-student',
+    category: selectedCategory,
+    severity: selectedSeverity,
+    location: `${building} — ${locationDetail}`,
+    description: desc,
+    image: uploadedImage
+  };
+
+  // Natively interface with Firebase via Service Layer
+  let result = { success: true, ref: '#RPT' + Math.floor(Math.random()*9000+1000) };
+  if(window.IssueService) {
+    result = await window.IssueService.submitIssue(payload);
+  } else {
+    console.warn("IssueService not detected, relying on mocked fallback for presentation.");
+  }
+
+  if(window.UiState) window.UiState.setLoading(submitBtn, false);
+
+  if (result.success) {
+    // Show modal using native DB reference ID
+    document.getElementById('earnedPts').textContent = '+' + totalPts + ' pts';
+    document.getElementById('reportId').textContent = result.ref;
+    openModal('pointsModal');
+    
+    // Add Points locally for UI snap
+    if(window.PointsManager) window.PointsManager.addPoints(totalPts, '');
+    renderMyReports();
+  }
+}
+
+function resetForm() {
+  goStep(1);
+  removeImage();
+  selectedCategory = null; selectedSeverity = null;
+  document.querySelectorAll('#categoryChips .chip').forEach(c=>c.classList.remove('selected'));
+  [1,2,3].forEach(i=>{
+    const el = document.getElementById('sev'+i);
+    if(el){el.style.borderColor='';el.style.background='';}
+  });
+  document.getElementById('building').value='';
+  document.getElementById('locationDetail').value='';
+  document.getElementById('issueDesc').value='';
+  document.getElementById('charCount').textContent='0/300 characters';
+}
+
+renderMyReports();
+</script>
+</body>
+</html>

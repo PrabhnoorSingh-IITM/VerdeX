@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Timetable — CampusOne</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/app.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+</head>
+<body>
+<div class="app-wrapper">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">C<span style="font-size:0.7rem">1</span></div>
+      <div class="logo-text">Campus<span>One</span></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a href="dashboard.html" class="nav-item"><span class="nav-icon">🏠</span> Dashboard</a>
+      <a href="canteen.html" class="nav-item"><span class="nav-icon">🍽️</span> Canteen <span class="nav-badge cart-badge" style="display:none">0</span></a>
+      <a href="attendance.html" class="nav-item"><span class="nav-icon">📊</span> Attendance</a>
+      <a href="fees.html" class="nav-item"><span class="nav-icon">💰</span> Fees & Payments</a>
+      <div class="nav-section-label" style="margin-top:12px">Schedule</div>
+      <a href="timetable.html" class="nav-item active"><span class="nav-icon">🕐</span> Timetable</a>
+      <a href="calendar.html" class="nav-item"><span class="nav-icon">📅</span> Calendar</a>
+      <div class="nav-section-label" style="margin-top:12px">Governance</div>
+      <a href="report-issue.html" class="nav-item"><span class="nav-icon">🚨</span> Report Issue</a>
+    </nav>
+    <div class="sidebar-user">
+      <div class="avatar sidebar-user-avatar">AS</div>
+      <div class="user-info">
+        <div class="name sidebar-user-name">Arjun Sharma</div>
+        <div class="role sidebar-user-role">CS2021047</div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="main-content">
+    <header class="topbar">
+      <div class="topbar-left flex gap-16">
+        <button class="hamburger" id="hamburger">☰</button>
+        <div>
+          <h2>🕐 Timetable</h2>
+          <p>B.Tech CS — Semester 6</p>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="topbar-points">🏆 <span class="points-display">120</span> pts</div>
+        <button class="btn btn-sm btn-ghost" onclick="showToast('Timetable exported!','success')">⬇ Export</button>
+      </div>
+    </header>
+
+    <div class="page-content">
+      <!-- Today's Highlight -->
+      <div id="todayBanner"></div>
+
+      <!-- View Toggle -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-sm btn-primary" id="weekViewBtn" onclick="setView('week')">📅 Week View</button>
+          <button class="btn btn-sm btn-ghost" id="dayViewBtn" onclick="setView('day')">☀️ Day View</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="display:flex;gap:10px;flex-wrap:wrap;font-size:0.78rem">
+            <span style="display:flex;align-items:center;gap:5px"><span style="width:12px;height:12px;border-radius:3px;background:var(--primary-light);border-left:3px solid var(--primary);display:inline-block"></span>Lecture</span>
+            <span style="display:flex;align-items:center;gap:5px"><span style="width:12px;height:12px;border-radius:3px;background:#D1FAE5;border-left:3px solid var(--success);display:inline-block"></span>Lab</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Week View -->
+      <div id="weekView">
+        <div class="card p-0">
+          <div class="timetable-grid">
+            <table class="tt-table" id="ttTable"></table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Day View -->
+      <div id="dayView" style="display:none">
+        <div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap" id="dayTabs"></div>
+        <div class="card" id="dayContent"></div>
+      </div>
+
+      <!-- Faculty Info -->
+      <div class="card mt-24">
+        <div class="card-header">
+          <span class="card-title">👨‍🏫 Faculty Directory</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px" id="facultyGrid"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+<script src="../js/main.js"></script>
+<script>
+const days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const today = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][new Date().getDay()];
+const tt = StudentData.timetable;
+
+// Color slots
+function slotColor(subject) {
+  if (subject.includes('Lab')) return { bg:'#D1FAE5', border:'var(--success)' };
+  return { bg:'var(--primary-light)', border:'var(--primary)' };
+}
+
+// Build week view
+function buildWeekView() {
+  // Collect all unique times
+  const allTimes = new Set();
+  days.forEach(d => (tt[d]||[]).forEach(c => allTimes.add(c.time)));
+  const times = Array.from(allTimes).sort();
+
+  const thead = `<thead><tr>
+    <th>Time</th>
+    ${days.map(d => `<th style="${d===today?'background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white':''}">${d} ${d===today?'<br><small style="font-weight:500;font-size:0.7rem">Today</small>':''}</th>`).join('')}
+  </tr></thead>`;
+
+  const tbody = `<tbody>${times.map(time => `
+    <tr>
+      <td class="tt-time">${time}</td>
+      ${days.map(d => {
+        const slot = (tt[d]||[]).find(c => c.time === time);
+        if (!slot) return '<td></td>';
+        const col = slotColor(slot.subject);
+        return `<td>
+          <div class="tt-slot" style="background:${col.bg};border-left-color:${col.border}">
+            <div class="slot-sub">${slot.subject}</div>
+            <div class="slot-meta">${slot.room} · ${slot.faculty.split(' ').slice(-1)[0]}</div>
+          </div>
+        </td>`;
+      }).join('')}
+    </tr>
+  `).join('')}</tbody>`;
+
+  document.getElementById('ttTable').innerHTML = thead + tbody;
+}
+
+// Day view
+function buildDayView() {
+  const tabs = document.getElementById('dayTabs');
+  tabs.innerHTML = days.map(d => `
+    <button class="btn btn-sm ${d===today?'btn-primary':'btn-ghost'}" onclick="showDay('${d}',this)">${d.slice(0,3)}</button>
+  `).join('');
+  showDay(today, tabs.querySelector('.btn-primary') || tabs.querySelector('.btn'));
+}
+
+function showDay(day, btn) {
+  document.querySelectorAll('#dayTabs .btn').forEach(b=>{ b.className = 'btn btn-sm btn-ghost'; });
+  if(btn) btn.className = 'btn btn-sm btn-primary';
+  const classes = tt[day] || [];
+  const content = document.getElementById('dayContent');
+  if (classes.length === 0) {
+    content.innerHTML = '<div style="text-align:center;padding:40px;color:var(--gray)">🎉 No classes today!</div>';
+    return;
+  }
+  content.innerHTML = `
+    <h4 style="margin-bottom:20px">${day}'s Schedule</h4>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      ${classes.map(c => {
+        const col = slotColor(c.subject);
+        return `
+          <div style="display:flex;gap:16px;align-items:center;padding:16px;background:${col.bg};border-radius:10px;border-left:4px solid ${col.border}">
+            <div style="min-width:120px">
+              <div style="font-size:0.8rem;font-weight:700;color:var(--gray)">${c.time}</div>
+            </div>
+            <div style="flex:1">
+              <div style="font-size:1rem;font-weight:800">${c.subject}</div>
+              <div style="font-size:0.8rem;color:var(--gray);margin-top:3px">👨‍🏫 ${c.faculty}</div>
+            </div>
+            <div style="text-align:right">
+              <div style="font-size:0.85rem;font-weight:700">📍 ${c.room}</div>
+            </div>
+          </div>
+        `;
+      }).join('')}
+    </div>
+  `;
+}
+
+// Today banner
+function buildTodayBanner() {
+  const classes = tt[today] || [];
+  const banner = document.getElementById('todayBanner');
+  if (classes.length === 0) {
+    banner.innerHTML = '<div style="background:linear-gradient(135deg,#D1FAE5,#A7F3D0);border-radius:var(--radius);padding:14px 20px;margin-bottom:20px;font-size:0.9rem;font-weight:600;color:var(--success)">🎉 No classes today! Have a great day.</div>';
+  } else {
+    const next = classes.find(c => c.time > new Date().toLocaleTimeString('en-US',{hour12:false,hour:'2-digit',minute:'2-digit'}));
+    const info = next ? next : classes[0];
+    banner.innerHTML = `
+      <div style="background:linear-gradient(135deg,var(--primary),var(--primary-dark));border-radius:var(--radius);padding:16px 24px;margin-bottom:20px;color:white;display:flex;align-items:center;gap:16px">
+        <span style="font-size:2rem">📚</span>
+        <div>
+          <div style="font-size:0.8rem;opacity:0.8">${next?'Next Class':'First Class'} Today (${today})</div>
+          <div style="font-size:1.1rem;font-weight:800">${info.subject}</div>
+          <div style="font-size:0.85rem;opacity:0.85">${info.time} · ${info.room} · ${info.faculty}</div>
+        </div>
+        <div style="margin-left:auto;text-align:right">
+          <div style="font-size:0.8rem;opacity:0.8">Total Classes</div>
+          <div style="font-size:1.5rem;font-weight:900">${classes.length}</div>
+        </div>
+      </div>
+    `;
+  }
+}
+
+// Faculty grid
+const faculties = [
+  { name:'Dr. R. Verma', subjects:'Data Structures', room:'CS-101', email:'rverma@college.edu' },
+  { name:'Prof. A. Kumar', subjects:'Operating Systems', room:'CS-102', email:'akumar@college.edu' },
+  { name:'Dr. S. Patel', subjects:'DBMS', room:'CS-201', email:'spatel@college.edu' },
+  { name:'Prof. K. Rao', subjects:'Computer Networks', room:'CS-103', email:'krao@college.edu' },
+  { name:'Dr. M. Singh', subjects:'Machine Learning', room:'CS-201', email:'msingh@college.edu' },
+  { name:'Prof. L. Nair', subjects:'Software Engineering', room:'CS-301', email:'lnair@college.edu' },
+];
+document.getElementById('facultyGrid').innerHTML = faculties.map(f => `
+  <div style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--bg);border-radius:10px">
+    <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.85rem;flex-shrink:0">
+      ${f.name.split(' ').map(n=>n[0]).slice(0,2).join('')}
+    </div>
+    <div>
+      <div style="font-size:0.875rem;font-weight:700">${f.name}</div>
+      <div style="font-size:0.75rem;color:var(--primary)">${f.subjects}</div>
+      <div style="font-size:0.72rem;color:var(--gray)">${f.email}</div>
+    </div>
+  </div>
+`).join('');
+
+let currentView = 'week';
+function setView(v) {
+  currentView = v;
+  document.getElementById('weekView').style.display = v==='week'?'block':'none';
+  document.getElementById('dayView').style.display = v==='day'?'block':'none';
+  document.getElementById('weekViewBtn').className = `btn btn-sm ${v==='week'?'btn-primary':'btn-ghost'}`;
+  document.getElementById('dayViewBtn').className = `btn btn-sm ${v==='day'?'btn-primary':'btn-ghost'}`;
+}
+
+buildWeekView();
+buildDayView();
+buildTodayBanner();
+</script>
+<script type="module" src="../js/auth-guard.js"></script>
+<script type="module">
+  import { db as mockDb, STATUS } from '../../backend/db.js';
+  import { calculateCampusScore } from '../../backend/engine.js';
+  import { initAuthGuard } from '../js/auth-guard.js';
+
+  initAuthGuard();
+
+  function updateGovernanceScore() {
+    const issues = mockDb.getAllIssues();
+    const resolved = issues.filter(i => i.status === STATUS.VERIFIED_CLOSED);
+    const score = calculateCampusScore(resolved, issues);
+    document.querySelectorAll('.points-display').forEach(el => {
+      el.textContent = Math.round(score);
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', updateGovernanceScore);
+  window.addEventListener('userAuthenticated', updateGovernanceScore);
+  window.addEventListener('verdexDataReady', updateGovernanceScore);
+</script>
+</body>
+</html>

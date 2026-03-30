@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Attendance — CampusOne</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/app.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+</head>
+<body>
+<div class="app-wrapper">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">C<span style="font-size:0.7rem">1</span></div>
+      <div class="logo-text">Campus<span>One</span></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a href="dashboard.html" class="nav-item"><span class="nav-icon">🏠</span> Dashboard</a>
+      <a href="canteen.html" class="nav-item"><span class="nav-icon">🍽️</span> Canteen <span class="nav-badge cart-badge" style="display:none">0</span></a>
+      <a href="attendance.html" class="nav-item active"><span class="nav-icon">📊</span> Attendance</a>
+      <a href="fees.html" class="nav-item"><span class="nav-icon">💰</span> Fees & Payments</a>
+      <div class="nav-section-label" style="margin-top:12px">Schedule</div>
+      <a href="timetable.html" class="nav-item"><span class="nav-icon">🕐</span> Timetable</a>
+      <a href="calendar.html" class="nav-item"><span class="nav-icon">📅</span> Calendar</a>
+      <div class="nav-section-label" style="margin-top:12px">Governance</div>
+      <a href="report-issue.html" class="nav-item"><span class="nav-icon">🚨</span> Report Issue</a>
+    </nav>
+    <div class="sidebar-user">
+      <div class="avatar sidebar-user-avatar">AS</div>
+      <div class="user-info">
+        <div class="name sidebar-user-name">Arjun Sharma</div>
+        <div class="role sidebar-user-role">CS2021047</div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="main-content">
+    <header class="topbar">
+      <div class="topbar-left flex gap-16">
+        <button class="hamburger" id="hamburger">☰</button>
+        <div>
+          <h2>📊 Attendance</h2>
+          <p>Semester 6 — Computer Science</p>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="topbar-points">🏆 <span class="points-display">120</span> pts</div>
+        <button id="syncAttBtn" class="btn btn-sm btn-outline" onclick="window.syncAttendanceToDB()">🔄 Sync</button>
+      </div>
+    </header>
+
+    <div class="page-content">
+      <div id="studentAttendanceView">
+      <!-- Alert Banner -->
+      <div id="attAlert" style="background:linear-gradient(135deg,#FEE2E2,#FECACA);border-radius:var(--radius);padding:14px 20px;display:flex;align-items:center;gap:12px;margin-bottom:20px;border:1px solid #FCA5A5">
+        <span style="font-size:1.5rem">⚠️</span>
+        <div>
+          <strong style="color:#991B1B">Attendance Warning!</strong>
+          <p style="font-size:0.85rem;color:#B91C1C;margin-top:2px">
+            <strong>Computer Networks</strong> (66%) and <strong>Operating Systems</strong> (70%) are below or near the 75% threshold.
+            You need to attend more classes to avoid detention.
+          </p>
+        </div>
+      </div>
+
+      <!-- Overview -->
+      <div class="attendance-overview">
+        <!-- Circle Progress -->
+        <div class="card" style="display:flex;align-items:center;justify-content:center;padding:32px">
+          <div style="text-align:center">
+            <div class="circle-prog" style="margin:0 auto 16px">
+              <svg width="160" height="160" viewBox="0 0 160 160">
+                <circle class="circle-bg" cx="80" cy="80" r="68"/>
+                <circle class="circle-fill" id="overallCircle" cx="80" cy="80" r="68"
+                  stroke="var(--warning)"
+                  stroke-dasharray="427.26"
+                  stroke-dashoffset="427.26"/>
+              </svg>
+              <div class="circle-text">
+                <span class="pct" style="color:var(--warning)" id="overallPct">0%</span>
+                <span class="lbl">Overall</span>
+              </div>
+            </div>
+            <div style="font-size:0.95rem;font-weight:700;margin-bottom:4px">Overall Attendance</div>
+            <div style="font-size:0.8rem;color:var(--gray)">Minimum required: 75%</div>
+            <div class="mt-16" style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+              <div style="background:var(--bg);border-radius:8px;padding:12px;text-align:center">
+                <div style="font-size:1.2rem;font-weight:800;color:var(--success)" id="presentCount">0</div>
+                <div style="font-size:0.75rem;color:var(--gray)">Classes Attended</div>
+              </div>
+              <div style="background:var(--bg);border-radius:8px;padding:12px;text-align:center">
+                <div style="font-size:1.2rem;font-weight:800;color:var(--danger)" id="absentCount">0</div>
+                <div style="font-size:0.75rem;color:var(--gray)">Classes Missed</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Subject Breakdown -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Subject-wise Breakdown</span>
+            <div class="flex gap-8">
+              <span class="badge badge-success">✓ Safe</span>
+              <span class="badge badge-warning">⚠ Low</span>
+              <span class="badge badge-danger">✗ Risk</span>
+            </div>
+          </div>
+          <div class="attendance-header">
+            <span>Subject</span>
+            <span style="text-align:center">Present</span>
+            <span style="text-align:center">Total</span>
+            <span style="text-align:center">%</span>
+          </div>
+          <div id="subjectRows"></div>
+        </div>
+      </div>
+
+      <!-- Detailed Cards -->
+      <div class="section-header">
+        <h3>Subject Details</h3>
+        <p>Click on a subject to see detailed attendance history</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px" id="subjectCards"></div>
+
+      <!-- Monthly Heatmap -->
+      <div class="card mt-24">
+        <div class="card-header">
+          <span class="card-title">📅 March 2026 — Attendance Heatmap</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;max-width:500px">
+          <div style="text-align:center;font-size:0.7rem;font-weight:700;color:var(--gray)">M</div>
+          <div style="text-align:center;font-size:0.7rem;font-weight:700;color:var(--gray)">T</div>
+          <div style="text-align:center;font-size:0.7rem;font-weight:700;color:var(--gray)">W</div>
+          <div style="text-align:center;font-size:0.7rem;font-weight:700;color:var(--gray)">T</div>
+          <div style="text-align:center;font-size:0.7rem;font-weight:700;color:var(--gray)">F</div>
+          <div style="text-align:center;font-size:0.7rem;font-weight:700;color:var(--gray)">S</div>
+          <div style="text-align:center;font-size:0.7rem;font-weight:700;color:var(--gray)">S</div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div style="aspect-ratio:1;border-radius:4px;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:0.65rem;color:var(--gray)">2</div>
+          <div id="heatmap"></div>
+        </div>
+        <div class="flex gap-16 mt-12" style="font-size:0.75rem;color:var(--gray);align-items:center">
+          <div style="display:flex;align-items:center;gap:6px"><div style="width:14px;height:14px;border-radius:3px;background:#D1FAE5"></div> Present</div>
+          <div style="display:flex;align-items:center;gap:6px"><div style="width:14px;height:14px;border-radius:3px;background:#FEE2E2"></div> Absent</div>
+          <div style="display:flex;align-items:center;gap:6px"><div style="width:14px;height:14px;border-radius:3px;background:#FEF3C7"></div> Holiday</div>
+          <div style="display:flex;align-items:center;gap:6px"><div style="width:14px;height:14px;border-radius:3px;background:var(--border)"></div> No Class</div>
+        </div>
+      </div>
+      </div>
+
+      <!-- Faculty Attendance View -->
+      <div id="facultyAttendanceView" style="display:none">
+        
+        <div class="card mb-24">
+          <div class="card-header border-b pb-12">
+            <span class="card-title">👨‍🏫 Today's Attendance Session</span>
+            <span class="badge badge-primary" id="facDateBadge">March 27, 2026</span>
+          </div>
+          
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;padding:20px 0 0 0">
+            <!-- Upload Zone -->
+            <div class="upload-zone" id="csvUploadZone" onclick="document.getElementById('csvFileInput').click()"
+                ondragover="event.preventDefault();this.classList.add('drag-over')"
+                ondragleave="this.classList.remove('drag-over')"
+                ondrop="window.handleCsvDrop(event)">
+                <div class="uz-icon">📁</div>
+                <h4>Upload Attendance CSV File</h4>
+                <p>Drag & Drop your .csv file here</p>
+            </div>
+            <input type="file" id="csvFileInput" accept=".csv" style="display:none" onchange="window.handleCsvSelect(this)" />
+            
+            <!-- Quick Actions -->
+            <div style="background:var(--bg);border-radius:12px;padding:20px;border:1px dashed var(--border);display:flex;flex-direction:column;justify-content:center;gap:12px;align-items:center">
+              <div style="font-size:0.9rem;color:var(--gray);text-align:center">Or mark manually below then...</div>
+              <button class="btn btn-primary" style="width:100%" onclick="window.downloadCsvReport()">📥 Download Class Report</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header border-b pb-12 mb-16">
+            <span class="card-title">📋 Class Roster — Computer Networks (CS304)</span>
+            <div>
+              <button class="btn btn-outline btn-sm" onclick="window.markAll('present')">✓ Mark All Present</button>
+            </div>
+          </div>
+          
+          <div class="table-responsive" style="overflow-x:auto;">
+            <table style="width:100%;text-align:left;border-collapse:collapse;min-width:600px" id="facultyTable">
+              <thead>
+                <tr style="background:var(--bg);color:var(--gray);font-size:0.8rem;text-transform:uppercase">
+                  <th style="padding:12px;border-radius:8px 0 0 8px">Roll No</th>
+                  <th style="padding:12px">Student Name</th>
+                  <th style="padding:12px">Current %</th>
+                  <th style="padding:12px;text-align:right;border-radius:0 8px 8px 0">Today's Status</th>
+                </tr>
+              </thead>
+              <tbody id="facultyTableBody">
+                <!-- Injected via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Subject Detail Modal -->
+<div class="modal-overlay" id="subjectModal">
+  <div class="modal">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <h3 id="modalSubjectName">Subject</h3>
+      <button class="btn btn-icon btn-ghost" onclick="closeModal('subjectModal')">✕</button>
+    </div>
+    <div id="modalSubjectContent"></div>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+<script src="../js/main.js"></script>
+<script>
+function renderStudentAttendance() {
+  // Overall stats
+  const att = StudentData.attendance || { overall: 0, subjects: [] };
+  if (!att.subjects || att.subjects.length === 0) return;
+  
+  const totalPresent = att.subjects.reduce((s,sub)=>s+sub.present,0);
+  const totalClasses = att.subjects.reduce((s,sub)=>s+sub.total,0);
+  const overall = totalClasses > 0 ? Math.round((totalPresent/totalClasses)*100) : 0;
+
+  // Animate circle
+  setTimeout(() => {
+    const circ = document.getElementById('overallCircle');
+    if(!circ) return;
+    const circumf = 2 * Math.PI * 68;
+    const offset = circumf - (overall/100)*circumf;
+    circ.style.transition = 'stroke-dashoffset 1.5s ease';
+    circ.setAttribute('stroke-dasharray', circumf);
+    circ.setAttribute('stroke-dashoffset', offset);
+    if (overall >= 85) circ.setAttribute('stroke','var(--success)');
+    else if (overall >= 75) circ.setAttribute('stroke','var(--warning)');
+    else circ.setAttribute('stroke','var(--danger)');
+  }, 300);
+
+  const overallEl = document.getElementById('overallPct');
+  if(overallEl) overallEl.textContent = overall + '%';
+  const presentEl = document.getElementById('presentCount');
+  if(presentEl) presentEl.textContent = totalPresent;
+  const absentEl = document.getElementById('absentCount');
+  if(absentEl) absentEl.textContent = totalClasses - totalPresent;
+
+  // Subject rows
+  const rowsEl = document.getElementById('subjectRows');
+  if(rowsEl) {
+    rowsEl.innerHTML = att.subjects.map(s => {
+      const color = s.percentage >= 85 ? 'var(--success)' : s.percentage >= 75 ? 'var(--warning)' : 'var(--danger)';
+      const badge = s.percentage >= 85 ? 'badge-success' : s.percentage >= 75 ? 'badge-warning' : 'badge-danger';
+      return `
+        <div class="subject-row">
+          <div><div class="s-name">${s.name}</div><div class="s-code">${s.code}</div></div>
+          <div class="s-count" style="color:var(--success)">${s.present}</div>
+          <div class="s-count" style="color:var(--gray)">${s.total}</div>
+          <div class="s-pct">
+            <span class="badge ${badge}">${s.percentage}%</span>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // Subject cards
+  const cardsEl = document.getElementById('subjectCards');
+  if(cardsEl) {
+    cardsEl.innerHTML = att.subjects.map(s => {
+      const color = s.percentage>=85?'var(--success)':s.percentage>=75?'var(--warning)':'var(--danger)';
+      const needed = s.percentage < 75 ? Math.ceil((0.75*s.total - s.present)/(1-0.75)) : 0;
+      return `
+        <div class="card" style="cursor:pointer" onclick="showSubjectDetail('${s.name}','${s.code}',${s.present},${s.total},${s.percentage})">
+          <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:12px">
+            <div>
+              <div style="font-size:0.875rem;font-weight:700">${s.name}</div>
+              <div style="font-size:0.75rem;color:var(--gray)">${s.code}</div>
+            </div>
+            <span style="font-size:1.3rem;font-weight:900;color:${color}">${s.percentage}%</span>
+          </div>
+          <div class="progress progress-${s.percentage>=85?'success':s.percentage>=75?'warning':'danger'}" style="margin-bottom:10px">
+            <div class="progress-bar" style="width:${s.percentage}%"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:0.78rem;color:var(--gray)">
+            <span>${s.present}/${s.total} classes</span>
+            ${needed>0 ? `<span style="color:var(--danger)">Need ${needed} more</span>` : `<span style="color:var(--success)">✓ Safe</span>`}
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+}
+
+function showSubjectDetail(name, code, present, total, pct) {
+  document.getElementById('modalSubjectName').textContent = name;
+  const absent = total - present;
+  const needed = pct < 75 ? Math.ceil((0.75*total - present)/(1-0.75)) : 0;
+  const canSkip = pct > 75 ? Math.floor((present - 0.75*total)/(0.75)) : 0;
+  document.getElementById('modalSubjectContent').innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:20px">
+      <div style="text-align:center;background:var(--bg);border-radius:8px;padding:14px">
+        <div style="font-size:1.4rem;font-weight:900;color:var(--success)">${present}</div>
+        <div style="font-size:0.75rem;color:var(--gray)">Present</div>
+      </div>
+      <div style="text-align:center;background:var(--bg);border-radius:8px;padding:14px">
+        <div style="font-size:1.4rem;font-weight:900;color:var(--danger)">${absent}</div>
+        <div style="font-size:0.75rem;color:var(--gray)">Absent</div>
+      </div>
+      <div style="text-align:center;background:var(--bg);border-radius:8px;padding:14px">
+        <div style="font-size:1.4rem;font-weight:900;color:${pct>=75?'var(--success)':'var(--danger)'}">${pct}%</div>
+        <div style="font-size:0.75rem;color:var(--gray)">Percentage</div>
+      </div>
+    </div>
+    <div class="progress progress-${pct>=85?'success':pct>=75?'warning':'danger'}" style="margin-bottom:20px">
+      <div class="progress-bar" style="width:${pct}%"></div>
+    </div>
+    <div style="padding:16px;background:${pct>=75?'#D1FAE5':'#FEE2E2'};border-radius:10px">
+      ${needed > 0
+        ? `<strong style="color:var(--danger)">⚠ Action Required</strong><p style="font-size:0.85rem;color:#991B1B;margin-top:4px">You must attend <strong>${needed} more classes</strong> consecutively to reach 75%.</p>`
+        : `<strong style="color:var(--success)">✓ You're Safe!</strong><p style="font-size:0.85rem;color:#065F46;margin-top:4px">You can miss up to <strong>${canSkip} more classes</strong> and still maintain 75%.</p>`
+      }
+    </div>
+    <p style="font-size:0.75rem;color:var(--gray);margin-top:12px">Code: ${code} · Total: ${total} classes conducted</p>
+  `;
+  openModal('subjectModal');
+}
+
+// Simple heatmap (March 2026, 3–27)
+function renderHeatmap() {
+  const heatmapEl = document.getElementById('heatmap');
+  if(!heatmapEl) return;
+  const statuses = ['present','present','present','absent','present','holiday','no',
+                    'present','present','absent','present','present','present','no',
+                    'absent','present','present','present','absent','present','no',
+                    'present','present','present','present'];
+  const colors = { present:'#D1FAE5', absent:'#FEE2E2', holiday:'#FEF3C7', no:'var(--border)' };
+  heatmapEl.style.display = 'contents';
+  heatmapEl.innerHTML = statuses.map((s,i) =>
+    `<div title="${s.charAt(0).toUpperCase()+s.slice(1)}" style="aspect-ratio:1;border-radius:4px;background:${colors[s]};display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:600;color:var(--gray)">${i+3}</div>`
+  ).join('');
+}
+
+// === Faculty Data & CSV Processing ===
+
+let facultyRoster = [
+  { roll: "CS2021001", name: "Aarika Gupta", pct: 86, presentToday: false, marked: false },
+  { roll: "CS2021047", name: "Arjun Sharma", pct: 72, presentToday: false, marked: false },
+  { roll: "CS2021089", name: "Mira Desai", pct: 94, presentToday: false, marked: false },
+  { roll: "CS2021112", name: "R Rohan", pct: 60, presentToday: false, marked: false },
+  { roll: "CS2021134", name: "Sanya Verma", pct: 81, presentToday: false, marked: false }
+];
+
+function renderFacultyRoster() {
+  const tbody = document.getElementById('facultyTableBody');
+  if(!tbody) return;
+  
+  // Set Date badge
+  document.getElementById('facDateBadge').textContent = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+
+  tbody.innerHTML = facultyRoster.map((s, idx) => {
+    const danger = s.pct < 75;
+    const btnActive = s.marked && s.presentToday;
+    const btnAbsent = s.marked && !s.presentToday;
+    return `
+      <tr style="border-bottom:1px solid var(--border)">
+        <td style="padding:12px;font-weight:600;color:var(--gray)">${s.roll}</td>
+        <td style="padding:12px;font-weight:bold">${s.name}</td>
+        <td style="padding:12px;color:${danger?'var(--danger)':'var(--success)'};font-weight:bold">${s.pct}%</td>
+        <td style="padding:12px;text-align:right">
+          <div style="display:flex;gap:8px;justify-content:flex-end">
+            <button class="btn btn-sm ${btnActive ? 'btn-primary' : 'btn-outline'}" onclick="window.markStudent(${idx}, true)">✓</button>
+            <button class="btn btn-sm ${btnAbsent ? 'btn-primary' : 'btn-outline'}" style="${btnAbsent ? 'background:var(--danger);border-color:var(--danger)':''}" onclick="window.markStudent(${idx}, false)">✕</button>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+window.markStudent = (idx, isPresent) => {
+  facultyRoster[idx].marked = true;
+  facultyRoster[idx].presentToday = isPresent;
+  renderFacultyRoster();
+};
+
+window.markAll = (status) => {
+  const present = status === 'present';
+  facultyRoster.forEach(s => { s.marked = true; s.presentToday = present; });
+  renderFacultyRoster();
+};
+
+window.handleCsvDrop = (e) => {
+  e.preventDefault();
+  document.getElementById('csvUploadZone').classList.remove('drag-over');
+  if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+    parseCsvFile(e.dataTransfer.files[0]);
+  }
+};
+
+window.handleCsvSelect = (input) => {
+  if (input.files && input.files[0]) {
+    parseCsvFile(input.files[0]);
+  }
+};
+
+function parseCsvFile(file) {
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const text = e.target.result;
+    const lines = text.split('\\n');
+    let matched = 0;
+    
+    // Simple naive parser (Roll, Status)
+    for(let i=1; i<lines.length; i++) {
+        if(!lines[i].trim()) continue;
+        const parts = lines[i].split(',');
+        if(parts.length >= 2) {
+            const roll = parts[0].trim();
+            const status = parts[1].trim().toLowerCase();
+            const student = facultyRoster.find(r => r.roll.toLowerCase() === roll.toLowerCase());
+            if(student) {
+                student.marked = true;
+                student.presentToday = (status === 'p' || status === 'present' || status === '1');
+                matched++;
+            }
+        }
+    }
+    
+    if (window.showToast) window.showToast(`CSV Parsed! Auto-marked ${matched} students.`, 'success');
+    renderFacultyRoster();
+  };
+  reader.readAsText(file);
+}
+
+window.downloadCsvReport = () => {
+  let csvContent = "data:text/csv;charset=utf-8,";
+  csvContent += "Roll No,Student Name,Percentage,Class Status\n";
+  
+  facultyRoster.forEach(s => {
+      let statusStr = !s.marked ? 'UNMARKED' : (s.presentToday ? 'Present' : 'Absent');
+      let row = `${s.roll},${s.name},${s.pct}%,${statusStr}`;
+      csvContent += row + "\n";
+  });
+  
+  const encodedUri = encodeURI(csvContent);
+  const link = document.createElement("a");
+  link.setAttribute("href", encodedUri);
+  link.setAttribute("download", "Class_Attendance_Report.csv");
+  document.body.appendChild(link); // Required for FF
+  link.click();
+  document.body.removeChild(link);
+};
+
+window.syncAttendanceToDB = async () => {
+    const btn = document.getElementById('syncAttBtn');
+    if(window.UiState) window.UiState.setLoading(btn, true);
+
+    const safeRoster = facultyRoster.map(s => ({
+        roll: s.roll,
+        name: s.name,
+        pct: s.pct,
+        presentToday: s.presentToday || false,
+        marked: s.marked || false
+    }));
+
+    if(window.AttendanceService) {
+        const res = await window.AttendanceService.syncAttendanceUpload('CS304-Networks', safeRoster);
+        if(res.success) {
+            window.showToast('✅ Institutional Roster Synced Successfully!', 'success');
+        }
+    } else {
+        window.showToast("AttendanceService missing, mock sync valid.", "success");
+    }
+
+    if(window.UiState) window.UiState.setLoading(btn, false);
+};
+
+// === RBAC Routing ===
+window.renderAttendanceView = () => {
+    const isFaculty = window.StudentData && (window.StudentData.role === 'faculty' || window.StudentData.role === 'staff');
+    
+    if (isFaculty) {
+        document.getElementById('studentAttendanceView').style.display = 'none';
+        document.getElementById('facultyAttendanceView').style.display = 'block';
+        
+        // Hide topbar points
+        const pointsEl = document.querySelector('.topbar-points');
+        if (pointsEl) pointsEl.style.display = 'none';
+        
+        renderFacultyRoster();
+    } else {
+        document.getElementById('studentAttendanceView').style.display = 'block';
+        document.getElementById('facultyAttendanceView').style.display = 'none';
+        renderStudentAttendance();
+        renderHeatmap();
+    }
+};
+</script>
+<script type="module" src="../js/auth-guard.js"></script>
+<script type="module">
+  import { db as mockDb, STATUS } from '../../backend/db.js';
+  import { calculateCampusScore } from '../../backend/engine.js';
+  import { initAuthGuard } from '../js/auth-guard.js';
+  import { AttendanceService } from '../../backend/services/AttendanceService.js';
+  import { UiState } from '../js/UiState.js';
+
+  initAuthGuard();
+
+  window.AttendanceService = AttendanceService;
+  window.UiState = UiState;
+
+  function updateGovernanceScore() {
+    const issues = mockDb.getAllIssues();
+    const resolved = issues.filter(i => i.status === STATUS.VERIFIED_CLOSED);
+    const score = calculateCampusScore(resolved, issues);
+    document.querySelectorAll('.points-display').forEach(el => {
+      el.textContent = Math.round(score);
+    });
+  }
+
+  // Inject Student Dashboard query logic dynamically.
+  async function triggerStudentAggregateFetch() {
+      if(window.StudentData && window.StudentData.role === 'student' && window.AttendanceService) {
+          const res = await window.AttendanceService.fetchStudentAggregate(window.StudentData.uid);
+          if(res && res.success) {
+               console.log("[Attendance Sync] Found live db records: ", res.count);
+          }
+      }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    updateGovernanceScore();
+    window.renderAttendanceView();
+    triggerStudentAggregateFetch();
+  });
+  window.addEventListener('userAuthenticated', () => {
+    updateGovernanceScore();
+    window.renderAttendanceView();
+    triggerStudentAggregateFetch();
+  });
+  window.addEventListener('verdexDataReady', () => {
+    updateGovernanceScore();
+    window.renderAttendanceView();
+  });
+</script>
+</body>
+</html>

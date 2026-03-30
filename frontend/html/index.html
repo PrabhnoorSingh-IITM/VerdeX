@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CampusOne — Your College, All in One Place</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/landing.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+</head>
+<body class="landing-body">
+
+<!-- ========== NAVBAR ========== -->
+<nav class="landing-nav" id="mainNav">
+  <div class="container flex-between">
+    <a href="index.html" class="nav-brand">
+      <div class="brand-icon">C<span>1</span></div>
+      <span class="brand-name">Campus<span>One</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#howit">How It Works</a></li>
+      <li><a href="#stats">Stats</a></li>
+      <li><a href="#testimonials">Reviews</a></li>
+    </ul>
+    <div class="nav-cta flex gap-12">
+      <a href="login.html" class="btn btn-outline btn-sm">Log In</a>
+      <a href="login.html?tab=signup" class="btn btn-primary btn-sm">Sign Up Free</a>
+    </div>
+    <button class="hamburger" id="navHamburger" aria-label="Menu">☰</button>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <ul>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#howit">How It Works</a></li>
+    <li><a href="#stats">Stats</a></li>
+    <li><a href="#testimonials">Reviews</a></li>
+    <li><a href="login.html" class="btn btn-outline btn-block mt-8">Log In</a></li>
+    <li><a href="login.html?tab=signup" class="btn btn-primary btn-block mt-8">Sign Up Free</a></li>
+  </ul>
+</div>
+
+<!-- ========== HERO ========== -->
+<section class="hero-section">
+  <div class="hero-bg-shapes">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+  </div>
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-badge reveal">
+        <span class="badge-dot"></span>
+        🎓 The All-in-One College Student Portal
+      </div>
+      <h1 class="hero-title reveal">
+        Your Entire College Life,<br/>
+        <span class="gradient-text">One Platform.</span>
+      </h1>
+      <p class="hero-desc reveal">
+        From pre-ordering lunch to checking attendance — CampusOne brings every campus
+        service to your fingertips. Save time, earn points, and focus on what matters.
+      </p>
+      <div class="hero-actions reveal flex gap-16">
+        <a href="login.html?tab=signup" class="btn btn-primary btn-lg">
+          Get Started Free <span>→</span>
+        </a>
+        <a href="dashboard.html" class="btn btn-outline btn-lg">
+          View Dashboard
+        </a>
+      </div>
+      <div class="hero-stats reveal flex gap-32 mt-32">
+        <div><strong data-count="12000" data-suffix="+">0</strong><span>Students</span></div>
+        <div><strong data-count="50" data-suffix="+">0</strong><span>Colleges</span></div>
+        <div><strong data-count="4.8" data-suffix="★">0</strong><span>Rating</span></div>
+      </div>
+    </div>
+    <div class="hero-visual reveal">
+      <div class="dashboard-preview">
+        <div class="dp-topbar">
+          <div class="dp-dots"><span></span><span></span><span></span></div>
+          <div class="dp-title">CampusOne Dashboard</div>
+        </div>
+        <div class="dp-body">
+          <div class="dp-sidebar">
+            <div class="dp-nav-item active">🏠 Home</div>
+            <div class="dp-nav-item">🍽️ Canteen</div>
+            <div class="dp-nav-item">📊 Attendance</div>
+            <div class="dp-nav-item">💰 Fees</div>
+            <div class="dp-nav-item">📅 Calendar</div>
+            <div class="dp-nav-item">🚨 Report</div>
+          </div>
+          <div class="dp-main">
+            <div class="dp-welcome">Good morning, Arjun! 👋</div>
+            <div class="dp-cards">
+              <div class="dp-card blue">
+                <div class="dp-card-icon">📊</div>
+                <div class="dp-card-val">78%</div>
+                <div class="dp-card-lbl">Attendance</div>
+              </div>
+              <div class="dp-card green">
+                <div class="dp-card-icon">✅</div>
+                <div class="dp-card-val">₹75k</div>
+                <div class="dp-card-lbl">Fees Paid</div>
+              </div>
+              <div class="dp-card orange">
+                <div class="dp-card-icon">🏆</div>
+                <div class="dp-card-val">340</div>
+                <div class="dp-card-lbl">Points</div>
+              </div>
+              <div class="dp-card purple">
+                <div class="dp-card-icon">🍽️</div>
+                <div class="dp-card-val">2 Orders</div>
+                <div class="dp-card-lbl">Pending</div>
+              </div>
+            </div>
+            <div class="dp-chart">
+              <div class="dp-bar" style="height:60%"></div>
+              <div class="dp-bar" style="height:80%"></div>
+              <div class="dp-bar" style="height:45%"></div>
+              <div class="dp-bar active" style="height:90%"></div>
+              <div class="dp-bar" style="height:70%"></div>
+              <div class="dp-bar" style="height:55%"></div>
+              <div class="dp-bar" style="height:85%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll Indicator -->
+  <div class="scroll-indicator">
+    <div class="scroll-dot"></div>
+  </div>
+</section>
+
+<!-- ========== MARQUEE ========== -->
+<section class="marquee-section">
+  <div class="marquee-track">
+    <div class="marquee-inner">
+      <span>🍽️ Canteen Pre-Order</span>
+      <span>📊 Live Attendance</span>
+      <span>💰 Fee Management</span>
+      <span>📅 Academic Calendar</span>
+      <span>🕐 Smart Timetable</span>
+      <span>🚨 Issue Reporting</span>
+      <span>🏆 Points & Rewards</span>
+      <span>📱 Mobile Friendly</span>
+      <span>🍽️ Canteen Pre-Order</span>
+      <span>📊 Live Attendance</span>
+      <span>💰 Fee Management</span>
+      <span>📅 Academic Calendar</span>
+      <span>🕐 Smart Timetable</span>
+      <span>🚨 Issue Reporting</span>
+      <span>🏆 Points & Rewards</span>
+      <span>📱 Mobile Friendly</span>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FEATURES ========== -->
+<section class="features-section" id="features">
+  <div class="container">
+    <div class="section-label reveal">Everything You Need</div>
+    <h2 class="section-heading reveal">One App, Six Powerful Features</h2>
+    <p class="section-subheading reveal">
+      Everything a college student needs, beautifully designed and always accessible.
+    </p>
+
+    <div class="features-grid">
+
+      <div class="feature-card feat-canteen reveal">
+        <div class="feature-icon">🍽️</div>
+        <h3>Canteen Pre-Order</h3>
+        <p>Browse the daily menu, pre-order your meals, skip the queue, and pick up hot food on time. Pay online or with your wallet.</p>
+        <ul class="feature-list">
+          <li>✓ Daily rotating menu</li>
+          <li>✓ Customizable orders</li>
+          <li>✓ Order tracking</li>
+          <li>✓ UPI / Wallet payment</li>
+        </ul>
+        <a href="canteen.html" class="feature-link">Order Food →</a>
+      </div>
+
+      <div class="feature-card feat-attendance reveal">
+        <div class="feature-icon">📊</div>
+        <h3>Attendance Tracker</h3>
+        <p>Monitor subject-wise attendance in real time. Get alerts when you're at risk of falling below the threshold.</p>
+        <ul class="feature-list">
+          <li>✓ Subject-wise breakdown</li>
+          <li>✓ Visual progress bars</li>
+          <li>✓ Low attendance alerts</li>
+          <li>✓ Monthly history</li>
+        </ul>
+        <a href="attendance.html" class="feature-link">Check Attendance →</a>
+      </div>
+
+      <div class="feature-card feat-fees reveal">
+        <div class="feature-icon">💰</div>
+        <h3>Fees & Payments</h3>
+        <p>View fee structure, pending dues, transaction history, and pay directly from the portal. Instant receipts generated.</p>
+        <ul class="feature-list">
+          <li>✓ Detailed fee breakdown</li>
+          <li>✓ Online payment gateway</li>
+          <li>✓ Instant receipts</li>
+          <li>✓ Due date reminders</li>
+        </ul>
+        <a href="fees.html" class="feature-link">Manage Fees →</a>
+      </div>
+
+      <div class="feature-card feat-timetable reveal">
+        <div class="feature-icon">🕐</div>
+        <h3>Smart Timetable</h3>
+        <p>Your weekly class schedule at a glance. Know your classroom, faculty, and timings — always up to date.</p>
+        <ul class="feature-list">
+          <li>✓ Weekly view</li>
+          <li>✓ Room & faculty info</li>
+          <li>✓ Today's classes highlight</li>
+          <li>✓ Export & share</li>
+        </ul>
+        <a href="timetable.html" class="feature-link">View Schedule →</a>
+      </div>
+
+      <div class="feature-card feat-calendar reveal">
+        <div class="feature-icon">📅</div>
+        <h3>Academic Calendar</h3>
+        <p>Track exams, holidays, events, and important deadlines. Never miss a submission or fest again.</p>
+        <ul class="feature-list">
+          <li>✓ Full academic year view</li>
+          <li>✓ Exam schedules</li>
+          <li>✓ College events & fests</li>
+          <li>✓ Personal reminders</li>
+        </ul>
+        <a href="calendar.html" class="feature-link">Open Calendar →</a>
+      </div>
+
+      <div class="feature-card feat-report reveal">
+        <div class="feature-icon">🚨</div>
+        <h3>Report & Earn Points</h3>
+        <p>Spotted a leaking tap or broken furniture? Report it in seconds with a photo and earn points for helping maintain your campus.</p>
+        <ul class="feature-list">
+          <li>✓ Photo + description</li>
+          <li>✓ Category-based reports</li>
+          <li>✓ Earn points per report</li>
+          <li>✓ Track resolution status</li>
+        </ul>
+        <a href="report-issue.html" class="feature-link">Report Issue →</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ========== HOW IT WORKS ========== -->
+<section class="how-section" id="howit">
+  <div class="container">
+    <div class="section-label reveal">Simple & Fast</div>
+    <h2 class="section-heading reveal">Get Started in 3 Steps</h2>
+
+    <div class="steps-container">
+      <div class="step reveal">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <h3>Create Your Account</h3>
+          <p>Sign up with your college email. Your profile, roll number, and branch are auto-configured.</p>
+        </div>
+        <div class="step-img">
+          <div class="step-mock step-mock-1">
+            <div class="mock-form">
+              <div class="mock-input-row"><div class="mock-label"></div><div class="mock-field"></div></div>
+              <div class="mock-input-row"><div class="mock-label"></div><div class="mock-field"></div></div>
+              <div class="mock-btn"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step step-reverse reveal">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <h3>Access All Services</h3>
+          <p>From the dashboard, jump into any feature — order food, check attendance, or view your timetable instantly.</p>
+        </div>
+        <div class="step-img">
+          <div class="step-mock step-mock-2">
+            <div class="mock-grid">
+              <div class="mock-tile">🍽️</div>
+              <div class="mock-tile">📊</div>
+              <div class="mock-tile">💰</div>
+              <div class="mock-tile">📅</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step reveal">
+        <div class="step-num">03</div>
+        <div class="step-content">
+          <h3>Earn Points & Rewards</h3>
+          <p>Every campus issue you report earns you governance points. Top contributors get featured and rewarded.</p>
+        </div>
+        <div class="step-img">
+          <div class="step-mock step-mock-3">
+            <div class="mock-trophy">🏆</div>
+            <div class="mock-pts">+50 pts</div>
+            <div class="mock-rank">Rank #3</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== STATS ========== -->
+<section class="stats-section" id="stats">
+  <div class="container">
+    <div class="stats-inner">
+      <div class="stat-item reveal">
+        <div class="stat-number" data-count="12000" data-suffix="+">0</div>
+        <div class="stat-text">Active Students</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item reveal">
+        <div class="stat-number" data-count="50" data-suffix="+">0</div>
+        <div class="stat-text">Colleges Onboarded</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item reveal">
+        <div class="stat-number" data-count="5800" data-suffix="+">0</div>
+        <div class="stat-text">Issues Resolved</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item reveal">
+        <div class="stat-number" data-count="98" data-suffix="%">0</div>
+        <div class="stat-text">Uptime Guaranteed</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== REPORT ISSUE SHOWCASE ========== -->
+<section class="report-showcase reveal">
+  <div class="container">
+    <div class="rp-grid">
+      <div class="rp-content">
+        <div class="section-label">Governance Feature</div>
+        <h2>Report Campus Issues,<br/>Earn Real Rewards</h2>
+        <p>Noticed a maintenance problem on campus? CampusOne turns your civic sense into points! Snap a photo, add a description, and submit — our governance system logs it and awards you points instantly.</p>
+        <div class="rp-steps">
+          <div class="rp-step">
+            <div class="rp-step-icon">📸</div>
+            <div>
+              <strong>Click a Photo</strong>
+              <p>Use your camera or upload from gallery</p>
+            </div>
+          </div>
+          <div class="rp-step">
+            <div class="rp-step-icon">✍️</div>
+            <div>
+              <strong>Describe the Issue</strong>
+              <p>Select category and add brief description</p>
+            </div>
+          </div>
+          <div class="rp-step">
+            <div class="rp-step-icon">🏆</div>
+            <div>
+              <strong>Earn Points</strong>
+              <p>Get 10–50 points per valid report</p>
+            </div>
+          </div>
+        </div>
+        <a href="report-issue.html" class="btn btn-primary btn-lg mt-24">Report an Issue →</a>
+      </div>
+      <div class="rp-visual">
+        <div class="rp-phone">
+          <div class="rp-phone-screen">
+            <div class="rp-phone-header">📍 Report Issue</div>
+            <div class="rp-img-box">
+              <div class="rp-img-placeholder">
+                <span>📷</span>
+                <p>Tap to capture</p>
+              </div>
+            </div>
+            <div class="rp-tags">
+              <span class="rp-tag active">Plumbing</span>
+              <span class="rp-tag">Electrical</span>
+              <span class="rp-tag">Cleanliness</span>
+            </div>
+            <div class="rp-input-mock"></div>
+            <div class="rp-submit">Submit & Earn +30 pts</div>
+          </div>
+        </div>
+        <div class="rp-floating-badge">
+          <span>🏆</span> +30 Points Earned!
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== TESTIMONIALS ========== -->
+<section class="testimonials-section" id="testimonials">
+  <div class="container">
+    <div class="section-label reveal">Student Reviews</div>
+    <h2 class="section-heading reveal">What Students Say</h2>
+
+    <div class="testimonials-grid">
+      <div class="testimonial-card reveal">
+        <div class="testi-rating">★★★★★</div>
+        <p>"Pre-ordering canteen food has saved me so much time. No more waiting in line for 20 minutes during lunch!"</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background: linear-gradient(135deg,#5B4FE9,#06B6D4)">PR</div>
+          <div>
+            <strong>Priya Rajan</strong>
+            <span>B.Tech CSE, 4th Year</span>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal">
+        <div class="testi-rating">★★★★★</div>
+        <p>"I reported a broken classroom chair through the app and got 20 points! It was fixed within 2 days. Love the governance feature."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background: linear-gradient(135deg,#F97316,#EF4444)">RK</div>
+          <div>
+            <strong>Rohan Khanna</strong>
+            <span>B.Com, 2nd Year</span>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal">
+        <div class="testi-rating">★★★★☆</div>
+        <p>"The attendance tracker with alerts is a lifesaver. I used to miss the threshold, now I get warnings early enough to attend classes."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background: linear-gradient(135deg,#10B981,#06B6D4)">AS</div>
+          <div>
+            <strong>Ananya Singh</strong>
+            <span>B.Sc Physics, 3rd Year</span>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal">
+        <div class="testi-rating">★★★★★</div>
+        <p>"Paying fees online and getting an instant receipt is 10x better than going to the office. CampusOne really understands students."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background: linear-gradient(135deg,#8B5CF6,#EC4899)">MV</div>
+          <div>
+            <strong>Mohammed Vir</strong>
+            <span>MBA, 1st Year</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== CTA ========== -->
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-inner reveal">
+      <div class="cta-shapes">
+        <div class="cta-shape-1"></div>
+        <div class="cta-shape-2"></div>
+      </div>
+      <h2>Ready to Simplify Your College Life?</h2>
+      <p>Join 12,000+ students already using CampusOne. Free for all students.</p>
+      <div class="flex-center gap-16 mt-32">
+        <a href="login.html?tab=signup" class="btn btn-white btn-lg">Start for Free →</a>
+        <a href="dashboard.html" class="btn btn-outline-white btn-lg">View Demo</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer class="landing-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <div class="brand-icon">C<span>1</span></div>
+          <span class="brand-name">Campus<span>One</span></span>
+        </div>
+        <p>The all-in-one portal for college students. Built with love for campus communities.</p>
+        <div class="footer-social flex gap-12 mt-16">
+          <a href="#" class="social-btn">𝕏</a>
+          <a href="#" class="social-btn">in</a>
+          <a href="#" class="social-btn">ig</a>
+        </div>
+      </div>
+      <div class="footer-links-col">
+        <h4>Features</h4>
+        <ul>
+          <li><a href="canteen.html">Canteen Order</a></li>
+          <li><a href="attendance.html">Attendance</a></li>
+          <li><a href="fees.html">Fee Payment</a></li>
+          <li><a href="timetable.html">Timetable</a></li>
+          <li><a href="calendar.html">Calendar</a></li>
+          <li><a href="report-issue.html">Report Issue</a></li>
+        </ul>
+      </div>
+      <div class="footer-links-col">
+        <h4>Platform</h4>
+        <ul>
+          <li><a href="login.html">Login</a></li>
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="#">For Colleges</a></li>
+          <li><a href="#">API Docs</a></li>
+        </ul>
+      </div>
+      <div class="footer-links-col">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Use</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 CampusOne. Made for students, by students.</p>
+    </div>
+  </div>
+</footer>
+
+<div id="toast-container"></div>
+
+<script src="../js/main.js"></script>
+<script>
+  // Navbar scroll effect
+  window.addEventListener('scroll', () => {
+    document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 40);
+  });
+  // Mobile nav
+  document.getElementById('navHamburger').addEventListener('click', () => {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  });
+  // Stats counter trigger
+  const statsSection = document.getElementById('stats');
+  const statsObserver = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) {
+      animateCounters();
+      statsObserver.disconnect();
+    }
+  }, { threshold: 0.3 });
+  if (statsSection) statsObserver.observe(statsSection);
+
+  // Hero counter
+  const heroObserver = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) {
+      entries[0].target.querySelectorAll('[data-count]').forEach(el => {
+        const target = parseFloat(el.dataset.count);
+        const suffix = el.dataset.suffix || '';
+        const duration = 1500;
+        const start = performance.now();
+        const update = now => {
+          const progress = Math.min((now - start) / duration, 1);
+          const ease = 1 - Math.pow(1 - progress, 3);
+          el.textContent = (target % 1 !== 0 ? (ease * target).toFixed(1) : Math.round(ease * target)) + suffix;
+          if (progress < 1) requestAnimationFrame(update);
+        };
+        requestAnimationFrame(update);
+      });
+      heroObserver.disconnect();
+    }
+  }, { threshold: 0.3 });
+  const heroStats = document.querySelector('.hero-stats');
+  if (heroStats) heroObserver.observe(heroStats);
+</script>
+</body>
+</html>

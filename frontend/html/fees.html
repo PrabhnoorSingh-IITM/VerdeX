@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fees & Payments — CampusOne</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/app.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+</head>
+<body>
+<div class="app-wrapper">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">C<span style="font-size:0.7rem">1</span></div>
+      <div class="logo-text">Campus<span>One</span></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a href="dashboard.html" class="nav-item"><span class="nav-icon">🏠</span> Dashboard</a>
+      <a href="canteen.html" class="nav-item"><span class="nav-icon">🍽️</span> Canteen <span class="nav-badge cart-badge" style="display:none">0</span></a>
+      <a href="attendance.html" class="nav-item"><span class="nav-icon">📊</span> Attendance</a>
+      <a href="fees.html" class="nav-item active"><span class="nav-icon">💰</span> Fees & Payments</a>
+      <div class="nav-section-label" style="margin-top:12px">Schedule</div>
+      <a href="timetable.html" class="nav-item"><span class="nav-icon">🕐</span> Timetable</a>
+      <a href="calendar.html" class="nav-item"><span class="nav-icon">📅</span> Calendar</a>
+      <div class="nav-section-label" style="margin-top:12px">Governance</div>
+      <a href="report-issue.html" class="nav-item"><span class="nav-icon">🚨</span> Report Issue</a>
+    </nav>
+    <div class="sidebar-user">
+      <div class="avatar sidebar-user-avatar">AS</div>
+      <div class="user-info">
+        <div class="name sidebar-user-name">Arjun Sharma</div>
+        <div class="role sidebar-user-role">CS2021047</div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="main-content">
+    <header class="topbar">
+      <div class="topbar-left flex gap-16">
+        <button class="hamburger" id="hamburger">☰</button>
+        <div>
+          <h2>💰 Fees & Payments</h2>
+          <p>Academic Year 2025–26</p>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="topbar-points">🏆 <span class="points-display">120</span> pts</div>
+        <button class="btn btn-sm btn-primary" onclick="openModal('payModal')">Pay Now →</button>
+      </div>
+    </header>
+
+    <div class="page-content">
+
+      <!-- Due Alert -->
+      <div style="background:linear-gradient(135deg,#FEF3C7,#FDE68A);border-radius:var(--radius);padding:16px 20px;display:flex;align-items:center;gap:14px;margin-bottom:24px;border:1px solid #FCD34D">
+        <span style="font-size:1.5rem">⏰</span>
+        <div style="flex:1">
+          <strong style="color:#92400E">Fee Payment Due — April 1, 2026</strong>
+          <p style="font-size:0.85rem;color:#A16207;margin-top:2px">₹50,000 pending. Pay before the due date to avoid a late fee of ₹500.</p>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="openModal('payModal')">Pay Now</button>
+      </div>
+
+      <!-- Fee Summary -->
+      <div class="fees-overview">
+        <div class="fee-summary-card total">
+          <div class="fs-label">Total Fees (FY 2025-26)</div>
+          <div class="fs-amount">₹1,25,000</div>
+          <div style="font-size:0.8rem;color:var(--gray)">Across all semesters</div>
+          <div class="progress progress-primary mt-8"><div class="progress-bar" style="width:60%"></div></div>
+          <div style="font-size:0.75rem;color:var(--gray);margin-top:4px">60% paid</div>
+        </div>
+        <div class="fee-summary-card paid">
+          <div class="fs-label">Total Paid</div>
+          <div class="fs-amount">₹75,000</div>
+          <div style="font-size:0.8rem;color:var(--success)">5 transactions</div>
+          <div style="margin-top:12px">
+            <span class="badge badge-success">✓ Up to date</span>
+          </div>
+        </div>
+        <div class="fee-summary-card due">
+          <div class="fs-label">Pending Amount</div>
+          <div class="fs-amount">₹50,000</div>
+          <div style="font-size:0.8rem;color:var(--danger)">Due: April 1, 2026</div>
+          <div style="margin-top:12px">
+            <button class="btn btn-danger btn-sm" onclick="openModal('payModal')">Pay ₹50,000 →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Grid -->
+      <div style="display:grid;grid-template-columns:1fr 320px;gap:24px">
+        <!-- Transactions -->
+        <div>
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">📋 Transaction History</span>
+              <button class="btn btn-sm btn-ghost" onclick="downloadStatement()">⬇ Download Statement</button>
+            </div>
+            <div class="tr-header" style="padding:10px 0">
+              <span>Description</span>
+              <span>Date</span>
+              <span>Amount</span>
+              <span>Status</span>
+            </div>
+            <div id="transactionList"></div>
+          </div>
+        </div>
+
+        <!-- Right Panel -->
+        <div>
+          <!-- Fee Breakdown -->
+          <div class="card mb-24">
+            <div class="card-header">
+              <span class="card-title">📊 Fee Breakdown</span>
+            </div>
+            <div id="feeBreakdown"></div>
+          </div>
+
+          <!-- Payment Methods -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">💳 Payment Methods</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:12px;background:var(--bg);border-radius:8px">
+                <div style="display:flex;align-items:center;gap:10px">
+                  <span style="font-size:1.3rem">📱</span>
+                  <div><div style="font-size:0.875rem;font-weight:600">UPI</div><div style="font-size:0.75rem;color:var(--gray)">PhonePe, GPay, Paytm</div></div>
+                </div>
+                <span class="badge badge-success">Instant</span>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:12px;background:var(--bg);border-radius:8px">
+                <div style="display:flex;align-items:center;gap:10px">
+                  <span style="font-size:1.3rem">💳</span>
+                  <div><div style="font-size:0.875rem;font-weight:600">Debit / Credit Card</div><div style="font-size:0.75rem;color:var(--gray)">Visa, Mastercard, RuPay</div></div>
+                </div>
+                <span class="badge badge-primary">Secure</span>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:12px;background:var(--bg);border-radius:8px">
+                <div style="display:flex;align-items:center;gap:10px">
+                  <span style="font-size:1.3rem">🏦</span>
+                  <div><div style="font-size:0.875rem;font-weight:600">Net Banking</div><div style="font-size:0.75rem;color:var(--gray)">All major banks</div></div>
+                </div>
+                <span class="badge badge-gray">2-3 days</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Payment Modal -->
+<div class="modal-overlay" id="payModal">
+  <div class="modal">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px">
+      <h3>💰 Make Payment</h3>
+      <button class="btn btn-icon btn-ghost" onclick="closeModal('payModal')">✕</button>
+    </div>
+    <div id="payStep1">
+      <div style="background:var(--bg);border-radius:var(--radius);padding:16px;margin-bottom:20px">
+        <div style="font-size:0.8rem;color:var(--gray);margin-bottom:4px">Paying for</div>
+        <div style="font-weight:700">Semester Fee — Sem 7</div>
+        <div style="font-size:0.8rem;color:var(--gray);margin-top:2px">Due: April 1, 2026</div>
+        <div style="font-size:1.8rem;font-weight:900;color:var(--primary);margin-top:8px">₹45,000</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Select Payment Method</label>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <label style="display:flex;align-items:center;gap:12px;padding:12px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;transition:0.2s" id="payOpt1" onclick="selectPay(1)">
+            <input type="radio" name="payMethod" value="upi" checked/> <span style="font-size:1.2rem">📱</span> <span style="font-weight:600">UPI</span> <span class="badge badge-success" style="margin-left:auto">Instant</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:12px;padding:12px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;transition:0.2s" id="payOpt2" onclick="selectPay(2)">
+            <input type="radio" name="payMethod" value="card"/> <span style="font-size:1.2rem">💳</span> <span style="font-weight:600">Debit/Credit Card</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:12px;padding:12px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;transition:0.2s" id="payOpt3" onclick="selectPay(3)">
+            <input type="radio" name="payMethod" value="netbanking"/> <span style="font-size:1.2rem">🏦</span> <span style="font-weight:600">Net Banking</span>
+          </label>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div style="display:flex;justify-content:space-between;font-size:0.875rem;margin-bottom:6px">
+        <span>Amount</span><span style="font-weight:700">₹45,000</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:0.875rem;margin-bottom:12px">
+        <span>Processing Fee</span><span style="font-weight:700;color:var(--success)">₹0</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:1rem;font-weight:800;margin-bottom:20px">
+        <span>Total</span><span style="color:var(--primary)">₹45,000</span>
+      </div>
+      <button class="btn btn-primary btn-block btn-lg" onclick="proceedPay()">Proceed to Pay ₹45,000 →</button>
+    </div>
+    <div id="payStep2" style="display:none;text-align:center">
+      <div style="font-size:4rem;margin-bottom:16px">⏳</div>
+      <h3 style="margin-bottom:8px">Processing Payment...</h3>
+      <p style="color:var(--gray)">Please wait. Do not refresh the page.</p>
+      <div class="progress mt-16"><div class="progress-bar" id="payProgress" style="width:0%;background:var(--primary);transition:width 2s ease"></div></div>
+    </div>
+    <div id="payStep3" style="display:none;text-align:center">
+      <div style="font-size:4rem;margin-bottom:16px">✅</div>
+      <h3 style="margin-bottom:8px">Payment Successful!</h3>
+      <p style="color:var(--gray);margin-bottom:20px">Your payment has been processed successfully.</p>
+      <div style="background:var(--bg);border-radius:var(--radius);padding:16px;text-align:left;margin-bottom:20px">
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+          <span style="color:var(--gray);font-size:0.85rem">Transaction ID</span>
+          <span style="font-weight:700;font-size:0.85rem" id="txnId">#TXN000</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+          <span style="color:var(--gray);font-size:0.85rem">Amount Paid</span>
+          <span style="font-weight:700;color:var(--success)">₹45,000</span>
+        </div>
+        <div style="display:flex;justify-content:space-between">
+          <span style="color:var(--gray);font-size:0.85rem">Date & Time</span>
+          <span style="font-weight:700;font-size:0.85rem">${new Date().toLocaleString()}</span>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-outline btn-block" onclick="showToast('Receipt downloaded!','success')">⬇ Download Receipt</button>
+        <button class="btn btn-primary btn-block" onclick="closeModal('payModal');resetPayModal()">Done</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+<script src="../js/main.js"></script>
+<script>
+// Render transactions
+const fees = StudentData.fees;
+const listEl = document.getElementById('transactionList');
+listEl.innerHTML = fees.transactions.map(t => `
+  <div class="transaction-row">
+    <div>
+      <div class="tr-title">${t.desc}</div>
+      <div class="tr-id">${t.id}</div>
+    </div>
+    <div class="tr-date">${t.date}</div>
+    <div class="tr-amount" style="color:${t.status==='paid'?'var(--success)':'var(--danger)'}">₹${Number(t.amount).toLocaleString()}</div>
+    <div>
+      <span class="badge ${t.status==='paid'?'badge-success':'badge-warning'}">
+        ${t.status==='paid'?'✓ Paid':'⏳ Pending'}
+      </span>
+    </div>
+  </div>
+`).join('');
+
+// Fee breakdown
+const breakdown = [
+  { label:'Tuition Fee', amount:80000, paid:50000 },
+  { label:'Library Fee', amount:2000, paid:2000 },
+  { label:'Lab Fee', amount:8000, paid:8000 },
+  { label:'Sports Fee', amount:3000, paid:3000 },
+  { label:'Exam Fee', amount:4000, paid:2000 },
+  { label:'Hostel Fee', amount:28000, paid:10000 },
+];
+document.getElementById('feeBreakdown').innerHTML = breakdown.map(b => `
+  <div style="margin-bottom:12px">
+    <div style="display:flex;justify-content:space-between;font-size:0.8rem;margin-bottom:4px">
+      <span style="font-weight:600">${b.label}</span>
+      <span style="color:var(--gray)">₹${b.paid.toLocaleString()} / ₹${b.amount.toLocaleString()}</span>
+    </div>
+    <div class="progress progress-${b.paid===b.amount?'success':'warning'}">
+      <div class="progress-bar" style="width:${Math.round(b.paid/b.amount*100)}%"></div>
+    </div>
+  </div>
+`).join('');
+
+function downloadStatement() {
+  showToast('Statement PDF downloaded!', 'success');
+}
+
+function selectPay(n) {
+  [1,2,3].forEach(i => {
+    document.getElementById('payOpt'+i).style.borderColor = i===n ? 'var(--primary)' : 'var(--border)';
+    document.getElementById('payOpt'+i).style.background = i===n ? 'var(--primary-light)' : '';
+  });
+}
+
+function proceedPay() {
+  document.getElementById('payStep1').style.display = 'none';
+  document.getElementById('payStep2').style.display = 'block';
+  setTimeout(() => {
+    document.getElementById('payProgress').style.width = '100%';
+  }, 100);
+  setTimeout(() => {
+    document.getElementById('payStep2').style.display = 'none';
+    document.getElementById('payStep3').style.display = 'block';
+    document.getElementById('txnId').textContent = '#TXN' + Math.floor(Math.random()*9000+1000);
+  }, 2500);
+}
+
+function resetPayModal() {
+  document.getElementById('payStep1').style.display = 'block';
+  document.getElementById('payStep2').style.display = 'none';
+  document.getElementById('payStep3').style.display = 'none';
+  document.getElementById('payProgress').style.width = '0%';
+}
+</script>
+<script type="module" src="../js/auth-guard.js"></script>
+<script type="module">
+  import { db as mockDb, STATUS } from '../../backend/db.js';
+  import { calculateCampusScore } from '../../backend/engine.js';
+  import { initAuthGuard } from '../js/auth-guard.js';
+
+  initAuthGuard();
+
+  function updateGovernanceScore() {
+    const issues = mockDb.getAllIssues();
+    const resolved = issues.filter(i => i.status === STATUS.VERIFIED_CLOSED);
+    const score = calculateCampusScore(resolved, issues);
+    document.querySelectorAll('.points-display').forEach(el => {
+      el.textContent = Math.round(score);
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', updateGovernanceScore);
+  window.addEventListener('userAuthenticated', updateGovernanceScore);
+  window.addEventListener('verdexDataReady', updateGovernanceScore);
+</script>
+</body>
+</html>

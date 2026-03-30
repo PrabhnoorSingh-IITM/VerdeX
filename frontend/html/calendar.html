@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calendar — CampusOne</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/app.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+</head>
+<body>
+<div class="app-wrapper">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">C<span style="font-size:0.7rem">1</span></div>
+      <div class="logo-text">Campus<span>One</span></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a href="dashboard.html" class="nav-item"><span class="nav-icon">🏠</span> Dashboard</a>
+      <a href="canteen.html" class="nav-item"><span class="nav-icon">🍽️</span> Canteen <span class="nav-badge cart-badge" style="display:none">0</span></a>
+      <a href="attendance.html" class="nav-item"><span class="nav-icon">📊</span> Attendance</a>
+      <a href="fees.html" class="nav-item"><span class="nav-icon">💰</span> Fees & Payments</a>
+      <div class="nav-section-label" style="margin-top:12px">Schedule</div>
+      <a href="timetable.html" class="nav-item"><span class="nav-icon">🕐</span> Timetable</a>
+      <a href="calendar.html" class="nav-item active"><span class="nav-icon">📅</span> Calendar</a>
+      <div class="nav-section-label" style="margin-top:12px">Governance</div>
+      <a href="report-issue.html" class="nav-item"><span class="nav-icon">🚨</span> Report Issue</a>
+    </nav>
+    <div class="sidebar-user">
+      <div class="avatar sidebar-user-avatar">AS</div>
+      <div class="user-info">
+        <div class="name sidebar-user-name">Arjun Sharma</div>
+        <div class="role sidebar-user-role">CS2021047</div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="main-content">
+    <header class="topbar">
+      <div class="topbar-left flex gap-16">
+        <button class="hamburger" id="hamburger">☰</button>
+        <div>
+          <h2>📅 Academic Calendar</h2>
+          <p>Academic Year 2025–26</p>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="topbar-points">🏆 <span class="points-display">120</span> pts</div>
+        <button class="btn btn-sm btn-primary" onclick="openModal('addEventModal')">+ Add Reminder</button>
+      </div>
+    </header>
+
+    <div class="page-content">
+      <!-- Upcoming Events Banner -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px">
+        <div style="background:linear-gradient(135deg,#FEE2E2,#FECACA);border-radius:var(--radius);padding:16px;border:1px solid #FCA5A5">
+          <div style="font-size:0.75rem;font-weight:700;color:#991B1B;text-transform:uppercase;letter-spacing:0.05em">Next Exam</div>
+          <div style="font-size:1rem;font-weight:800;margin-top:4px">Mid-Sem Exams</div>
+          <div style="font-size:0.8rem;color:#B91C1C;margin-top:2px">April 8, 2026 — 12 days</div>
+        </div>
+        <div style="background:linear-gradient(135deg,#FEF3C7,#FDE68A);border-radius:var(--radius);padding:16px;border:1px solid #FCD34D">
+          <div style="font-size:0.75rem;font-weight:700;color:#92400E;text-transform:uppercase;letter-spacing:0.05em">Holiday</div>
+          <div style="font-size:1rem;font-weight:800;margin-top:4px">Good Friday</div>
+          <div style="font-size:0.8rem;color:#A16207;margin-top:2px">April 3, 2026 — 7 days</div>
+        </div>
+        <div style="background:linear-gradient(135deg,#EEF2FF,#E0E7FF);border-radius:var(--radius);padding:16px;border:1px solid #C7D2FE">
+          <div style="font-size:0.75rem;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:0.05em">Event</div>
+          <div style="font-size:1rem;font-weight:800;margin-top:4px">TechFest 2026</div>
+          <div style="font-size:0.8rem;color:var(--primary);margin-top:2px">April 15–17 — 19 days</div>
+        </div>
+        <div style="background:linear-gradient(135deg,#D1FAE5,#A7F3D0);border-radius:var(--radius);padding:16px;border:1px solid #6EE7B7">
+          <div style="font-size:0.75rem;font-weight:700;color:var(--success);text-transform:uppercase;letter-spacing:0.05em">Submission</div>
+          <div style="font-size:1rem;font-weight:800;margin-top:4px">Project Report</div>
+          <div style="font-size:0.8rem;color:var(--success);margin-top:2px">April 5, 2026 — 9 days</div>
+        </div>
+      </div>
+
+      <div class="calendar-wrap">
+        <!-- Calendar -->
+        <div class="card">
+          <div class="calendar-nav">
+            <button class="btn btn-icon btn-ghost" onclick="changeMonth(-1)">‹</button>
+            <h3 id="calMonthYear">March 2026</h3>
+            <button class="btn btn-icon btn-ghost" onclick="changeMonth(1)">›</button>
+          </div>
+
+          <!-- Filter -->
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;">
+            <span style="display:flex;align-items:center;gap:5px;font-size:0.78rem;cursor:pointer" onclick="toggleFilter('exam',this)">
+              <span style="width:10px;height:10px;border-radius:2px;background:#FEE2E2;border:1px solid #FCA5A5;flex-shrink:0"></span> Exams
+            </span>
+            <span style="display:flex;align-items:center;gap:5px;font-size:0.78rem;cursor:pointer" onclick="toggleFilter('holiday',this)">
+              <span style="width:10px;height:10px;border-radius:2px;background:#FEF3C7;border:1px solid #FCD34D;flex-shrink:0"></span> Holidays
+            </span>
+            <span style="display:flex;align-items:center;gap:5px;font-size:0.78rem;cursor:pointer" onclick="toggleFilter('event',this)">
+              <span style="width:10px;height:10px;border-radius:2px;background:var(--primary-light);border:1px solid var(--primary);flex-shrink:0"></span> Events
+            </span>
+          </div>
+
+          <div class="calendar-grid">
+            <div class="cal-day-header">Sun</div>
+            <div class="cal-day-header">Mon</div>
+            <div class="cal-day-header">Tue</div>
+            <div class="cal-day-header">Wed</div>
+            <div class="cal-day-header">Thu</div>
+            <div class="cal-day-header">Fri</div>
+            <div class="cal-day-header">Sat</div>
+          </div>
+          <div class="calendar-grid mt-4" id="calDays"></div>
+        </div>
+
+        <!-- Events Sidebar -->
+        <div>
+          <div class="card mb-16" id="selectedDayCard" style="display:none">
+            <div class="card-header">
+              <span class="card-title" id="selectedDayTitle">Events</span>
+            </div>
+            <div id="selectedDayEvents"></div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">📋 Upcoming Events</span>
+            </div>
+            <div class="event-list" id="eventList"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add Event Modal -->
+<div class="modal-overlay" id="addEventModal">
+  <div class="modal">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px">
+      <h3>+ Add Personal Reminder</h3>
+      <button class="btn btn-icon btn-ghost" onclick="closeModal('addEventModal')">✕</button>
+    </div>
+    <form onsubmit="addReminder(event)">
+      <div class="form-group">
+        <label class="form-label">Event Title</label>
+        <input type="text" class="form-control" id="remTitle" placeholder="e.g., Submit assignment" required />
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="form-group">
+          <label class="form-label">Date</label>
+          <input type="date" class="form-control" id="remDate" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Category</label>
+          <select class="form-control" id="remCat">
+            <option value="event">Personal</option>
+            <option value="exam">Exam/Test</option>
+            <option value="holiday">Holiday</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Notes (optional)</label>
+        <textarea class="form-control" id="remNotes" rows="2" placeholder="Any additional notes..."></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Add Reminder</button>
+    </form>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+<script src="../js/main.js"></script>
+<script>
+let currentMonth = 2; // 0-indexed, March = 2
+let currentYear = 2026;
+
+const events = [
+  { date:'2026-03-27', type:'event', title:'Current Day', desc:'Today' },
+  { date:'2026-04-01', type:'exam', title:'Fee Payment Deadline', desc:'Last date to pay semester fees without late fee' },
+  { date:'2026-04-03', type:'holiday', title:'Good Friday', desc:'National Holiday — College Closed' },
+  { date:'2026-04-08', type:'exam', title:'Mid-Semester Exams Begin', desc:'CS301, CS302 — Refer exam schedule' },
+  { date:'2026-04-09', type:'exam', title:'Mid-Sem: DBMS', desc:'CS303 — 10:00 AM, Block A' },
+  { date:'2026-04-10', type:'exam', title:'Mid-Sem: Networks', desc:'CS304 — 10:00 AM, Block B' },
+  { date:'2026-04-12', type:'holiday', title:'Dr. Ambedkar Jayanti', desc:'National Holiday — College Closed' },
+  { date:'2026-04-15', type:'event', title:'TechFest 2026 Begins', desc:'Annual technical festival — 3 days' },
+  { date:'2026-04-17', type:'event', title:'TechFest 2026 Ends', desc:'Prize distribution & closing ceremony' },
+  { date:'2026-04-25', type:'exam', title:'End-Semester Exams Begin', desc:'Check department notice for full schedule' },
+  { date:'2026-05-15', type:'holiday', title:'Summer Vacation Begins', desc:'College reopens July 1, 2026' },
+  { date:'2026-04-05', type:'event', title:'Project Report Submission', desc:'6th Sem final project report deadline' },
+  { date:'2026-03-30', type:'event', title:'Sports Day', desc:'Annual sports day — Participation encouraged' },
+];
+
+function getEventsForDate(dateStr) {
+  return events.filter(e => e.date === dateStr);
+}
+
+function buildCalendar() {
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  document.getElementById('calMonthYear').textContent = `${months[currentMonth]} ${currentYear}`;
+  const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+  const daysInMonth = new Date(currentYear, currentMonth+1, 0).getDate();
+  const daysInPrev = new Date(currentYear, currentMonth, 0).getDate();
+  const todayStr = '2026-03-27';
+
+  let html = '';
+  // Prev month fill
+  for (let i = firstDay-1; i >= 0; i--) {
+    html += `<div class="cal-day other-month">${daysInPrev-i}</div>`;
+  }
+  // Current month
+  for (let d = 1; d <= daysInMonth; d++) {
+    const dateStr = `${currentYear}-${String(currentMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const dayEvents = getEventsForDate(dateStr);
+    const isToday = dateStr === todayStr;
+    const hasExam = dayEvents.some(e=>e.type==='exam');
+    const hasHoliday = dayEvents.some(e=>e.type==='holiday');
+    const hasEvent = dayEvents.some(e=>e.type==='event');
+    let cls = 'cal-day';
+    if (isToday) cls += ' today';
+    if (hasExam && !isToday) cls += ' exam';
+    if (hasHoliday && !isToday && !hasExam) cls += ' holiday';
+    if (dayEvents.length > 0) cls += ' has-event';
+    html += `<div class="${cls}" onclick="selectDay('${dateStr}', ${d})">${d}</div>`;
+  }
+  // Next month fill
+  const total = firstDay + daysInMonth;
+  const remaining = total % 7 === 0 ? 0 : 7 - (total % 7);
+  for (let d = 1; d <= remaining; d++) {
+    html += `<div class="cal-day other-month">${d}</div>`;
+  }
+  document.getElementById('calDays').innerHTML = html;
+}
+
+function selectDay(dateStr, day) {
+  const dayEvents = getEventsForDate(dateStr);
+  const card = document.getElementById('selectedDayCard');
+  if (dayEvents.length === 0) {
+    card.style.display = 'none';
+    return;
+  }
+  card.style.display = 'block';
+  document.getElementById('selectedDayTitle').textContent = `📅 ${dateStr}`;
+  document.getElementById('selectedDayEvents').innerHTML = dayEvents.map(e => `
+    <div class="event-item ${e.type}" style="margin-bottom:8px">
+      <div>
+        <div class="event-title">${e.title}</div>
+        <div class="event-desc">${e.desc}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function buildEventList() {
+  const upcoming = events
+    .filter(e => e.date >= '2026-03-27')
+    .sort((a,b) => a.date.localeCompare(b.date))
+    .slice(0,8);
+  document.getElementById('eventList').innerHTML = upcoming.map(e => {
+    const d = new Date(e.date);
+    const dateLabel = d.toLocaleDateString('en-IN',{day:'numeric',month:'short'});
+    return `
+      <div class="event-item ${e.type}">
+        <div class="event-date">${dateLabel}</div>
+        <div>
+          <div class="event-title">${e.title}</div>
+          <div class="event-desc">${e.desc}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function changeMonth(dir) {
+  currentMonth += dir;
+  if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+  if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+  buildCalendar();
+}
+
+function addReminder(e) {
+  e.preventDefault();
+  const title = document.getElementById('remTitle').value;
+  const date = document.getElementById('remDate').value;
+  const cat = document.getElementById('remCat').value;
+  const notes = document.getElementById('remNotes').value;
+  events.push({ date, type: cat, title, desc: notes || 'Personal reminder' });
+  buildCalendar();
+  buildEventList();
+  closeModal('addEventModal');
+  showToast('Reminder added to calendar!', 'success');
+  e.target.reset();
+}
+
+buildCalendar();
+buildEventList();
+</script>
+<script type="module" src="../js/auth-guard.js"></script>
+<script type="module">
+  import { db as mockDb, STATUS } from '../../backend/db.js';
+  import { calculateCampusScore } from '../../backend/engine.js';
+  import { initAuthGuard } from '../js/auth-guard.js';
+
+  initAuthGuard();
+
+  function updateGovernanceScore() {
+    const issues = mockDb.getAllIssues();
+    const resolved = issues.filter(i => i.status === STATUS.VERIFIED_CLOSED);
+    const score = calculateCampusScore(resolved, issues);
+    document.querySelectorAll('.points-display').forEach(el => {
+      el.textContent = Math.round(score);
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', updateGovernanceScore);
+  window.addEventListener('userAuthenticated', updateGovernanceScore);
+  window.addEventListener('verdexDataReady', updateGovernanceScore);
+</script>
+</body>
+</html>

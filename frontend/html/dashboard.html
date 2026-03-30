@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — CampusOne</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/app.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+</head>
+<body>
+<div class="app-wrapper">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">C<span style="font-size:0.7rem">1</span></div>
+      <div class="logo-text">Campus<span>One</span></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a href="dashboard.html" class="nav-item active"><span class="nav-icon">🏠</span> Dashboard</a>
+      <a href="canteen.html" class="nav-item"><span class="nav-icon">🍽️</span> Canteen <span class="nav-badge cart-badge" style="display:none">0</span></a>
+      <a href="attendance.html" class="nav-item"><span class="nav-icon">📊</span> Attendance</a>
+      <a href="fees.html" class="nav-item"><span class="nav-icon">💰</span> Fees & Payments</a>
+      <div class="nav-section-label" style="margin-top:12px">Schedule</div>
+      <a href="timetable.html" class="nav-item"><span class="nav-icon">🕐</span> Timetable</a>
+      <a href="calendar.html" class="nav-item"><span class="nav-icon">📅</span> Calendar</a>
+      <div class="nav-section-label" style="margin-top:12px">Governance</div>
+      <a href="report-issue.html" class="nav-item"><span class="nav-icon">🚨</span> Report Issue <span class="nav-badge" style="background:#F59E0B">New</span></a>
+    </nav>
+    <div class="sidebar-user">
+      <div class="avatar sidebar-user-avatar">AS</div>
+      <div class="user-info">
+        <div class="name sidebar-user-name">Arjun Sharma</div>
+        <div class="role sidebar-user-role">CS2021047</div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- MAIN CONTENT -->
+  <div class="main-content">
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <div class="topbar-left flex gap-16">
+        <button class="hamburger" id="hamburger">☰</button>
+        <div>
+          <h2>Dashboard</h2>
+          <p>Friday, 27 March 2026</p>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="topbar-points">🏆 <span class="points-display">120</span> pts</div>
+        <button class="btn btn-icon btn-ghost" title="Notifications" onclick="showToast('No new notifications','default')">🔔</button>
+        <a href="login.html" class="btn btn-sm btn-outline">Logout</a>
+      </div>
+    </header>
+
+    <!-- PAGE CONTENT -->
+    <div class="page-content">
+
+      <div id="viewStudent" style="display:none">
+      <!-- Welcome Banner -->
+      <div class="welcome-card">
+        <h2>Good morning, Arjun! 👋</h2>
+        <p>You have 2 classes today. Mid-semester exams start in 12 days. Your attendance is at <strong>78%</strong> — keep it above 75%!</p>
+        <div class="meta">
+          <span>📚 CS 6th Sem</span>
+          <span>🎫 CS2021047</span>
+          <span>🏆 120 Points</span>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="quick-actions">
+        <a href="canteen.html" class="quick-action"><div class="qa-icon">🍽️</div><div class="qa-label">Order Food</div></a>
+        <a href="attendance.html" class="quick-action"><div class="qa-icon">📊</div><div class="qa-label">Attendance</div></a>
+        <a href="fees.html" class="quick-action"><div class="qa-icon">💰</div><div class="qa-label">Pay Fees</div></a>
+        <a href="timetable.html" class="quick-action"><div class="qa-icon">🕐</div><div class="qa-label">Timetable</div></a>
+        <a href="calendar.html" class="quick-action"><div class="qa-icon">📅</div><div class="qa-label">Calendar</div></a>
+        <a href="report-issue.html" class="quick-action"><div class="qa-icon">🚨</div><div class="qa-label">Report Issue</div></a>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#EEF2FF">📊</div>
+          <div>
+            <div class="stat-value" data-count="78" data-suffix="%">0%</div>
+            <div class="stat-label">Overall Attendance</div>
+            <div class="stat-change" style="color:var(--warning)">⚠ 3% below safe zone</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#D1FAE5">💰</div>
+          <div>
+            <div class="stat-value">₹50k</div>
+            <div class="stat-label">Fees Pending</div>
+            <div class="stat-change" style="color:var(--danger)">Due Apr 1, 2026</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#FEF3C7">🏆</div>
+          <div>
+            <div class="stat-value points-display">120</div>
+            <div class="stat-label">Governance Points</div>
+            <div class="stat-change" style="color:var(--success)">↑ Rank #12 on leaderboard</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#F5F3FF">🍽️</div>
+          <div>
+            <div class="stat-value">2</div>
+            <div class="stat-label">Canteen Orders</div>
+            <div class="stat-change" style="color:var(--primary)">1 ready for pickup</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Grid -->
+      <div class="dashboard-grid">
+        <!-- Today's Classes -->
+        <div>
+          <div class="card mb-24">
+            <div class="card-header">
+              <span class="card-title">📅 Today's Classes</span>
+              <a href="timetable.html" class="btn btn-sm btn-ghost">Full Schedule →</a>
+            </div>
+            <div id="todayClasses"></div>
+          </div>
+
+          <!-- Recent Activity -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">⚡ Recent Activity</span>
+            </div>
+            <div class="activity-feed">
+              <div class="activity-item">
+                <div class="activity-dot" style="background:#EEF2FF">🍽️</div>
+                <div>
+                  <div class="desc">Canteen order placed — Masala Dosa + Coffee</div>
+                  <div class="time">Today, 8:30 AM · Pickup at 10:00 AM</div>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-dot" style="background:#D1FAE5">✅</div>
+                <div>
+                  <div class="desc">Attendance marked — Data Structures</div>
+                  <div class="time">Today, 9:00 AM</div>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-dot" style="background:#FEF3C7">🏆</div>
+                <div>
+                  <div class="desc">+30 points earned for reporting broken tap</div>
+                  <div class="time">Yesterday, 2:15 PM</div>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-dot" style="background:#FEE2E2">💰</div>
+                <div>
+                  <div class="desc">Fee payment reminder — ₹50,000 due soon</div>
+                  <div class="time">Yesterday, 9:00 AM</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column -->
+        <div>
+          <!-- Attendance Summary -->
+          <div class="card mb-24">
+            <div class="card-header">
+              <span class="card-title">📊 Attendance Summary</span>
+              <a href="attendance.html" class="btn btn-sm btn-ghost">Details →</a>
+            </div>
+            <div id="attSummary"></div>
+          </div>
+
+          <!-- Points Leaderboard -->
+          <div class="card mb-24">
+            <div class="card-header">
+              <span class="card-title">🏆 Points Leaderboard</span>
+            </div>
+            <div class="points-leaderboard">
+              <div class="leader-item">
+                <div class="leader-rank gold">1</div>
+                <div class="leader-avatar" style="background:linear-gradient(135deg,#F59E0B,#EF4444)">SR</div>
+                <div class="leader-info"><div class="l-name">Sahil Rathore</div><div class="l-sub">CSE 6th Sem</div></div>
+                <div class="leader-pts">580 pts</div>
+              </div>
+              <div class="leader-item">
+                <div class="leader-rank silver">2</div>
+                <div class="leader-avatar" style="background:linear-gradient(135deg,#10B981,#06B6D4)">PM</div>
+                <div class="leader-info"><div class="l-name">Priya Mehta</div><div class="l-sub">ECE 6th Sem</div></div>
+                <div class="leader-pts">420 pts</div>
+              </div>
+              <div class="leader-item">
+                <div class="leader-rank bronze">3</div>
+                <div class="leader-avatar" style="background:linear-gradient(135deg,#8B5CF6,#EC4899)">KJ</div>
+                <div class="leader-info"><div class="l-name">Kiran Joshi</div><div class="l-sub">CSE 4th Sem</div></div>
+                <div class="leader-pts">310 pts</div>
+              </div>
+              <div class="leader-item">
+                <div class="leader-rank" style="color:var(--primary)">12</div>
+                <div class="leader-avatar">AS</div>
+                <div class="leader-info"><div class="l-name">Arjun Sharma (You)</div><div class="l-sub">CSE 6th Sem</div></div>
+                <div class="leader-pts points-display">120 pts</div>
+              </div>
+            </div>
+            <a href="report-issue.html" class="btn btn-primary btn-block btn-sm mt-16">Report Issue & Earn Points →</a>
+          </div>
+
+          <!-- Notices -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">📢 Notices</span>
+              <span class="badge badge-danger">3 New</span>
+            </div>
+            <div>
+              <div class="notice-item">
+                <div class="notice-badge-dot" style="background:var(--danger)"></div>
+                <div>
+                  <div class="n-title">Mid-Semester Exams Schedule Released</div>
+                  <div class="n-date">Mar 27, 2026 · Academic</div>
+                </div>
+              </div>
+              <div class="notice-item">
+                <div class="notice-badge-dot" style="background:var(--warning)"></div>
+                <div>
+                  <div class="n-title">Fee Payment Deadline: April 1, 2026</div>
+                  <div class="n-date">Mar 26, 2026 · Finance</div>
+                </div>
+              </div>
+              <div class="notice-item">
+                <div class="notice-badge-dot"></div>
+                <div>
+                  <div class="n-title">TechFest 2026 Registrations Open</div>
+                  <div class="n-date">Mar 25, 2026 · Events</div>
+                </div>
+              </div>
+              <div class="notice-item">
+                <div class="notice-badge-dot"></div>
+                <div>
+                  <div class="n-title">Library Book Return Reminder</div>
+                  <div class="n-date">Mar 24, 2026 · Library</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div><!-- /viewStudent -->
+
+      <!-- TEACHER VIEW -->
+      <div id="viewTeacher" style="display:none">
+        <div class="welcome-card mb-24" style="background:linear-gradient(135deg,var(--primary-light),var(--primary))">
+          <h2>Welcome back, Professor 👋</h2>
+          <p>You have 3 lectures scheduled today. Attendance sync is online.</p>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon" style="background:#D1FAE5">👨‍🏫</div><div><div class="stat-value">3</div><div class="stat-label">Classes Today</div></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon" style="background:#FEE2E2">⚠️</div><div><div class="stat-value">5</div><div class="stat-label">Students at risk</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MAINTENANCE VIEW -->
+      <div id="viewStaff" style="display:none">
+        <div class="welcome-card mb-24" style="background:linear-gradient(135deg,#374151,#111827)">
+          <h2>Facilities Command Center 🛠️</h2>
+          <p>Review the Governance map and clear open tickets submitted by students.</p>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon" style="background:#FEE2E2">🚨</div><div><div class="stat-value">12</div><div class="stat-label">Open Issues</div></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon" style="background:#D1FAE5">✓</div><div><div class="stat-value">148</div><div class="stat-label">Resolved (All time)</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CANTEEN VIEW -->
+      <div id="viewCanteen" style="display:none">
+        <div class="welcome-card mb-24" style="background:linear-gradient(135deg,#F59E0B,#D97706)">
+          <h2>Vendors KDS Dashboard 🍔</h2>
+          <p>CampusOne POS node active. Awaiting student token orders.</p>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon" style="background:#FEF3C7">🍳</div><div><div class="stat-value">4</div><div class="stat-label">Pending Orders</div></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon" style="background:#D1FAE5">₹</div><div><div class="stat-value">2,450</div><div class="stat-label">Revenue Today</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ADMIN ROOT VIEW -->
+      <div id="viewAdmin" style="display:none">
+        <div class="welcome-card mb-24" style="background:linear-gradient(135deg,#6D28D9,#4C1D95)">
+          <h2>System Root 👑</h2>
+          <p>VerdeX Platform Global Administration Engine.</p>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon" style="background:#EDE9FE">👥</div><div><div class="stat-value">1,402</div><div class="stat-label">Total Users</div></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon" style="background:#ECFDF5">🟢</div><div><div class="stat-value">99.9%</div><div class="stat-label">Server Uptime</div></div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /page-content -->
+  </div><!-- /main-content -->
+</div><!-- /app-wrapper -->
+
+<div id="toast-container"></div>
+<script src="../js/main.js"></script>
+<script type="module" src="../js/auth-guard.js"></script>
+<script type="module">
+  import { db as mockDb, STATUS } from '../../backend/db.js';
+  import { calculateCampusScore } from '../../backend/engine.js';
+  import { initAuthGuard } from '../js/auth-guard.js';
+
+  initAuthGuard();
+
+  function updateGovernanceScore() {
+    const issues = mockDb.getAllIssues();
+    const resolved = issues.filter(i => i.status === STATUS.VERIFIED_CLOSED);
+    const score = calculateCampusScore(resolved, issues);
+    
+    // Update both displays in the UI
+    document.querySelectorAll('.points-display').forEach(el => {
+      el.textContent = Math.round(score);
+    });
+    
+    const scoreCardLabel = document.querySelector('.stat-card:nth-child(3) .stat-change');
+    if (scoreCardLabel) {
+      scoreCardLabel.textContent = `Live Scoring Engine Active`;
+      scoreCardLabel.style.color = 'var(--success)';
+    }
+  }
+
+  window.renderDashboardRouter = () => {
+    // Hide all views first
+    ['viewStudent','viewTeacher','viewStaff','viewCanteen','viewAdmin'].forEach(id => {
+       const el = document.getElementById(id);
+       if(el) el.style.display = 'none';
+    });
+    const role = window.StudentData ? window.StudentData.role : 'student';
+    
+    if (role === 'student') document.getElementById('viewStudent').style.display = 'block';
+    else if (role === 'faculty' || role === 'teacher') document.getElementById('viewTeacher').style.display = 'block';
+    else if (role === 'staff' || role === 'maintenance') document.getElementById('viewStaff').style.display = 'block';
+    else if (role === 'canteen') document.getElementById('viewCanteen').style.display = 'block';
+    else if (role === 'admin') document.getElementById('viewAdmin').style.display = 'block';
+  };
+
+  document.addEventListener('DOMContentLoaded', () => { updateGovernanceScore(); window.renderDashboardRouter(); });
+  window.addEventListener('userAuthenticated', () => { updateGovernanceScore(); window.renderDashboardRouter(); });
+  window.addEventListener('verdexDataReady', () => { updateGovernanceScore(); window.renderDashboardRouter(); });
+</script>
+<script>
+  // Today's timetable
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const today = days[new Date().getDay()];
+  const todayData = StudentData.timetable[today] || [];
+  const todayEl = document.getElementById('todayClasses');
+  if (todayData.length === 0) {
+    todayEl.innerHTML = '<div style="text-align:center;padding:24px;color:var(--gray)">🎉 No classes today! Enjoy your day.</div>';
+  } else {
+    todayEl.innerHTML = todayData.map(c => `
+      <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)">
+        <div style="min-width:90px;font-size:0.78rem;font-weight:600;color:var(--gray)">${c.time}</div>
+        <div style="flex:1">
+          <div style="font-size:0.875rem;font-weight:700">${c.subject}</div>
+          <div style="font-size:0.75rem;color:var(--gray)">${c.room} · ${c.faculty}</div>
+        </div>
+        <span class="badge badge-primary">${c.time < '13:00' ? '🌅 Morning' : '☀️ Afternoon'}</span>
+      </div>
+    `).join('');
+  }
+
+  // Attendance mini summary
+  const attEl = document.getElementById('attSummary');
+  attEl.innerHTML = StudentData.attendance.subjects.slice(0,4).map(s => `
+    <div style="margin-bottom:12px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+        <span style="font-size:0.8rem;font-weight:600">${s.name}</span>
+        <span style="font-size:0.8rem;font-weight:700;color:${s.percentage<75?'var(--danger)':s.percentage<85?'var(--warning)':'var(--success)'}">${s.percentage}%</span>
+      </div>
+      <div class="progress progress-${s.percentage<75?'danger':s.percentage<85?'warning':'success'}">
+        <div class="progress-bar" style="width:${s.percentage}%"></div>
+      </div>
+    </div>
+  `).join('');
+
+  // Animate counters
+  setTimeout(animateCounters, 300);
+</script>
+</body>
+</html>
